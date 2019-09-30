@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" type="text/css" href="../css/base.css?v" />
+        <title></title>
+
+        <style>
+            html,
+            body {
+                padding: 0;
+                margin: 0 auto;
+                height: 100%;
+                overflow: hidden;
+            }
+            
+            video {
+                width: 100%;
+                height: 100%;
+                background: #fff;
+                /*object-fit: cover;*/
+                object-position: center center;
+                background: url(../images/shipin/shipin_bg.png);
+            }
+            
+            video.android-full {
+                position: relative;
+                width: 100%;
+                height: 110%;
+                object-fit: cover;
+            }
+            
+            video.android-full::-webkit-media-controls-enclosure {
+                -webkit-appearance: none;
+                position: absolute;
+                bottom: -10%;
+            }
+            
+            .txt.android-full {
+                position: absolute;
+                bottom: 10%;
+            }
+            
+            .txt {
+                position: absolute;
+                bottom: 1.85rem;
+                left: .35rem;
+                right: 0;
+                font-size: 0.3rem;
+                color: #fff;
+                width: 6.9rem;
+            }
+            
+            button.iosplaybtn {
+                display: none;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                width: 60px;
+                height: 60px;
+                margin-top: -30px;
+                margin-left: -30px;
+                z-index: 1;
+                background: url(../images/shipin/icon_play.png) no-repeat;
+                background-size: contain;
+                outline: none;
+                border: none;
+            }
+            
+            .group {
+                position: absolute;
+                right: 10px;
+                bottom: 25%;
+                width: 50px;
+            }
+            
+            .group .author {
+                position: relative;
+                border: 1px solid #fff;
+                border-radius: 50%;
+                height: 48px;
+                margin-bottom: 35px;
+            }
+            
+            .group .author img.author-head {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+            }
+            
+            .group .author img.atten {
+                position: absolute;
+                bottom: -14px;
+                left: 50%;
+                margin-left: -14px;
+            }
+            
+            .group a {
+                display: block;
+                margin-bottom: 20px;
+                text-align: center;
+                text-decoration: none;
+                color: #fff;
+                text-align: center;
+            }
+            
+            .group a span {
+                font-size: 14px;
+            }
+            
+            .group a img {
+                display: block;
+                width: 30px;
+                margin: 0 auto;
+            }
+            
+            .btn {
+                position: absolute;
+                bottom: 0.35rem;
+                left: 1.66rem;
+                width: 4.4rem;
+                height: 1.3rem;
+            }
+            
+            .info {
+                position: absolute;
+                bottom: 2.8rem;
+                left: 0.3rem;
+                color: #fff;
+            }
+            
+            .info .online {
+                width: .8rem;
+                height: .4rem;
+            }
+            
+            .info-head {
+                margin-bottom: .12rem;
+            }
+            
+            .info .name {
+                font-size: .34rem;
+                margin-left: .15rem;
+                margin-right: .15rem;
+                max-width: 1.9rem;
+            }
+            
+            .info .sex {
+                max-width: .9rem;
+                min-width: 0.4rem;
+                height: .36rem;
+                border-radius: .18rem;
+                background: #FF6699;
+                padding: 0 0.1rem;
+            }
+            
+            .sex-icon {
+                width: .25rem;
+                height: .25rem;
+            }
+            
+            .sex .age {
+                font-size: 1px;
+                width: 0.4rem;
+                text-align: center;
+            }
+            
+            .info-foot img {
+                width: .26rem;
+                height: .3rem;
+                margin-right: .12rem;
+            }
+            
+            .info .address {
+                font-size: 0.3rem;
+            }
+        </style>
+    </head>
+
+    <body style="background: black">
+        <a href="http://m.kemiandan.com/">
+            <div class="info">
+                <div class="info-head flex align-center">
+                    <img class="online" src="../images/xiangqin_icon_online.png">
+                    <div class="name t-ellipsis"></div>
+                    <div class="sex flex-center-center">
+                        <div class="flex-between-center">
+                            <img class="sex-icon" src="">
+                            <div class="age"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-foot flex align-center">
+                    <img src="../images/xiangqin_icon_address.png">
+                    <div class="address"></div>
+                </div>
+            </div>
+        </a>
+        <p class='txt t-ellipsis'></p>
+        <button class="iosplaybtn" onclick="playVid()" type="button"></button>
+        <div class="group">
+            <a href="http://m.kemiandan.com/" class="author">
+                <img src="" alt="" class="author-head">
+                <img src="../images/shipin/icon_attention.png" alt="" class="atten">
+            </a>
+        </div>
+        <a href="http://m.kemiandan.com/">
+            <img class="btn" src="../images/shareByMeeting.png" />
+        </a>
+    </body>
+
+    <script type="text/javascript" src="../js/base.js"></script>
+    <script type="text/javascript" src="../js/ydui.flexible.js"></script>
+    <script type="text/javascript" src="../js/jweixin-1.4.0.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script>
+        var video_id = Utils.getQueryString('video_id');
+        var u = navigator.userAgent,
+            app = navigator.appVersion;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
+        var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+        function getVideoDetail() {
+            Loading.show({
+                type: 8
+            });
+            var data = {
+                video_id: video_id
+            }
+            jQuery.ajax({
+                type: 'Get',
+                url: "/user/v3_0_0/getVideoDetail",
+                headers: {
+                    platform: 3,
+                },
+                data: {
+                    video_id: video_id,
+                },
+
+                success: function(data) {
+                    Loading.hide();
+                    if(data.code == 0) {
+                        window.location.href = encodeURI(baseUrl + '/h5/404.html');
+                        return;
+                    }
+                    if(data.code == 1) {
+                        var info = data.data.video_info
+                        console.log('info', info);
+                        $('.txt').html(info.title);
+                        $('.name').html(info.nickname);
+                        $('.author .author-head').attr('src', info.avatar)
+                        if(info.age) {
+                            $('.age').html(info.age);
+                        } else {
+                            $('.age').hide();
+                        }
+                        if(!info.location) {
+                            $('.address').html('福建莆田');
+                        } else {
+                            $('.address').html(info.location);
+                        }
+                        if(info.gender == 1) {
+                            $('.sex-icon').attr('src', "../images/icon_boy@2x.png")
+                            $('.sex').css("background", "#66b2ff");
+                        } else {
+                            $('.sex-icon').attr('src', "../images/icon_girl@2x.png")
+                        }
+                        if(isAndroid) {
+                            var video = '<video id="an-video" src="' + info.video_url + '" x5-video-player-type="h5" x5-video-player-fullscreen="true" playsinline webkit-playsinline controls poster="' + info.cover_url + '" style="height:110%"></video>'
+                            $('body .txt').before(video);
+                            androidFun();
+                        } else {
+                            $('.iosplaybtn').show();
+                            var video = "<video id='ios-video' preload='auto' webkit-playsinline='true' playsinline='true' poster=" + info.cover_url + "><source src=" + info.video_url + " type='video/mp4'></video>"
+                            $('body .txt').before(video);
+                            $('#ios-video').on('click',function(){
+                                if(state == 'play'){
+                                    $('#ios-video')[0].pause();
+                                }                                
+                            });
+                        }
+                        if(Utils.isWeiXinClient()){                           
+                            jssdkConfig({
+                                imgurl:info.share_image,
+                                title:info.nickname+"相亲视频",
+                                desc:info.title,
+                                url:info.share_url,
+                            });
+                        }
+                    }
+                },
+                fail: function(data) {
+                    Loading.hide();
+                }
+            })
+
+        }
+        getVideoDetail();
+        
+        var state = '';
+        
+        function playVid() {
+            state = 'play';
+            $('.iosplaybtn').hide();
+            var video = $('video')
+            var _video = $('video').get(0);
+            _video.play();
+            _video.addEventListener("ended", function() {
+//              $('.iosplaybtn').show();
+                playVid();
+            }, false)
+            _video.addEventListener('pause', function() {
+                state = 'pause';
+                $('.iosplaybtn').show();
+            }, false)
+        }
+                
+        function androidFun() {
+            var video = $('#an-video').get(0);
+            video.addEventListener('x5videoenterfullscreen', function() {
+                video.addClass('android-full');
+                $('.txt').addClass('android-full');
+            });
+            video.addEventListener('x5videoexitfullscreen', function() {
+                video.removeClass('android-full');
+                $('.txt').removeClass('android-full');
+            });
+        }
+
+        document.addEventListener('visibilitychange', function() {
+            // window.location.reload()
+            var video = $('video')
+            var _video = $('video').get(0);
+            if(document.hidden) {
+                _video.pause()
+            }
+        })
+        // 微信分享jssdk
+        function jssdkConfig(shareInfo) {
+            $.ajax({
+                url: "/user/v3_3_0/wxJssdkShare",
+                headers: {
+                    platform: 3,
+                    token: ''
+                },
+                data: {
+                    url: window.location.href
+                },
+                method: 'get',
+            }).done(function(res) {
+                if(res.code != 1) {
+                    return;
+                }
+                wx.config({
+                    debug: res.data.debug, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId: res.data.appId, // 必填，公众号的唯一标识
+                    timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+                    nonceStr: res.data.nonceStr, // 必填，生成签名的随机串
+                    signature: res.data.signature, // 必填，签名
+                    jsApiList: res.data.jsApiList // 必填，需要使用的JS接口列表
+                });
+                wx.ready(function() {
+                    var imgurl = shareInfo.imgurl;
+                    var title = shareInfo.title;
+                    var desc = shareInfo.desc;
+                    var url = shareInfo.url;
+                    
+                    wx.getNetworkType({
+                        success: function (res) {
+                            var networkType = res.networkType; // 返回网络类型2g，3g，4g，wifi
+                            if(networkType == 'wifi'){
+                                playVid();
+                            }
+                        }
+                    });
+                    wx.onMenuShareTimeline({
+                        title: title, // 分享标题
+                        desc: desc, // 分享描述
+                        link: url, // 分享链接
+                        imgUrl: imgurl, // 分享图标
+                        success: function() {
+                            // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function() {
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+
+                    wx.onMenuShareAppMessage({
+                        title: title, // 分享标题
+                        desc: desc, // 分享描述
+                        link: url, // 分享链接
+                        imgUrl: imgurl, // 分享图标
+                        type: '', // 分享类型,music、video或link，不填默认为link
+                        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                        success: function() {
+                            // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function() {
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+
+                    wx.onMenuShareQQ({
+                        title: title, // 分享标题
+                        desc: desc, // 分享描述
+                        link: url, // 分享链接
+                        imgUrl: imgurl, // 分享图标
+                        success: function() {
+                            // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function() {
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+
+                    wx.onMenuShareWeibo({
+                        title: title, // 分享标题
+                        desc: desc, // 分享描述
+                        link: url, // 分享链接
+                        imgUrl: imgurl, // 分享图标
+                        success: function() {
+                            // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function() {
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+
+                    wx.onMenuShareQZone({
+                        title: title, // 分享标题
+                        desc: desc, // 分享描述
+                        link: url, // 分享链接
+                        imgUrl: imgurl, // 分享图标
+                        success: function() {
+                            // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function() {
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+                });
+            });
+        }
+    </script>
+
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit">
+	<title>商家相册</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="css/base.css?v"/>
+	<link rel="stylesheet" type="text/css" href="js/plugin/mescroll-1.4.0/mescroll.min.css"/>
+	<script type="text/javascript" src="js/ydui.flexible.js"></script>
+	<style>
+		.cf div {
+			float: left;
+			width: 32%;
+			height: 160px;
+		}
+		.cf div:nth-child(n) {
+			margin-right: 2%;
+			margin-bottom: 2%;
+		}
+		.cf div:nth-child(3n) {
+			margin-right: 0;
+		}
+		.cf div img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		/*.swiper-big-mask {
+			display: none;
+		}*/
+	</style>
+	<style>
+		.swiper-big-mask {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 2;
+            background: rgba(0, 0, 0, 1);
+        }
+        .swiper-big.swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+        .swiper-big .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+        .swiper-big img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .swiper-big p {
+            position: absolute;
+            bottom: 33px;
+            left: 0;
+            right: 0;
+            padding: 0.2rem;
+            text-align: center;
+            color: #fff;
+        }
+        .swiper-container {
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            list-style: none;
+            padding: 0;
+            z-index: 1
+        }
+        .swiper-slide {
+            -webkit-flex-shrink: 0;
+            -ms-flex-negative: 0;
+            flex-shrink: 0;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            -webkit-transition-property: -webkit-transform;
+            transition-property: -webkit-transform;
+            -o-transition-property: transform;
+            transition-property: transform;
+            transition-property: transform, -webkit-transform
+        }
+        .swiper-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-transition-property: -webkit-transform;
+            transition-property: -webkit-transform;
+            -o-transition-property: transform;
+            transition-property: transform;
+            transition-property: transform, -webkit-transform;
+            -webkit-box-sizing: content-box;
+            box-sizing: content-box
+        }
+        .swiper-pagination {
+            position: absolute;
+            text-align: center;
+            -webkit-transition: .3s opacity;
+            -o-transition: .3s opacity;
+            transition: .3s opacity;
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+            z-index: 10
+        }
+        .swiper-pagination-fraction {
+            bottom: 1rem;
+            right: 0.5rem;
+            max-width: 30%;
+            padding: 0.07rem 0.2rem;
+            color: #fff;
+            border-radius: 1rem;
+            background: rgba(0, 0, 0, .5);
+            font-size: 0.26rem;
+        }
+        .swiper-pagination-fraction span {
+            font-size: 0.26rem;
+        }
+	</style>
+</head>
+<body>
+	<div class="photowrap mescroll" id="main" v-cloak>
+        <div class="cf">
+            <div  class="photo-item" v-for="(item,index) in photoList" @click="checkBigImg(index)">
+                <image alt="" :src="item.image"></image>
+            </div>
+        </div>
+
+        <div class="swiper-big-mask flex-center-center"  v-show="showBigImg" @click="closeBigImg">
+	        <div class="swiper-container swiper-big swiper-container-horizontal">
+	            <div class="swiper-wrapper">
+	            	<div class="swiper-slide" v-for="(item,index) in photoList">
+                		<image alt="" :src="item.image"></image>
+	                </div>
+	            </div>
+	            <div class="swiper-pagination swiper-pagination-fraction"></div>
+	        </div>
+	    </div>
+    </div>
+</body>
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="../static/js/vue.js"></script>
+<script type="text/javascript" src="js/swiper4.2.0.js"></script>
+<script type="text/javascript" src="js/plugin/mescroll-1.4.0/mescroll.min.js"></script>
+<script>
+        var token = window.localStorage.getItem('token');
+        var shop_id = Utils.getQueryString('shop_id');
+        var vum = new Vue({
+            el: "#main",
+            data: {
+                photoList: {},
+                page: 0,
+                showBigImg: false,
+                clickIndex: "",//点击大图的索引值
+            },
+            mounted() {
+                // swiper 大图滚动
+                var that = this;
+                this.$nextTick(function() {
+                    that.initSwiper();
+                    that.initMescroll();
+                });
+            },
+            methods: {
+                initSwiper() {
+                    swiperBig = new Swiper('.swiper-big', {
+                        slidesPerView: 1,
+                        spaceBetween: 10,
+                        observer: true, //swiper或子元素发生变化时，自动初始化swiper
+                        observeParents: true, //swiper或父元素时，自动初始化swiper
+                        pagination: {
+                            el: '.swiper-pagination',
+                            type: 'fraction',
+                        },
+                    });
+                },
+                initMescroll() {
+                    if(this.mescroll) {
+                        this.mescroll.destroy();
+                    }
+                    this.page = 0;
+                    this.mescroll = new MeScroll("main", {
+                        up: {
+                            callback: this.fun
+                        },
+                        down: {
+                            use: false
+                        }
+                    })
+                },
+                fun() {
+                    var arr = [];
+                    var that = this;
+                    jQuery.ajax({
+                        type: 'Get',
+                        url: "/user/v3_0_0/getShopPhotoAlbumList",
+                        headers: {
+                            platform: 3,
+                            token: token
+                        },
+                        data: {
+                            shop_id: shop_id,
+                            page: this.page
+                        },
+                        success: function(data) {
+                            if(that.page == 0) {
+                                arr = data.data.shop_photo_album_list
+                            } else {
+                                arr = vum.photoList.concat(data.data.shop_photo_album_list);
+                            }
+                            vum.photoList = arr;
+                            if(data.data.shop_photo_album_list.length < 20) {
+                                if(that.page == 0) {
+                                    that.mescroll.hideUpScroll(true);
+                                } else {
+                                    that.mescroll.showNoMore();
+                                }
+                            } else {
+                                that.mescroll.endSuccess();
+                            }
+                            that.page++;
+                        },
+                        fail: function(data) {
+                            console.log('fail')
+                        }
+                    })
+                },
+                checkBigImg(index) {
+                    this.clickIndex = index; //获取到点击的索引值
+                    console.log(this.clickIndex);
+                    this.showBigImg = true;
+                    swiperBig.slideTo(this.clickIndex, 1000, false)
+                },
+                closeBigImg() {
+                    this.showBigImg = false
+                },
+            }
+        });
+    </script>
+</html>

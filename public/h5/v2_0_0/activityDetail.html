@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>同城印象</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="stylesheet" type="text/css" href="../css/base.css?v"/>
+<style type="text/css">
+			body {
+				background: #fff;
+			}
+			.c-999{
+				color: #999;
+			}
+			.c-666{
+				color: #666;
+			}
+			.c-pink {
+				color: #f4295b!important;
+			}
+			#main {
+				padding-bottom:1rem;
+			}
+			.head {
+				padding: 0.3rem;
+				background: #Fff;
+				border-bottom: 1px solid #eee;
+			}
+			.head img {
+				width: 1.6rem;
+				height: 1.6rem;
+				margin-right: 0.28rem;
+				object-fit: cover;
+				background-color: #F5F5F5;
+				border-radius: 3px;
+			}
+			.head > div {
+				position: relative;
+			}
+			.head .p1 {
+				font-family: PingFang-SC-Medium;
+				font-size: 0.4rem;
+				color: #000000;
+			}
+			.head .p2 {
+				font-family: PingFang-SC-Medium;
+				font-size: 0.2rem;
+				margin: 0.1rem 0 0.2rem 0; 
+				color: #808080;
+			}
+			.head .p2 em {
+				color: #e6e6e6;
+				padding: 0 0.1rem;
+				font-size: 0.2rem;
+			}
+			.head .p3 {
+				font-family: PingFang-SC-Medium;
+				font-size: 0.2rem;
+				letter-spacing: 0px;
+				color: #999;
+			}
+			.head .p4 {
+				position: absolute;
+				right: 0;
+				top: 0;
+				color: #ff8d28;
+				font-size: 0.22rem;
+			}
+			.info {
+				padding: 15px;
+			}
+			.info .activeContent {
+				font-size: 0.28rem;
+			}
+			
+			#foot{
+				position: fixed;
+				border-top: 1px solid #eee;
+				left: 0;
+				bottom: 0;
+				width: 100%;
+				box-sizing: border-box;			
+			}
+			#foot .content{
+				width: 100%;
+				max-width: 10rem;
+				margin: 0 auto;
+				height: 1rem;
+				box-sizing: border-box;
+				padding: 0 0.3rem;
+				background: #ff833f;
+			}
+			#foot .tip{
+				font-size: 0.28rem;
+				color: #fff;
+			}	
+			#foot .tip em {
+				color: #ffeb63;
+			}
+			#foot .down{
+				width: 1.1rem;
+				height: 0.6rem;
+				background: #ffeadf;
+				border-radius: 30px;
+				color: #ff833f;
+				text-align: center;
+				font-size: 0.28rem;
+				line-height: 0.6rem;
+			}
+
+			.swiperbox {
+				position: relative;
+				overflow: hidden;
+				width: 100%;
+				height: 250px;
+			}
+			.swiper-wrapper {
+				position: relative;
+				width: 100%;
+				height: 100%;
+				z-index: 1;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-transition-property: -webkit-transform;
+				transition-property: -webkit-transform;
+				-o-transition-property: transform;
+				transition-property: transform;
+				transition-property: transform,-webkit-transform;
+				-webkit-box-sizing: content-box;
+				box-sizing: content-box;
+			}
+			.swiper-slide {
+				-webkit-flex-shrink: 0;
+				-ms-flex-negative: 0;
+				flex-shrink: 0;
+				width: 100%;
+				height: 100%;
+				position: relative;
+				-webkit-transition-property: -webkit-transform;
+				transition-property: -webkit-transform;
+				-o-transition-property: transform;
+				transition-property: transform;
+				transition-property: transform,-webkit-transform;
+			}
+			.swiper-container,.swiper-wrapper {
+				width: 100%;
+				height: 100%;
+			}
+			.swiper-slide {
+				height: 100%;
+				text-align: center;
+				font-size: 18px;
+			}
+			.swiper-pagination {
+				font-size: 0.28rem;
+				position: absolute;
+				text-align: right;
+				-webkit-transition: .3s opacity;
+				-o-transition: .3s opacity;
+				transition: .3s opacity;
+				-webkit-transform: translate3d(0,0,0);
+				transform: translate3d(0,0,0);
+				z-index: 10;
+			}
+			.swiperbox .swiper-pagination-fraction {
+				bottom: 10px;
+				right: 10px;
+				background: rgba(0,0,0,.5);
+				border-radius: 20px;
+				padding: 3px 10px 5px;
+				color: #fff;
+				font-size: 0.2rem;
+			}
+			.bigimg .swiper-pagination-fraction {
+				bottom: 20px;
+				width: 100%;
+				text-align: center;
+				color: #000;
+				font-size: 0.2rem;
+			}
+			.swiperbox .swiper-slide img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+			.bigimg .swiper-slide img {
+				width: 100%;
+				object-fit: cover;
+			}
+			.bigimg {
+				/*display: none;*/
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: rgba(255,255,255,.99);
+				/*z-index: 111;*/
+				opacity: 0;
+			}
+</style>
+</head>
+<body>
+<div id="main">
+	<div id="content">
+		<div class="swiperbox">
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
+				</div>
+				<div class="swiper-pagination">
+				</div>
+			</div>
+		</div>
+		<div class="bigimg">
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
+				</div>
+				<div class="swiper-pagination">
+				</div>
+			</div>
+		</div>
+		<div class="head flex-start-center">
+			<img src="" alt="">
+			<div class="flex-1">
+				<p class="p1">
+					***
+				</p>
+				<p class="p2">
+					** <em>|</em> **
+				</p>
+				<p class="p3">
+					**人浏览
+				</p>
+			</div>
+		</div>
+		<div class="info">
+			<div class="c-666 activeContent">
+			</div>
+		</div>
+	</div>
+	<div id="foot">
+		<div class="content flex-between-center">
+			<div class="tip">下载同城印象，更多好玩好看视频等着你</div>
+			<div class="down">下载</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="../js/base.js"></script>
+<script type="text/javascript" src="../js/ydui.flexible.js"></script>
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../js/swiper4.2.0.js"></script>
+<script type="text/javascript">
+	var recommend_id = Utils.getQueryString('recommend_id');
+	// var test = ['http://img.kemiandan.com/merchantRecommend/20181117/e894b717539723bb1de3f01fc77ec41b.jpg','http://img.kemiandan.com/merchantRecommend/20181119/3524c14a4a8c925d52abf5855aebe7a7.jpg']
+	function getActivityData() {
+		Loading.show({type:6});
+		jQuery.ajax({
+			type: 'Get',
+			url: "/user/v2_0_0/getShopRecommendDetail",
+			headers:{
+				platform:3,
+			},
+			data:{
+				recommend_id:recommend_id,
+				latitude:119.00559,
+				longitude:25.44782,
+			},
+			success: function (data) {
+				Loading.hide();
+				if(data.code != 1){
+					Toast({message:data.msg});
+					return;
+				}
+				$(document).attr('title',data.data.shop_name);
+				$('#content').show();
+				$('#content .head img').prop('src',data.data.shop_thumb_image);
+				$('#content .head .p1').text(data.data.shop_name);
+				$('#content .head .p2').html(data.data.shop_category_name + '<em>|</em>' + data.data.shop_address_poi);
+				$('#content .head .p3').text(data.data.pageviews+"人浏览");
+				$('#content .activeContent').text(data.data.content);
+				var imgStr = '';
+				for(var i = 0; i < data.data.recommend_photo_album_list.length; i++){
+					imgStr += '<div class="swiper-slide flex-center-center"><img src="'+ data.data.recommend_photo_album_list[i] +'" alt="活动图片"></div>'
+				}
+				// for(var i = 0; i < test.length; i++){
+				// 	imgStr += '<div class="swiper-slide flex-center-center"><img src="'+ test[i] +'" alt="活动图片"></div>'
+				// }
+				$('.swiperbox .swiper-wrapper,.bigimg .swiper-wrapper').append(imgStr);
+				$('.swiperbox .swiper-wrapper').on('click','.swiper-slide',function(){
+					$('.bigimg').css({
+						'opacity':'1',
+						'z-index':'11111'
+					});
+					console.log($(this))
+					swiperbig.slideTo($(this).index(), 1000, false)
+				})
+				$('.bigimg .swiper-wrapper').on('click','.swiper-slide img',function(){
+					$('.bigimg').css({
+						'opacity':'0',
+						'z-index':'0'
+					});
+				})
+				var swiper = new Swiper('.swiperbox .swiper-container', {
+					pagination: {
+						el: '.swiperbox .swiper-pagination',
+						type: 'fraction',
+					},
+				});
+				var swiperbig = new Swiper('.bigimg .swiper-container', {
+					pagination: {
+						el: '.bigimg .swiper-pagination',
+						type: 'fraction',
+					},
+				});
+			},
+			fail: function(data) {
+				Loading.hide();
+			}
+		})
+	}
+	getActivityData();
+	$('#foot .down').on('click',function(){
+		window.location = "http://m.kemiandan.com/";
+	})
+</script>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="./css/base.css?v" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>免单详情</title>
+	</head>
+	<style>
+	
+		body{
+			width: 100%;
+			height: 100%;
+			padding-bottom: 1.2rem;
+			position: relative;
+		}
+		.head{
+			width: 100%
+		}
+		.head-map img{
+			width: 100%;
+			height: 4.69rem;
+		}
+		.bottom-map {
+			position: absolute;
+			top: 0.62rem;
+			z-index: 600;
+			margin-left: 0.36rem;
+		}
+		.bottom-map img{
+			width: 0.66rem;
+			height: 0.66rem;
+		}
+		.business{
+			width: 100%;
+			position: absolute;
+			top: 3.5rem;
+		}
+		.diagram{
+			width: 100%;
+			height: 2.25rem;
+		}
+		.information{
+			position: absolute;
+			top: 0.5rem;
+			width: 100%;
+		}
+		
+		.head-portrait{
+			position: absolute;
+			width: 1.2rem;
+			height: 1.2rem;	
+			margin-left: 0.52rem;
+			background-color: #ccc;
+		}
+		.name{
+			font-size: 0.34rem;
+			padding-left: 2rem;
+			margin-top: 0.1rem;
+		}
+		.card{
+			top: 4.65rem;
+			color: #f6c758;
+		}
+		.middle{
+			width: 100%;
+		}
+		.payment{
+			display: flex;
+			flex-wrap: wrap;
+			line-height: 10rem;
+			margin-top: 1rem;
+			width: 100%;
+			text-align: center;
+		}
+		.lcon img{
+			width: 1.25rem;
+			height: 1.25rem;
+			padding-left: 0.3rem;
+			
+		}
+		.already-paid img{
+			width: 1.26rem;
+			height: 1.49rem;
+			
+		} 
+		.lcon{
+			width: 25%;
+			margin-top: 0.3rem;
+		}
+		.flex-between-center{
+			display: flex;
+			justify-content: space-between;
+			margin-top: 0.9rem;	
+		}
+		.cons-abroad,.cons-abroad{
+			position: relative;
+		}
+		.cons-abroad img{
+			width: 90%;
+			height: 1.4rem;
+			margin-left: 0.2rem;
+		}
+		.cons-right{
+			margin-right: 0.2rem;
+		}
+		.cons-periphery{
+			position: absolute;
+    		top: 0.2rem;
+   			margin-left: 0.5rem;
+		}
+		.number{
+			color: #ffffff;
+		}
+		#order_count,#predict_free_money{
+			font-size: 0.6rem;
+			line-height: 0.7rem;
+		}
+		.frequency{
+			font-size: 0.24rem;
+			color: #FFFFFF;
+		}
+		.money{
+			font-size: 0.3rem;
+		}
+		.separate{
+			border:0.01rem solid #eeeeee;
+			margin-top: 0.5rem;	
+		}
+		.bottom{
+			margin-top: 0.3rem;
+		}
+		.flex-between{
+			display: flex;
+			justify-content: space-between;
+			line-height: 0.8rem;
+		}
+		.time{
+			font-size: 0.3rem;
+			color: #919191;
+			margin-left: 0.3rem;
+		}
+		.amount{
+			margin-right: 0.3rem;
+			color: #f4295b;
+		}
+		
+		#foot{
+			position: fixed;
+			border-top: 1px solid #eee;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			box-sizing: border-box;	
+		}
+		#foot .content{
+			width: 100%;
+			max-width: 10rem;
+			margin: 0 auto;
+			height: 1rem;
+			box-sizing: border-box;
+			padding: 0 0.3rem;
+			background: url("./images/bg_download.png");
+			background-size: contain;
+		}
+		#foot .tip{
+		}	
+		#foot .tip em {
+			color: #ffeb63;
+		}
+		#already,#need{
+			font-size: 0.24rem;
+		}	
+		#foot .down{
+			width: 1.5rem;
+			height: 0.6rem;
+			background: url("./images/btn_download.png");
+			background-size: cover;
+		}	
+	</style>
+	<body>
+		<div class="head">
+			<div class="bottom-map">
+				<img id="return" src="images/btn_return@2x.png" />
+			</div>
+			<div class=" head-map">
+				<img src="images/banner@2x.png"/>
+			</div>
+		</div>
+		<div class="business">
+			<img class="diagram" src="images/store_bg@2x.png" />
+			<div class="information">
+				<img class="head-portrait" src="" />
+				<div class="name" id="shopName">**</div>
+				<div class="name card">免单卡</div>
+			</div>
+		</div>
+		<div class="middle">
+			<div class="payment">
+
+			</div>
+		</div>
+		<div class="flex-between-center">
+			<div class="cons-abroad">
+				<img src="images/consumption_bg@2x.png"/>
+				<div class="cons-periphery">
+					<div class="number"><span id="order_count">**</span><span>次</span></div>
+					<div class="frequency">消费次数</div>
+				</div>
+			</div>
+			<div class="cons-abroad">
+				<img class="cons-right" src="images/no_single_bg@2x.png" />
+				<div class="cons-periphery">
+					<div class="number money">￥<span class="number" id="predict_free_money">**</span></div>
+					<div class="frequency">预计免单</div>
+				</div>
+			</div>
+		</div>
+	  	<div class="separate" ></div>
+		<div class="bottom">
+		</div>
+		<div id="foot">
+			<div class="content flex-between-center">
+				<div class="tip">
+				</div>
+				<div class="down c-pink"></div>
+			</div>
+		</div>
+	</body>
+</html>
+<script type="text/javascript" src="js/init.js"></script>
+<script src="js/ydui.flexible.js"></script>
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+	
+	// 缓存的token
+	var token = window.localStorage.getItem('token');	
+	var free_rule_id = getQueryString("free_rule_id");
+	
+	$.ajax({
+		url:baseUrl+"/v1_1_0/freeCardDetail",
+		headers:{
+			platform:3,
+			token:token
+		},
+		data:{
+			free_rule_id:free_rule_id
+		},
+		method:'post',
+		beforeSend:function(){
+			showLoading();
+		}
+	}).done(function(res){
+		hideLoading();
+		if(res.code != 1){
+			openMark(res.msg);
+			return;
+		}
+		$('#shopName').text(res.data.shop_name);
+		$('#order_count').text(res.data.order_count);
+		$('#predict_free_money').text(res.data.predict_free_money);
+		$('.head-portrait').prop('src',res.data.shop_thumb_image);
+		var order_count = res.data.order_count;
+		var shop_free_order_frequency = res.data.shop_free_order_frequency;
+		
+		
+		//判断图片显示
+		var imgStr = '';
+		for(var i = 0; i < shop_free_order_frequency; i++){
+			if(i < order_count){
+				imgStr += '<div class="lcon already-paid">';
+				imgStr += '  <img src="./images/pay_pre@2x.png"/>';
+				imgStr += '</div>';
+			}else{
+				imgStr += '<div class="lcon">';
+				imgStr += '  <img src="./images/pay_nor@2x.png"/>';
+				imgStr += '</div>';				
+			}
+		}
+		imgStr += '<div class="lcon">';
+		imgStr += '  <img src="./images/no_single_nor@2x.png"/>';
+		imgStr += '</div>';
+		$('.payment').append(imgStr);
+		
+		
+		//最底部的时间和支付金额
+		var str ='';
+		for(var i = 0; i < res.data.order_list.length;i++){
+			str += '<div class="flex-between">';
+			str += '  <div class="time">'+ res.data.order_list[i].pay_time +'</div><span class="time amount">消费:￥'+ res.data.order_list[i].pay_money +'</span>';
+			str += '</div>';
+		}
+		$('.bottom').append(str);
+	}).fail(function(res){
+		hideLoading();
+	});	
+	$('#return').on('click',function(){
+		window.history.go(-1);
+	});
+	$('#foot .down').on('click',function(){
+		window.location = "http://m.kemiandan.com/";
+	})
+</script>

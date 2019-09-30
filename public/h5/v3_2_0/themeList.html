@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<script type="text/javascript" src="../js/ydui.flexible.js"></script>
+        <link rel="stylesheet" type="text/css" href="../css/base.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/mescroll.css"/>
+        <style type="text/css">
+        	#voteInfo{
+        	    background-color: white;
+        	    padding-bottom: 0.3rem;
+        	}
+        	#voteInfo img{
+        	    width: 100%;
+        	}
+        	#voteInfo #surplusTime{
+        	    height: 1.1rem;
+        	    background-color: #398ee6;
+        	    padding: 0 0.3rem;        	    
+        	    color: white;
+        	}
+        	#surplusTime #time{
+        	    font-size: 0.24rem;
+        	    margin-left: 0.1rem;
+        	}
+        	#voteInfo #voteEnd{
+        	    height: 1.1rem;
+        	    background-color: #666;
+        	    padding: 0 0.3rem;    
+        	    color: white;
+        	}
+        	#voteInfo #surplusTime span{
+        	    width: 0.5rem;
+        	    height: 0.46rem;
+        	    line-height: 0.46rem;
+        	    text-align: center;
+        	    background-color: white;
+        	    display: inline-block;
+        	    font-size: 0.3rem;
+        	    color: #333;
+        	    border-radius: 0.04rem;
+        	    margin: 0 0.1rem;
+        	}
+        	#voteInfo .voteNum{
+        	    font-size: 0.3rem;
+        	    padding:0.3rem 0.3rem 0;
+        	    line-height: 0.36rem;
+        	    color: #333;
+        	    font-weight: bold;
+        	}
+        	#voteInfo .voteDetails{
+        	    padding: 0 0.3rem;
+        	    color: #666;
+        	    font-size: 0.3rem;
+        	    line-height: 0.45rem;
+                margin-top: 0.3rem;
+        	}
+        	#more{
+        	    color: #4791ff;
+        	    font-size: 0.3rem;
+        	}
+        	#apply{
+        	    width: 4.7rem;
+        	    height: 0.8rem;
+        	    text-align: center;
+        	    line-height: 0.8rem;
+        	    background-color: #398ee6;
+        	    border-radius: 0.4rem;
+        	    font-size: 0.32rem;
+        	    color: white;
+        	    margin: 0.14rem auto 0;
+        	}
+        	#apply.disable{
+        	    background-color: #ccc;
+        	}
+        	.fs-4{
+        	    font-size: 0.4rem;
+        	}
+        	.fs-34{
+        	    font-size: 0.34rem;
+        	}
+        	.fs-36{
+        	    font-size: 0.36rem;
+        	}
+        	.fs-24{
+        	    font-size: 0.24rem;
+        	}
+        	#voteList{
+        	    margin-top: 0.2rem;
+        	    background-color: white;
+        	    padding: 0 0.3rem;
+        	}
+        	#voteList .list{
+        	    padding-bottom: 0.3rem;
+        	    border-bottom: 1px solid #eee; 
+        	}
+        	#voteList .list .avatar{
+        	    width: 0.8rem;
+        	    height: 0.8rem;
+        	    border-radius: 0.4rem;
+        	    margin-right: 0.2rem;
+        	}
+        	#voteList .list>div:nth-child(1){
+        	    padding: 0.2rem 0;
+        	}
+        	#voteList .list .storeName{
+        	    font-size: 0.32rem;
+        	    color: #333;
+        	    line-height: 0.45rem;
+        	    font-weight: bold;
+        	}
+        	#voteList .list .storeVoteNum{
+        	    font-size: 0.26rem;
+        	    color: #999;
+        	    line-height: 0.45rem;
+        	}
+        	#voteList .list .cover{
+        	    width: 100%;
+        	}
+        	#voteList .list .ranking{
+        	    color: #eea111;
+        	    font-size: 0.34rem;
+        	    line-height: 0.4rem;
+        	    padding: 0.2rem 0 0.18rem;
+        	    font-weight: bold;
+        	}
+        	#voteList .list .storeDescript{
+        	    font-size: 0.3rem;
+        	    color: #999;
+        	    line-height: 0.4rem;
+        	}
+        	#voteList .voteState .end{
+        	    width: 1.6rem;
+        	    height: 0.6rem;
+        	    border-radius: 0.3rem;
+        	    text-align: center;
+        	    background-color: #bbb;
+        	    font-size: 0.28rem;
+        	    color: white;
+        	    line-height: 0.6rem;
+        	}
+        	#voteList .voteState .voted{
+                width: 1.4rem;
+                height: 0.6rem;
+                border-radius: 0.3rem;
+                text-align: center;
+                background-color: #f5f5f5;
+                font-size: 0.28rem;
+                color: #aaa;
+                line-height: 0.6rem; 
+                border: 1px solid #ddd;
+                box-sizing: border-box;       	    
+        	}
+        	#voteList .voteState .notVote{
+        	    width: 1.6rem;
+        	    height: 0.6rem;
+                border-radius: 0.3rem;
+                background-color: #f5f5f5;
+                font-size: 0.28rem;
+                line-height: 0.6rem; 
+                border: 1px solid #ddd;
+                box-sizing: border-box;
+                color: #333;
+        	}
+        	#voteList .voteState .notVote img{
+        	    width: 0.22rem;
+        	    height: 0.28rem;
+        	    margin-right: 0.1rem;
+        	}
+        	#voteList .voteState .envelope{
+        	    width: 0.6rem;
+        	    height: 0.6rem;
+        	    margin-right: 0.3rem;
+        	}
+            #modal{
+                position: fixed;
+                z-index: 10;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                background-color: rgba(0,0,0,0.5);
+                visibility: hidden;
+                opacity: 0;
+            }
+            #modal.in {
+                -webkit-animation: modal-show-animate .2s forwards;
+                animation: modal-show-animate .2s forwards
+            }
+            
+            #modal.out {
+                -webkit-animation: modal-hide-animate .2s forwards;
+                animation: modal-hide-animate .2s forwards
+            }
+            
+            #modal .content {
+                width: 5.3rem;
+                height: 6.4rem;
+                padding: 0 0.7rem;
+                box-sizing: border-box;
+                background-image: url("../images/hongbaobeijing@2x.png");   
+                background-size: 100% 100%;            
+                visibility: hidden;
+                opacity: 0;
+                position: relative;
+            }
+            
+            #modal .content.in {
+                -webkit-animation: modal-content-show-animate .2s forwards;
+                animation: modal-content-show-animate .2s forwards
+            }
+            
+            #modal .content.out {
+                -webkit-animation: modal-content-hide-animate .2s forwards;
+                animation: modal-content-hide-animate .2s forwards
+            }
+            
+            #modal .content .close {
+                position: absolute;
+                width: 0.28rem;
+                height: 0.28rem;
+                right: 0.3rem;
+                top: 0.3rem;
+            }
+            #modal .content>div:nth-child(1){
+                font-size: 0.56rem;
+                color: #ffe5b9;
+                text-align: center;
+                padding: 0.8rem 0 0.4rem;    
+            }
+            #modal .content>div:nth-child(2){
+                font-size: 0.3rem;
+                line-height: 0.5rem;
+                color: #ffe5b9;
+                text-align: center;    
+            }
+            #modal .content>img:nth-child(3){
+                width: 3.24rem;
+                height: 1.04rem;   
+                margin: 1.2rem auto 0;
+            }
+            .fs-36{
+                font-size: 0.36rem;
+            }
+            @-webkit-keyframes modal-show-animate {
+                0% {
+                    opacity: 0;
+                    visibility: hidden;
+                }
+                100% {
+                    opacity: 1;
+                    visibility: visible;
+                }
+            }
+            
+            @-webkit-keyframes modal-hide-animate {
+                0% {
+                    opacity: 1;
+                    visibility: visible;
+                }
+                100% {
+                    opacity: 0;
+                    visibility: hidden;
+                }
+            }
+            
+            @keyframes modal-show-animate {
+                0% {
+                    opacity: 0;
+                    visibility: hidden;
+                }
+                100% {
+                    opacity: 1;
+                    visibility: visible;
+                }
+            }
+            
+            @keyframes modal-hide-animate {
+                0% {
+                    opacity: 1;
+                    visibility: visible;
+                }
+                100% {
+                    opacity: 0;
+                    visibility: hidden;
+                }
+            }
+            
+            @-webkit-keyframes modal-content-show-animate {
+                0% {
+                    opacity: 0;
+                    visibility: hidden;
+                    -webkit-transform: scale(0.5);
+                    transform: scale(0.5);
+                }
+                100% {
+                    opacity: 1;
+                    visibility: visible;
+                    -webkit-transform: scale(1);
+                    transform: scale(1);
+                }
+            }
+            
+            @-webkit-keyframes modal-content-hide-animate {
+                0% {
+                    opacity: 1;
+                    visibility: visible;
+                    -webkit-transform: scale(1);
+                    transform: scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    visibility: hidden;
+                    -webkit-transform: scale(0.5);
+                    transform: scale(0.5);
+                }
+            }
+            
+            @keyframes modal-content-show-animate {
+                0% {
+                    opacity: 0;
+                    visibility: hidden;
+                    -webkit-transform: scale(0.5);
+                    transform: scale(0.5);
+                }
+                100% {
+                    opacity: 1;
+                    visibility: visible;
+                    -webkit-transform: scale(1);
+                    transform: scale(1);
+                }
+            }
+            
+            @keyframes modal-content-hide-animate {
+                0% {
+                    opacity: 1;
+                    visibility: visible;
+                    -webkit-transform: scale(1);
+                    transform: scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    visibility: hidden;
+                    -webkit-transform: scale(0.5);
+                    transform: scale(0.5);
+                }
+            }
+        </style>
+	</head>
+	<body>
+	    <div id="main" class="mescroll">
+	        <div id="theme">
+	            
+	        </div>
+	    </div>
+        <div id="modal" class="flex-center-center">
+            <div class="content">
+                <div>恭喜你!</div>
+                <div>感谢您的参与，赠您一个随机红包，最高可领取 <span class="fs-36">888</span> 元</div>
+                <img id="goDown" src="../images/xiazai@2x.png"/>
+                <img class="close" src="../images/guangbi@2x.png"/>
+            </div>
+        </div>
+	</body>
+</html>
+<script type="text/javascript" src="../js/base.js"></script>
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../js/mescroll.js"></script>
+<script type="text/javascript" src="../js/jweixin-1.4.0.js"></script>
+<script type="text/javascript">
+    var wx_code = Utils.getQueryString('code');   
+    var token = window.sessionStorage.getItem('token');
+    
+    var theme_id = Utils.getQueryString('theme_id');
+    var page = 0;
+    
+    // 名次
+    var ranking = 1;
+    
+    // 是否可以报名
+//  var apply = true;
+    // 文章描述
+    var theme_desc = '';
+    var mescroll = null;
+    
+    var timer = null;
+    var countdown = 0;
+    
+    // 倒计时
+    function openTimer(){
+        if(!timer){
+            timer = setInterval(function(){
+                countdown--;
+                var format = Utils.formatSeconds(countdown);
+                var str = '';    
+                str += ' <span>'+ format.days +'</span>天';
+                str += ' <span>'+ format.hours +'</span>时';
+                str += ' <span>'+ format.minutes +'</span>分';
+                str += ' <span>'+ format.seconds +'</span>秒';
+                if(countdown < 0){
+                    clearInterval(timer);
+                    timer = null;
+//                  apply = false;
+                    $('#surplusTime').after('<div id="voteEnd" class="flex-between-center"><div class="fs-4">活动已结束</div></div>').remove();
+//                  $('#apply').remove();
+                    $('#voteList .voteState').html('<div class="end">投票结束</div>');
+                }else{
+                    $('#time').html(str);                    
+                }
+            },1000)
+        }
+    }
+    
+    isLogin();
+    
+    // 判断是否有登陆
+    function isLogin() {        
+        if(Utils.isWeiXinClient()) {
+            if(!token) {
+                if(wx_code) {
+                    getWxAuth();
+                } else {
+                    var url = encodeURIComponent(baseUrl + '/h5/v3_2_0/themeList.html?theme_id=' + theme_id);
+                    window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf10829fcbc0073db&redirect_uri=' + url + '&response_type=code&scope=snsapi_userinfo&state=state_code#wechat_redirect';
+                }
+            } else {
+                themeActivity();
+            }
+        } else {          
+            if(!token) {
+//              window.location.href = encodeURI(baseUrl + '/h5/login.html?type=3&theme_id=' + theme_id);
+                themeActivity();
+                return;
+            } else {
+                themeActivity();
+            }
+        }
+    }
+    // 获取微信unionid
+    function getWxAuth() {
+        $.ajax({
+            url: baseUrl + "/user/v2_0_0/getWxAuth",
+            headers: {
+                platform: 3,
+            },
+            data: {
+                wx_code: wx_code
+            },
+            method: 'get',
+        }).done(function(res) {
+            if(res.code == 1) {
+                token = res.data.token;
+                window.sessionStorage.setItem('token', res.data.token);
+                window.sessionStorage.setItem('openid', res.data.wechat_mp_openid);
+                window.sessionStorage.setItem('unionid', res.data.unionid);
+                if(res.data.has_bind_phone != 1) {
+//                  window.location.href = encodeURI(baseUrl + '/h5/login.html?type=3&theme_id=' + theme_id);
+                    themeActivity();
+                } else {
+                    themeActivity();
+                }
+            }
+        }).fail(function(res) {
+            Toast({message:'网络有点问题~'});
+        });
+    }       
+    
+    function themeActivity(){    
+        $.ajax({
+            url: "/user/v3_0_0/themeActivityDetail",
+            headers: {
+                platform: 3,
+                token: token
+            },
+            data: {
+                theme_id: theme_id,
+                page: page
+            },
+            method: 'get',
+            beforeSend: function() {
+                if(page == 0){                   
+                    Loading.show({type:8});
+                }
+            }
+        }).done(function(res) {
+            if(page == 0){                
+                Loading.hide();
+            }
+            if(res.code != 1) {
+                Toast({message:res.msg});
+                return;
+            }
+            if(page == 0){
+                mescroll = new MeScroll("main", {
+                    down: {
+                        use: false,
+                    },
+                    up: {
+                        callback: themeActivity , //上拉加载的回调
+                        isBounce: false, 
+                        htmlNodata: '<p class="upwarp-nodata">已加载全部数据</p>',
+                        auto:false,
+                        use:true,
+                    }
+                });                
+            }                        
+            var str = '';
+            if(page == 0){                
+                str += ' <div id="voteInfo">';
+                str += '    <img src="'+ res.data.theme_cover +'"/>';
+                if(res.data.countdown > 0){
+                    countdown = res.data.countdown;
+                    var format = Utils.formatSeconds(countdown);
+                    openTimer();
+                    str += ' <div id="surplusTime" class="flex-start-center">';
+                    str += '    <div class="fs-36">倒计时</div>';
+                    str += '    <div id="time" class="flex-start-center">';
+                    str += '        <span>'+ format.days +'</span>天';
+                    str += '        <span>'+ format.hours +'</span>时';
+                    str += '        <span>'+ format.minutes +'</span>分';
+                    str += '        <span>'+ format.seconds +'</span>秒';
+                    str += '    </div>';
+                    str += ' </div>';
+                }else{
+                    str += ' <div id="voteEnd" class="flex-between-center">';
+                    str += '    <div class="fs-4">活动已结束</div>';
+                    str += ' </div>';
+                }
+                str += '    <div class="voteNum">投票人数 '+ res.data.total_vote_count +'</div>';
+                if(res.data.theme_desc.length > 90){
+                    var substr = res.data.theme_desc.substr(0,89);
+                    theme_desc = res.data.theme_desc;
+                    str += '    <div class="voteDetails">'+ substr +'...<span id="more">更多</span></div>';
+                }else{
+                    str += '    <div class="voteDetails">'+ res.data.theme_desc +'</div>';
+                }
+//              if(res.data.is_join == 1){
+//                  apply = false;
+//                  str += ' <div id="apply" class="disable">参与报名</div>';
+//              }else{
+//                  str += ' <div id="apply">参与报名</div>';
+//              }            
+                str += ' </div>';
+                str += ' <div id="voteList">';
+            }            
+            for(var i = 0; i < res.data.shop_list.length; i++){
+                str += ' <div data-article_id="'+ res.data.shop_list[i].article_id +'" class="list">';
+                str += '    <div class="flex-between-center">';
+                str += '        <img class="avatar" src="'+ res.data.shop_list[i].shop_thumb_image +'"/>';
+                str += '        <div class="flex-1">';
+                str += '            <div class="storeName t-ellipsis">'+ res.data.shop_list[i].shop_name +'</div>';
+                str += '            <div class="storeVoteNum">票数: '+ res.data.shop_list[i].vote_count +'</div>';
+                str += '        </div>';
+                str += '        <div class="voteState">';
+                                    
+                if(res.data.countdown > 0){                    
+                    if(res.data.shop_list[i].is_vote == 1){
+                        if(res.data.has_bonus == 1){
+                            // 已投票有红包
+                            str += ' <div class="flex-start-center">';
+                            str += '    <img data-record_id="'+ res.data.shop_list[i].record_id +'" class="envelope" src="../images/button_red_envelope@2x.png" />';
+                            str += '    <div class="end">已投票</div>';
+                            str += ' </div>';
+                        }else{
+                            // 已投票无红包
+                            str += ' <div class="voted">已投票</div>';
+                        }
+                    }else{
+                        // 未投票
+                        str += ' <div data-shop_id="'+ res.data.shop_list[i].shop_id +'" class="notVote flex-center-center"><img src="../images/icon_red_envelope@2x.png" />投票</div>';
+                    }
+                }else{
+                    str += ' <div class="end">投票结束</div>';
+                }                                                
+                
+                str += '        </div>';
+                str += '    </div>';
+                str += '    <img class="cover" src="'+ res.data.shop_list[i].article_cover +'"/>';
+                str += '    <div class="flex-start-center">';
+                if(ranking == 1){
+                    str += '<img src="../images/icon_ranking_one@2x.png" style="width:0.24rem;height:0.32rem;margin-right: 0.2rem;" />';
+                }else if(ranking == 2){
+                    str += '<img src="../images/icon_ranking_two@2x.png" style="width:0.24rem;height:0.32rem;margin-right: 0.2rem;" />';
+                }else if(ranking == 3){
+                    str += '<img src="../images/icon_ranking_three@2x.png" style="width:0.24rem;height:0.32rem;margin-right: 0.2rem;" />';
+                }
+                str += '        <div class="ranking">第'+ ranking +'名</div>';
+                str += '    </div>';
+                ranking++;
+                
+                str += '    <div class="storeDescript">'+ res.data.shop_list[i].article_desc +'</div>';
+                str += ' </div>';
+            }
+            if(page == 0){                
+                str += ' </div>';            
+                $('#theme').append(str);
+                if(Utils.isWeiXinClient()){
+                    jssdkConfig({
+                        imgurl:res.data.theme_thumb_cover,
+                        title:res.data.theme_name,
+                        desc:res.data.theme_desc,
+                        url:res.data.theme_share_url,
+                    });
+                }
+                
+            }else{
+                $('#voteList').append(str);
+            }
+
+            if(page ==0 &&res.data.shop_list.length < 10){
+                $('#main .mescroll-upwarp').hide();
+                mescroll.endUpScroll(true);
+            }
+            if(res.data.shop_list.length >= 10){
+                mescroll.endSuccess();  
+            }
+            if(page != 0&&res.data.shop_list.length < 10){
+                mescroll.showNoMore();
+            }
+            page++;
+        }).fail(function(res) {
+            Loading.hide();
+            Toast({message:'网络有点问题~'});
+        });	
+    }
+    
+    $('#main').on('click','#apply',function(){
+        // 点击报名
+        if(!apply){
+            return;
+        }
+        $.ajax({
+            url: "/user/v3_0_0/themeActivitySignUp",
+            headers: {
+                platform: 3,
+                token: token
+            },
+            data: {
+                theme_id: theme_id,
+            },
+            method: 'post',
+            beforeSend: function() {
+                Loading.show({type:8});
+            }
+        }).done(function(res) {
+            Loading.hide();
+            if(res.code != 1) {
+                Toast({message:res.msg});
+                return;
+            }
+            Toast({message:"报名成功"});
+            apply = false;
+            $('#apply').addClass('disable');
+        }).fail(function(res) {
+            Loading.hide();
+            Toast({message:'网络有点问题~'});
+        }); 
+    }).on('click','.notVote',function(){
+        // 点击投票
+        
+        var token = window.sessionStorage.getItem('token');
+        if(!token){
+            window.location.href = encodeURI(baseUrl + '/h5/login.html?type=3&theme_id=' + theme_id);
+            return;
+        }
+        
+        var shop_id = $(this).data('shop_id');
+        var $this = $(this);
+        $.ajax({
+            url: "/user/v3_0_0/themeActivityVote",
+            headers: {
+                platform: 3,
+                token: token
+            },
+            data: {
+                theme_id: theme_id,
+                shop_id: shop_id,
+            },
+            method: 'post',
+            beforeSend: function() {
+                Loading.show({type:8});
+            }
+        }).done(function(res) {
+            Loading.hide();
+            if(res.code != 1) {
+                Toast({message:res.msg});
+                return;
+            }
+            $this.parent().html('<div class="voted">已投票</div>');
+//          $('#modal .fs-36').text(res.data.bonus);
+            
+            $('#modal').addClass('in').removeClass('out');
+            $('#modal .content').addClass('in').removeClass('out'); 
+        }).fail(function(res) {
+            Loading.hide();
+            Toast({message:'网络有点问题~'});
+        });   
+        return false;
+    }).on('click','.envelope',function(){
+        var $this = $(this);
+        // 点击分享红包
+        var record_id = $(this).data('record_id');
+        $.ajax({
+            url: "/user/v3_0_0/themeReceiveBonus",
+            headers: {
+                platform: 3,
+                token: token
+            },
+            data: {
+                record_id: record_id,
+            },
+            method: 'post',
+            beforeSend: function() {
+                Loading.show({type:8});
+            }
+        }).done(function(res) {
+            Loading.hide();
+            if(res.code != 1) {
+                Toast({message:res.msg});
+                return;
+            }
+            $this.parent().parent().html('<div class="voted">已投票</div>');
+        }).fail(function(res) {
+            Loading.hide();
+            Toast({message:'网络有点问题~'});
+        });
+        return false;
+    }).on('click','.list',function(){
+        var article_id = $(this).data('article_id');
+        // 跳转文章详情
+        window.location.href = '/h5/v3_2_0/themeDetails.html?theme_id='+ theme_id +'&article_id=' + article_id;
+    }).on('click','.voteState',function(){
+        // 点击已投票
+        return false;
+    }).on('click','#more',function(){
+        // 显示全部文章
+        $(this).parent().text(theme_desc);
+    });
+    
+    // 隐藏弹窗
+    function closeModal() {
+        $('#modal').removeClass('in').addClass('out');
+        $('#modal .content').removeClass('in').addClass('out');
+    }    
+    // 阻止弹窗事件传播
+    $('#modal .content').on('click', function() {
+        return false;
+    })
+    // 隐藏弹窗
+    $('#modal').on('click', function() {
+        closeModal();
+    })
+    // 点击弹窗的免单
+    $('#modal .close').on('click', function() {
+        closeModal();
+    }) 
+    
+    // 点击跳转到下载页
+    $('#goDown').on('click',function(){
+        closeModal();
+        window.location.href = "http://m.kemiandan.com";
+    })  
+    
+    // 微信分享jssdk
+    function jssdkConfig(shareInfo){
+        $.ajax({
+            url: "/user/v3_3_0/wxJssdkShare",
+            headers: {
+                platform: 3,
+                token: token
+            },
+            data: {
+                url: window.location.href
+            },
+            method: 'get',
+        }).done(function(res) {
+            if(res.code != 1) {
+                return;
+            }
+            wx.config({
+                debug: res.data.debug, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: res.data.appId, // 必填，公众号的唯一标识
+                timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+                nonceStr: res.data.nonceStr, // 必填，生成签名的随机串
+                signature: res.data.signature,// 必填，签名
+                jsApiList: res.data.jsApiList // 必填，需要使用的JS接口列表
+            });
+            wx.ready(function(){
+                var imgurl = shareInfo.imgurl;
+                var title = shareInfo.title;
+                var desc = shareInfo.desc;
+                var url = shareInfo.url;
+                wx.onMenuShareTimeline({
+                    title: title, // 分享标题
+                    desc: desc, // 分享描述
+                    link: url, // 分享链接
+                    imgUrl: imgurl, // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+         
+                wx.onMenuShareAppMessage({
+                    title: title, // 分享标题
+                    desc: desc, // 分享描述
+                    link: url, // 分享链接
+                    imgUrl: imgurl, // 分享图标
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+         
+                wx.onMenuShareQQ({
+                    title: title, // 分享标题
+                    desc: desc, // 分享描述
+                    link: url, // 分享链接
+                    imgUrl: imgurl, // 分享图标
+                    success: function () {
+                       // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                       // 用户取消分享后执行的回调函数
+                    }
+                }); 
+
+                wx.onMenuShareWeibo({
+                    title: title, // 分享标题
+                    desc: desc, // 分享描述
+                    link: url, // 分享链接
+                    imgUrl: imgurl, // 分享图标
+                    success: function () {
+                       // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                       // 用户取消分享后执行的回调函数
+                    }
+                }); 
+
+                wx.onMenuShareQZone({
+                    title: title, // 分享标题
+                    desc: desc, // 分享描述
+                    link: url, // 分享链接
+                    imgUrl: imgurl, // 分享图标
+                    success: function () {
+                       // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                       // 用户取消分享后执行的回调函数
+                    }
+                }); 
+            });
+        });  
+    }
+</script>

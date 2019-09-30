@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="renderer" content="webkit">
+		<title>明细</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" type="text/css" href="../css/base.css?v"/>
+		<link rel="stylesheet" type="text/css" href="../css/mescroll-1.4.1.css"/>
+		<script type="text/javascript" src="../js/ydui.flexible.js"></script>
+		<style>
+			[v-cloak] {
+				display: none;
+			}
+			.tabs {
+				width:100%;
+				height: 1.04rem;
+				font-size: .34rem;
+				background: #fff;
+			}
+			.item {
+				height: 0.6rem;
+				width: 2rem;
+			}
+			.red {
+				color: #F4295B;
+			}
+			.gray {
+				color: #666;
+			}
+			.green {
+				color: #24d24d;
+			}
+			.tabs .name {
+				margin-bottom: 0.08rem;
+			}
+			.line {
+				width: .24rem;
+				height: .06rem;
+				border-radius: .05rem;
+			}
+			.line-red {
+				background: #F4295B;
+			}
+			.line-white {
+				background: #FFF;
+			}
+			.panel {
+				margin:0 auto;
+				margin-top: .24rem;
+				width: 6.9rem;
+				height: 2.1rem;
+				background: #fff;
+				border-radius: .12rem;
+				box-sizing: border-box;
+				padding: .3rem;
+			}
+			.panel .name {
+				width: 3rem;
+			}
+			.cPanel > .panel:last-of-type, .bPanel > .panel:last-of-type {
+				margin-bottom: 0.5rem;
+			}
+			.avatar {
+				width: 0.6rem;
+				height: 0.6rem;
+				border: .08rem;
+				margin-right: .22rem;
+			}
+			.head {
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				-webkit-align-items: center;
+				align-items: center;				
+			}
+			.head-right {
+				font-size: 0.28rem;
+				color: #AAAAAA;
+			}
+		
+		    #bMescroll,#cMescroll{
+		        position: fixed;
+		        left: 0;
+		        right: 0;
+		        top: 1.1rem;
+		        height: calc(100% - 1.1rem);
+			}
+			#empty{
+        	    position: absolute;
+        	    left: 0;
+        	    right: 0;
+        	    top: 0;
+        	    bottom: 0;
+        	    z-index: 2;
+        	}
+        	#empty.hidden{
+        	    display: none;        	    
+        	}
+        	#empty>span{
+        	    font-size: 0.32rem;
+        	    color: #999;
+        	}
+		</style>
+	</head>
+	<body>
+		<div id="main" v-cloak>
+			<div class="tabs flex justify-center flex-center-center">
+				<div v-for="item in tabs" class="item flex-column flex-center-center" @click="changeTab">
+					<div class="name" :class="[item.isChoosed? 'red': 'gray']">{{item.name}}</div>
+					<div class="line" :class="[item.isChoosed? 'line-red': 'line-white']"></div>
+				</div>
+			</div>
+			<div ref="bMescroll" class="mescroll" id="bMescroll" v-show="tabs[0].isChoosed">
+				<div class="bPanel">
+					<div class="panel flex-between flex-column" v-for="item in bData">
+						<div class="head flex-between">
+							<div class="head-left flex flex-center-center">
+								<img class="avatar" :src="item.tx_icon" />
+								<div class="name t-ellipsis">{{item.tx_title}}</div>
+							</div>
+							<div class="head-right">
+								{{item.tx_time}}
+							</div>
+						</div>
+						<div class="foot flex-between">
+							<div class="foot-left">{{item.tx_type_desc}}</div>
+							<div v-if = "item.tx_amount.indexOf('+') != -1" class="foot-right green">{{item.tx_amount}}</div>
+							<div v-else-if = "item.tx_amount.indexOf('-') != -1" class="foot-right red">{{item.tx_amount}}</div>
+							<div v-else  class="foot-right">{{item.tx_amount}}</div>
+						</div>
+					</div>	
+				</div>	        			
+				<div id="empty" class="flex-center-center" v-if="bData.length == 0">
+					<span>暂无余额记录~</span>
+				</div>
+			</div>
+            <div id="cMescroll" class="mescroll" v-show="tabs[1].isChoosed">
+				<div class="cPanel">
+					<div class="panel flex-between flex-column" v-for="item in cData">
+						<div class="head flex-between">
+							<div class="head-left flex flex-center-center">
+								<img class="avatar" :src="item.icon" />
+								<div class="name t-ellipsis">{{item.title}}</div>
+							</div>
+							<div class="head-right">
+								{{item.time}}
+							</div>
+						</div>
+						<div class="foot flex-between">
+							<div class="foot-left">{{item.type_desc}}</div>
+							<div v-if = "item.copper_count.indexOf('+') != -1" class="foot-right green">{{item.copper_count}}</div>
+							<div v-else-if = "item.copper_count.indexOf('-') != -1" class="foot-right red">{{item.copper_count}}</div>
+							<div v-else  class="foot-right">{{item.copper_count}}</div>
+						</div>
+					</div>
+				</div>
+				<div id="empty" class="flex-center-center" v-if="cData.length == 0">
+					<span>暂无铜板记录~</span>
+				</div>             
+			</div>		
+		</div>
+	</body>
+	<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../js/mescroll-1.4.1.js"></script>
+	<script type="text/javascript" src="../js/base.js"></script>
+	<script type="text/javascript" src="../static/js/vue.js"></script>
+	<script type="text/javascript" src="../js/babel.min.js"></script>
+	<script>
+		var token = Utils.getQueryString('token');
+		var vum = new Vue({
+			el: "#main",
+			data: {
+				tabs:[{name: '余额', isChoosed: true}, {name: '铜板', isChoosed: false}],
+				pullUpList: [],
+				mescroll: null,
+				
+				bPage: 0,
+				cPage: 0,
+				bMescroll: null,
+				cMescroll: null,
+				bData: [],
+				cData: [],
+			},
+			mounted() {
+                this.init();
+			},
+			methods: {
+			    init(){
+                    this.bMescroll = new MeScroll(this.$refs.bMescroll, {
+                        down:{
+                            auto:false,
+                            callback: (mescroll)=> {
+                                this.bPage = 0;
+                                mescroll.resetUpScroll();
+                            }
+                        },
+                        up: {            
+                            isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+                            callback: this.getbMData, //上拉加载的回调
+                            htmlNodata: '<p class="upwarp-nodata">已加载全部数据</p>',
+                            auto:false,
+                            noMoreSize:20,
+                            page:{
+                                num:1
+                            }
+                        }
+                    });
+                    this.getbMData();
+                    this.cMescroll = new MeScroll('cMescroll', {
+                        down:{
+                            auto:false,
+                            callback: (mescroll)=> {
+                                this.cPage = 0;
+                                mescroll.resetUpScroll();
+                            }
+                        },
+                        up: {               
+                            isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+                            callback: this.getcMData, //上拉加载的回调
+                            htmlNodata: '<p class="upwarp-nodata">已加载全部数据</p>',
+                            auto:false,
+                            noMoreSize:20,
+                            page:{
+                                num:1
+                            }
+                        }
+                    });	        
+			    },
+				async changeTab() {
+					this.tabs.forEach(ele => {
+						ele.isChoosed = !ele.isChoosed
+					})
+					if(this.tabs[1].isChoosed&&this.cPage == 0){
+					    this.getcMData();
+					}					
+				},
+				getbMData(){
+                    $.ajax({
+                        url: "/user/v3_7_0/transactions",
+                        headers:{
+                            platform:3,
+                            token: token
+                        },
+                        data:{
+                            page: this.bPage
+                        },
+                        method:'get',
+                        beforeSend:function(){
+                            Loading.show({type:8});
+                        }
+                    }).done(res => {
+                        Loading.hide();
+                        if(res.code != 1){
+                            Toast({message:res.msg});
+                            return;
+                        }
+                        if(this.bPage == 0){
+                            this.bData = [];
+                        }
+                        this.bData = this.bData.concat(res.data.transaction_list);
+                        this.bPage++;
+                        this.$nextTick(()=> {      
+                            this.bMescroll.endSuccess(res.data.transaction_list.length,res.data.transaction_list.length==30);
+                        });
+                    }).fail(function(res){
+                        Loading.hide();
+                    });				    
+				},
+				getcMData(){
+                    $.ajax({
+                        url: "/user/v3_7_0/copperRecordList",
+                        headers:{
+                            platform:3,
+                            token: token
+                        },
+                        data:{
+                            page: this.cPage
+                        },
+                        method:'get',
+                        beforeSend:function(){
+                            Loading.show({type:8});
+                        }
+                    }).done(res => {
+                        Loading.hide();
+                        if(res.code != 1){
+                            Toast({message:res.msg});
+                            return;
+                        }
+                        if(this.cPage == 0){
+                            this.cData = [];
+                        }
+                        this.cData = this.cData.concat(res.data.copper_record_list);                       
+                        this.cPage++;
+                        this.$nextTick(()=> {      
+                            this.cMescroll.endSuccess(res.data.copper_record_list.length,res.data.copper_record_list == 30);  
+                        });
+                    }).fail(function(res){
+                        Loading.hide();
+                    }); 				    
+				},				
+			}
+		})	
+	</script>
+</html>

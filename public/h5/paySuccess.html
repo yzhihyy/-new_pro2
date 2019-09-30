@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>支付完成页面</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" type="text/css" href="css/base.css?v2" />
+		<style>
+			#paySuccess {
+				width: 100%;
+				background: #FFFFFF;
+			}
+			
+			.head {
+				width: 100%;
+			}
+			
+			.head img {
+				width: 1.3rem;
+				height: 1.3rem;
+				margin-top: 0.8rem;
+			}
+			
+			.successfulPayment {
+				margin-top: 0.4rem;
+				font-size: 0.3rem;
+				color: #333333;
+				text-align: center;
+			}
+			
+			.symbol {
+				margin-top: 1.12rem;
+				font-size: 0.4rem;
+				z-index: 1000;
+			}
+			
+			.money {
+				font-size: 0.9rem;
+				z-index: 1000;
+			}
+			
+			.paymentAmount {
+				font-size: 0.28rem;
+				color: #999999;
+				margin-top: 0.39rem;
+				text-align: center;
+			}
+			
+			.line {
+				width: 100%;
+				border-bottom: 0.01rem solid #EEEEEE;
+				margin-top: 0.63rem;
+			}
+			
+			.middle {
+				width: 100%;
+				margin-bottom: 1rem;
+				padding: 0.1rem;
+    			box-sizing: border-box;
+			}
+			
+			.background {
+				width: 96%;
+				padding: 0.08rem;
+				height: 3.86rem;
+				object-fit: cover;
+			}
+			
+			.right{
+				width: 50%;
+				float: left;
+				position: relative;
+			}
+			.play {
+				position: absolute;
+				width: 0.9rem;
+				height: 0.9rem;
+				left: 38%;
+				top: 44%;
+			}
+			#foot {
+				position: fixed;
+				left: 0;
+				bottom: 0;
+				width: 100%;
+			}
+			#foot .content {
+				margin: 0 auto;
+				max-width: 8rem;
+				width: 100%;
+				height: 1rem;
+				background-image: linear-gradient( #ff833f, #ff833f), linear-gradient( #fa8c43, #fa8c43);
+				background-blend-mode: normal, normal;
+				padding: 0 0.3rem;
+				box-sizing: border-box;
+				font-size: 0.3rem;
+				color: white;
+			}
+			
+			#foot .tip {
+				font-size: 0.3rem;
+			}
+			#foot .down {
+				width: 1.1rem;
+				height: 0.56rem;
+				line-height: 0.56rem;
+				text-align: center;
+				border-radius: 0.28rem;
+				background-color: #ffeadf;
+				color: #fa8c43;
+				font-size: 0.3rem;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="paySuccess">
+			<div class="head justify-center flex">
+				<img src="images/icon_pay_succeed_small@2x.png" />
+			</div>
+			<div class="Success ">
+				<div class="successfulPayment">支付成功</div>
+			</div>
+			<div class="justify-center flex">
+				<div class="symbol">￥<span class="money"></span></div>
+			</div>
+			<div class="paymentAmount">支付金额</div>
+			<div class="line"></div>
+			<div class="middle">
+				<div style="clear: both"></div>
+			</div>
+			<div id="foot">
+				<div class="content flex-between-center">
+					<div class="flex-1 tip">下载同城印象，更多好玩好看视频等着你</div>
+					<a class="down" href="http://m.kemiandan.com/">下载</a>
+				</div>
+			</div>
+
+		</div>
+
+	</body>
+
+</html>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/ydui.flexible.js"></script>
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+
+<script>
+	var order_number = Utils.getQueryString('serial_number');
+	$.ajax({
+		url: "/user/v3_0_0/finishPayment",
+		headers: {
+			platform: 3,
+			token: window.sessionStorage.getItem('token')
+		},
+		data: {
+			order_number: order_number
+
+		},
+		method: 'GET',
+		beforeSend: function() {
+			Loading.show({
+				type: 6
+			});
+		}
+	}).done(function(res) {
+		Loading.hide();
+		if(res.code !=1){
+			Toast({message:res.msg});
+			return;
+		}
+		$('.money').text(res.data.pay_money);
+		var str = "";
+		for(var i = 0; i < res.data.video_list.length; i++) {
+			str += '<a href="/h5/v3_0_0/videoDetail.html?video_id=' + res.data.video_list[i].video_id + '">';
+			str += '<div class="right">';
+			str += '<img class="background" src="' + res.data.video_list[i].cover_url + '" />';
+			str += '<img class="play " src="images/play@2x.png" />';
+			str += '</div>';
+			str += '</a>';
+		}
+		$('.middle').prepend(str);
+	}).fail(function(res) {
+		Loading.hide();
+		Toast({message:'网络有点问题~'});
+	});
+</script>

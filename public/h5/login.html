@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>登录</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta http-equiv="Expires" content="0">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Cache-control" content="no-cache">
+        <meta http-equiv="Cache" content="no-cache">
+		<link rel="stylesheet" type="text/css" href="css/base.css?v"/>
+		<script type="text/javascript" src="js/ydui.flexible.js"></script>
+	    <style type="text/css">
+	    	body{
+	    		background-color: white;
+	    	}
+	        #head {
+	            text-align: center;
+	            padding: 1rem 0;
+	        }
+	
+	        #head img {
+	            width: 1.5rem;
+	            height: 1.5rem;
+	            margin: 0 auto;
+	        }
+	
+	        #head .title {
+	            color: #323232;
+	            font-size: 0.32rem;
+	            font-weight: 600;
+	            margin-top: 0.15rem;
+	        }
+	
+	        .phone {
+	            margin: 0 0.4rem;
+	            padding: 0.1rem 0;
+	            border-bottom: 1px solid #eee;
+	        }
+	        .phone img {
+	            width: 0.4rem;
+	            height: 0.4rem;
+	        }
+	
+	        .phone input {
+	            font-size: 0.28rem;
+	            color: #333;
+	            flex: 1;
+	            border: none;
+	            padding: 0.2rem;
+	        }
+	
+	        .code {
+	            margin: 0 0.4rem;
+	            border-bottom: 1px solid #eee;
+	            padding: 0.1rem 0;
+	        }
+	
+	        .code img {
+	            width: 0.4rem;
+	            height: 0.4rem;
+	        }
+	
+	        .code input {
+	            font-size: 0.28rem;
+	            color: #333;
+	            width: 100%;
+	            box-sizing: border-box;
+	            border: none;
+	            padding: 0.2rem;
+	        }
+	        .code button {
+	            font-size: 0.24rem;
+	            color: #ff3851;
+	            background-color: white;
+	            height: 0.8rem;
+	            width: 1.25rem;
+	            border: none;
+	        }
+	
+	        .repetition {
+	            width: 2rem;
+	            text-align: right;
+	            font-size: 0.24rem;
+	            color: #ccc;
+	        }
+	
+	        #login {
+	            height: 0.8rem;
+	            line-height: 0.8rem;
+	            background-color: #ff3851;
+	            color: white;
+	            text-align: center;
+	            font-size: 0.36rem;
+	            margin: 1rem 0.5rem;
+	            border-radius: 0.4rem;
+	        }
+	    </style>
+	</head>
+	<body>
+		<div class="main">
+		    <div id="head">
+		        <img src="./images/app_logo1.png" />
+		        <div class="title">同城印象</div>
+		    </div>
+		    <div id="content">
+		        <div class="phone flex-start-center">
+		            <img src="./images/login_phone_icon.png" />
+		            <input id="phone" type="tel" placeholder="手机号" />
+		        </div>
+		        <div class="code flex-start-center">
+		            <img src="./images/login_code_icon.png" />
+		            <div class="flex-1 flex-center-center">
+		                <input id="code" maxlength="6" type="tel" placeholder="验证码" />
+		            </div>
+		            <button id="getCode" onclick="sendPhoneCode()">获取验证码</button>
+		            <div class="repetition" style="display: none;">60s后重新获取</div>
+		        </div>
+		    </div>
+		    <div id="login">登录</div>
+		</div>
+	</body>
+</html>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $('#phone').on('input', function() {
+        this.value = this.value.replace(/[^0-9-]+/,'');
+    })  
+    $('#code').on('input', function() {
+        this.value = this.value.replace(/[^0-9-]+/,'');
+    }) 
+    
+    var phoneRegular = /^1[3456789]\d{9}$/i;
+    
+    /**
+     * type=1: 支付页面跳转过来
+     * type=2: 主题文章详情跳转过来
+     */
+    var type = Utils.getQueryString('type');
+    var shop_id = Utils.getQueryString('shop_id');
+    
+    var theme_id = Utils.getQueryString('theme_id');
+    var article_id = Utils.getQueryString('article_id');
+    
+    /*
+     * 发送注册验证码
+     */
+    function sendPhoneCode() {
+      var phone = document.getElementById('phone').value;
+      if(!(phoneRegular.test(phone))){
+        Toast({message:'请输入正确的电话号码'});
+      } else {
+		$.ajax({
+			url:"/user/v2_0_0/getLoginCaptcha",
+			headers:{
+				platform:3
+			},
+			data:{
+				phone:phone,
+				code_content:"123",
+				code_token:"123"
+			},
+			method:'post',
+			beforeSend:function(){
+				Loading.show({type:6});
+			}
+		}).done(function(res){
+			Loading.hide();
+			if(res.code != 1){
+				Toast({message:res.msg});
+				return;
+			}
+			settime();
+		    $('#getCode').hide();
+        	$('.repetition').show();       	
+		}).fail(function(res){
+			Loading.hide();
+		});
+      }
+    }
+    var countdown = 60;
+    var countdownTimer;
+    function settime() {
+        if (countdown == 0) {
+        	$('#getCode').text('重新获取');
+            $('#getCode').show();
+            $('.repetition').hide();
+            countdown = 60;
+            return;
+        } else {
+            $('.repetition').text(countdown+"s后重新获取");
+            countdown--;
+        }
+        countdownTimer = setTimeout(function () {
+            settime();
+        }, 1000);
+    }
+    
+    // 点击登录
+    $('#login').on('click',function(){
+    	var phone = document.getElementById('phone').value;
+    	var code = $('#code').val();
+        if(!phone){
+            Toast({message:'请输入电话号码'});
+            return;
+        }
+        if(!(phoneRegular.test(phone))){
+        	Toast({message:'请输入正确的电话号码'});
+        	return;
+      	} 
+        if($('#phone').val().length != 11){
+            Toast({message:'请输入正确的电话号码'});
+            return;
+        }
+        if(!code){
+            Toast({message:'请输入验证码'});
+            return;
+        }
+        var data = {
+            phone: phone,
+            code: code,
+            user_type:1,
+		};
+		var url = '';
+		if(Utils.isWeiXinClient()){
+			url += "/user/v2_0_0/wechatBindPhone";
+			data.unionid = window.sessionStorage.getItem('unionid');
+			data.login_type = 1;
+		}else{
+			url += "/user/v3_0_0/login";
+			data.login_type = 1;
+		}
+
+		$.ajax({
+			url:url,
+			headers:{
+				platform:3
+			},
+			data:data,
+			method:'post',
+			beforeSend:function(){
+				Loading.show({type:6});
+			}
+		}).done(function(res){
+			Loading.hide();
+			if(res.code != 1){
+				Toast({message:res.msg});
+				return;
+			}
+			window.sessionStorage.setItem('token',res.data.token);
+			if(type == 1){
+			    window.location.href = encodeURI('/h5/pay.html?shop_id='+shop_id);
+			}else if(type == 2){
+			    window.location.href = encodeURI('/h5/v3_2_0/themeDetails.html?theme_id='+theme_id+'&article_id='+article_id);
+			}else if(type == 3){
+			    window.location.href = encodeURI('/h5/v3_2_0/themeList.html?theme_id='+theme_id);
+			}else if(type == 4){
+			    window.location.href = encodeURI('/h5/v3_4_0/personalTheme.html?theme_id='+theme_id);
+			}else if(type == 5){
+			    window.location.href = encodeURI('/h5/v3_4_0/personalArticle.html?theme_id='+theme_id+'&article_id='+article_id);
+			}else if(type == 6){
+			    window.location.href = encodeURI('/h5/v3_4_0/articleDetails.html?theme_id='+theme_id+'&article_id='+article_id);
+			}else if(type == 7){
+			    window.location.href = encodeURI('/h5/v3_4_0/themeDetails.html?theme_id='+theme_id);
+			}
+		}).fail(function(res){
+			Loading.hide();
+		});
+    });	
+</script>

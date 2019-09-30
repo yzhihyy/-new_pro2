@@ -1,0 +1,57 @@
+{% extends 'layout.twig' %}
+
+{% block title %}免单说明{{ parent() }}{% endblock %}
+
+{% block piecemeal_css %}
+    <style type="text/css">
+        body, html {
+            width: 100%;
+            height: 100%;
+        }
+
+        .head {
+            width: 100%;
+            height: 100%;
+            padding-left: 0.3rem;
+            padding-right: 0.3rem;
+            box-sizing: border-box;
+			padding-top: 0.3rem;
+        }
+
+        .theme {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.4rem;
+            font-weight: 600;
+            margin-top: 0.3rem;
+        }
+
+        .content {
+            font-size: 0.28rem;
+            color: #000000;
+            line-height: 0.5rem;
+        }
+
+        .total {
+            margin-top: 0.3rem;
+        }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <div class="head">
+        {# <div class="theme">免单说明</div> #}
+        <div class="total"></div>
+        <div class="content">
+            1、在店铺消费指定次数可免费获得1次消费。
+        </div>
+        <div class="content">
+            2、免单的金额=指定消费次数总额/消费次数。
+        </div>
+        <div class="content">
+            3、如免单消费金额超出指定金额，需额外支付，如：店铺指定消费订单为5单可获得免费，用户消费在第5单后把消费金额平均下,第6单可以获得平均值的免单金额。
+        </div>
+     
+    </div>
+{% endblock %}

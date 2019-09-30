@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>邀请好友</title>
+        <meta http-equiv="Expires" content="0">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Cache-control" content="no-cache">
+        <meta http-equiv="Cache" content="no-cache">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <script type="text/javascript" src="js/ydui.flexible.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/base.css?v" />
+        <link rel="stylesheet" type="text/css" href="css/mescroll.css" />
+        <style type="text/css">
+            body,
+            html {
+                width: 100%;
+                height: 100%;
+            }
+            
+            #invitingFriends {
+                width: 100%;
+                height: 100%;
+                background: white;
+            }
+            
+            .head-img {
+                width: 100%;
+            }
+            
+            .share {
+                width: 100%;
+                padding-top: 0.6rem;
+                background-color: white;
+            }
+            
+            .abroad {
+                height: 4.2rem;
+                line-height: 0.2rem;
+            }
+            
+            .abroad img {
+                width: 0.8rem;
+                height: 0.8rem;
+            }
+            
+            .firstLine img {
+                margin: 0 auto;
+            }
+            
+            .typeface {
+                line-height: 0.8rem;
+                font-size: 0.3rem;
+            }
+            
+            .single {
+                text-align: center;
+            }
+            
+            .secondLines {
+                margin: 0 auto;
+            }
+            
+            .space {
+                text-align: center;
+            }
+            
+            .secondLines {
+                margin-top: 0.4rem;
+            }
+            
+            .cd-popup-container img {
+                width: 5.2rem;
+                height: 5.2rem;
+                padding: 0.4rem;
+            }
+            
+            .cd-popup {
+                z-index: 600;
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                visibility: hidden;
+                -webkit-transition: opacity 0.5s 0s, visibility 0s 0.5s;
+                -moz-transition: opacity 0.5s 0s, visibility 0s 0.5s;
+                transition: opacity 0.5s 0s, visibility 0s 0.5s;
+            }
+            
+            .cd-popup.is-visible {
+                opacity: 1;
+                visibility: visible;
+                -webkit-transition: opacity 0.3s 0s, visibility 0s 0s;
+                -moz-transition: opacity 0.3s 0s, visibility 0s 0s;
+                transition: opacity 0.3s 0s, visibility 0s 0s;
+            }
+            
+            .cd-popup-container {
+                width: 6rem;
+                height: 6rem;
+                background-color: white;
+                margin: 0 auto;
+                margin-top: 3rem;
+                border-radius: 0.1rem;
+                -webkit-transform: translateY(-260px);
+                -moz-transform: translateY(-260px);
+                -ms-transform: translateY(-260px);
+                -o-transform: translateY(-460px);
+                transform: translateY(-460px);
+                -webkit-backface-visibility: hidden;
+                -webkit-transition-property: -webkit-transform;
+                -moz-transition-property: -moz-transform;
+                transition-property: transform;
+                -webkit-transition-duration: 0.3s;
+                -moz-transition-duration: 0.3s;
+                transition-duration: 0.3s;
+            }
+            
+            .is-visible .cd-popup-container {
+                -webkit-transform: translateY(0);
+                -moz-transform: translateY(0);
+                -ms-transform: translateY(0);
+                -o-transform: translateY(0);
+                transform: translateY(0);
+            }
+            
+            .line {
+                width: 100%;
+                border-bottom: 0.2rem solid #f6f6f6;
+                margin-top: 0.3rem;
+            }
+            
+            .line-1 {
+                width: 100%;
+                border-bottom: 0.02rem solid #f6f6f6;
+                margin-top: 0.1rem;
+            }
+            
+            .invitationSuccess {
+                font-size: 0.3rem;
+                padding: 0.3rem;
+            }
+            
+            .number {
+                color: #ff4449;
+                font-size: 0.32rem;
+                font-weight: 600;
+            }
+            
+            .number-y {
+                color: #ff4449;
+                font-size: 0.32rem;
+                font-weight: 600;
+            }
+            
+            .erground {
+                display: none;
+            }
+            
+            .erground-y {
+                padding: 0.3rem;
+                font-size: 0.26rem;
+                color: #999999;
+            }
+            
+            .list {
+                padding: 0.3rem;
+                margin-top: -0.15rem;
+                color: #666;
+                background: white;
+            }
+            
+            .accountNumber {
+                font-size: 0.26rem;
+            }
+            
+            .mobilePhone {
+                font-size: 0.24rem;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="cd-popup" role="alert">
+            <div class="cd-popup-container">
+                <img src="" />
+            </div>
+        </div>
+        <div id="drop-down" class="all mescroll">
+            <div id="package">
+                <div id="invitingFriends">
+                    <img class="head-img" src="images/share.png" />
+                    <div class="share">
+                        <div class="abroad ">
+                            <div class="firstLine flex-between">
+                                <div onclick="goShare('weixin')" class="single flex-1">
+                                    <img src="images/btn_wechat.png" />
+                                    <span class="typeface">微信好友</span>
+                                </div>
+                                <div onclick="goShare('pyquan')" class="single flex-1">
+                                    <img src="images/btn_pengyouquan.png" />
+                                    <span class="typeface">朋友圈</span>
+                                </div>
+                                <div onclick="goShare('friends')" class="single flex-1">
+                                    <img src="images/btn_qq.png" />
+                                    <span class="typeface">QQ 好友</span>
+                                </div>
+                            </div>
+
+                            <div class="firstLine secondLines  flex-between">
+                                <div onclick="goShare('qzone')" class="single flex-1">
+                                    <img src="images/btn_kongjian.png" />
+                                    <span class="typeface">QQ 空间</span>
+                                </div>
+                                <div class="facingeachother single flex-1">
+                                    <img src="images/btn_mianduimian.png" />
+                                    <span class="typeface">面对面</span>
+                                </div>
+                                <div class="single flex-1">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="line"></div>
+                        <div class="invitationSuccess">
+                            你总共邀请<span class="number-y"></span>人,成功邀请 <span class="number"></span> 人
+                        </div>
+                        <div class="line-1"></div>
+
+                        <div class="erground">
+                            <div class="erground-y flex-start-center">
+                                <div class="accountNumber flex-1">账号</div>
+                                <div class="accountNumber flex-1">注册时间</div>
+                                <div class="accountNumber flex-1">安装时间</div>
+                            </div>
+                            <div id="outerLayer">
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="js/init.js"></script>
+<script type="text/javascript" src="js/mescroll.js"></script>
+<script type="text/javascript">
+    var mescroll = null;
+
+    var sharInfo = {};
+    var token = Utils.getQueryString('token');
+    //分页
+    var page = 0
+    // 通知app 事件
+    function goShare(type) {
+        if(!sharInfo.share_img) {
+            return;
+        }
+        if(/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) { //判断iPhone|iPad|iPod|iOS
+            window.webkit.messageHandlers.setCoupon.postMessage({
+                'type': type,
+                'url': sharInfo.share_url,
+                'title': sharInfo.share_title,
+                'content': sharInfo.share_intr,
+                'imgpath': sharInfo.share_img
+            });
+        } else if(/(Android)/i.test(navigator.userAgent)) { //判断Android
+            var url = sharInfo.share_url;
+            var title = sharInfo.share_title;
+            var content = sharInfo.share_intr;
+            var imgpath = sharInfo.share_img;
+            var androidParams = type + '|' + url + '|' + title + '|' + content + '|' + imgpath;
+            javascript: android.setCoupon(androidParams);
+        }
+    }
+
+    //面对面点击事件
+    //open popup
+    $('.facingeachother').on('click', function(event) {
+        event.preventDefault();
+        $('.cd-popup').addClass('is-visible');
+    });
+    //close popup
+    $('.cd-popup').on('click', function(event) {
+        if($(event.target).is('.cd-popup-close') || $(event.target).is('.cd-popup')) {
+            event.preventDefault();
+            $(this).removeClass('is-visible');
+        }
+    });
+
+    upCallback();
+
+    function upCallback() {
+        $.ajax({
+            url: "/user/v3_0_0/myInvitation",
+            headers: {
+                platform: 3,
+                token: token
+            },
+            data: {
+                page: page
+            },
+            method: 'GET',
+            beforeSend: function() {
+                Loading.show({
+                    type: 6
+                });
+            }
+        }).done(function(res) {
+            Loading.hide();
+            if(res.code != 1) {
+                Toast({
+                    message: res.msg
+                });
+                return;
+            }
+            if(page == 0 && res.data.invitee_list.length > 0) {
+                $('.erground').show();
+            }
+            if(!mescroll) {
+                mescroll = new MeScroll("drop-down", {
+                    down: {
+                        use: false
+                    },
+                    up: {
+                        callback: upCallback, //上拉加载的回调
+                        isBounce: false,
+                        htmlNodata: '<p class="upwarp-nodata">已加载全部数据</p>',
+                        auto: false,
+                        use: true,
+                    }
+                })
+            }
+
+            sharInfo = res.data.share_info;
+            $('.cd-popup-container img').prop('src', res.data.invite_qrcode);
+            $('.number-y').text(res.data.invited_count);
+            $('.number').text(res.data.valid_invited_count);
+            var str = '';
+            for(var i in res.data.invitee_list) {
+                str += '<div class="list flex-start-center">';
+                str += '<div class="mobilePhone flex-1">' + res.data.invitee_list[i].phone + '</div>';
+                str += '<div class="mobilePhone flex-1">' + res.data.invitee_list[i].generate_time + '</div>';
+                str += '<div class="mobilePhone flex-1">' + res.data.invitee_list[i].install_time + '</div>';
+                str += '</div>'
+            }
+            $('#outerLayer').append(str);
+            if(page == 0 && res.data.invitee_list.length < 10) {
+                $('#drop-down .mescroll-upwarp').hide();
+            }
+            if(res.data.invitee_list.length >= 10) {
+                mescroll.endSuccess();
+            }
+            if(page != 0 && res.data.invitee_list.length < 10) {
+                mescroll.showNoMore();
+            }
+            page++;
+        }).fail(function(res) {
+
+            Loading.hide();
+
+        });
+    }
+</script>

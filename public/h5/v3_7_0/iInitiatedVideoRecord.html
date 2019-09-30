@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="UTF-8">
+        <title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta http-equiv="Expires" content="0">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Cache-control" content="no-cache">
+        <meta http-equiv="Cache" content="no-cache">
+        <link rel="stylesheet" type="text/css" href="../css/base.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/mescroll-1.4.1.css"/>
+        <script type="text/javascript" src="../js/ydui.flexible.js"></script>
+        <style type="text/css">
+        	#empty{
+        	    background-color: white;
+        	    position: absolute;
+        	    left: 0;
+        	    right: 0;
+        	    top: 0;
+        	    bottom: 0;
+        	    z-index: 2;
+        	}
+        	#empty.hidden{
+        	    display: none;        	    
+        	}
+        	#empty>span{
+        	    font-size: 0.32rem;
+        	    color: #999;
+        	}
+
+        	#main{
+        	    padding-top: 0.3rem;
+        	}
+        	#main .item{
+        	    background-color: white;
+        	    margin:0 0.3rem 0.3rem;
+        	    padding: 0.2rem 0;
+        	}
+        	#main .item>img{
+        	    width: 0.6rem;
+        	    height: 0.6rem;
+        	    border-radius: 50%;
+        	    margin: 0 0.2rem;
+        	}
+        	#main .item .name{
+        	    font-size: 0.34rem;
+        	    line-height: 0.5rem;
+        	    color: #333;
+        	    font-weight: bold;
+        	}
+        	#main .item .time{
+                font-size: 0.28rem;
+                color: #aaa;     
+                line-height: 0.5rem;  
+                margin-top: 0.1rem;	    
+        	}
+        	#main .item .duration{
+        	    font-size: 0.28rem;
+        	    color: #aaa;
+        	    line-height: 0.5rem;       
+        	}
+        	.mescroll-upwarp {
+                padding: 0;
+            }
+        </style>
+	</head>
+	<body>
+	    <div id="empty" class="flex-center-center hidden">
+	        <span>你还没有视频通话记录</span>
+	    </div>
+        <!-- 页面内容 -->
+        <div id="page" class="mescroll">
+            <div id="main">
+            </div>
+        </div>
+	</body>
+</html>
+<script type="text/javascript" src="../js/base.js"></script>
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../js/mescroll-1.4.1.js"></script>
+<script type="text/javascript">
+    var mescroll = null;
+    var num = 0;
+    var token = Utils.getQueryString('token');
+    $(function(){
+        getData();
+        mescroll = new MeScroll("page", {
+            down:{
+                auto:false,
+                callback: function(mescroll) {
+                    num = 0;
+                    mescroll.resetUpScroll();
+                }
+            },
+            up: {
+                clearEmptyId:"main",                
+                isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+                callback: getData, //上拉加载的回调
+                htmlNodata: '<p class="upwarp-nodata">已加载全部数据</p>',
+                auto:false,
+                noMoreSize:20,
+                page:{
+                    num:1
+                }
+            }
+        });        
+    });
+    function getData(page){
+        $.ajax({
+            url: "/user/v3_7_0/iInitiatedVideoRecord",
+            headers: {
+                platform: 3,
+                token: token
+            },
+            method: 'GET',
+            data:{
+                page: num  
+            },
+            beforeSend: function() {             
+                if(num == 0){                  
+                    Loading.show({
+                        type: 8
+                    });
+                }
+            }
+        }).done(function(res){            
+            if(num == 0){                
+                Loading.hide();
+            }
+            if(res.code != 1) {
+                Toast({
+                    message: res.msg
+                });
+                return;
+            }
+            var str = '';
+            for(var i = 0; i < res.data.live_list.length; i++){
+                str += ' <div class="item flex-start">';
+                str += '    <img src="'+ res.data.live_list[i].thumb_image +'"/>';
+                str += '    <div class="flex-1">';
+                str += '        <div class="t-ellipsis name">'+ res.data.live_list[i].nickname +'</div>';
+                str += '        <div class="t-ellipsis time">发起视频时间：'+ res.data.live_list[i].start_time +'</div>';
+                str += '        <div class="t-ellipsis duration">视频时长:'+ res.data.live_list[i].duration +'分钟</div>'; 
+                str += '    </div>';
+                str += ' </div>';
+            }
+            if(num == 0 && res.data.live_list.length == 0){
+                $('#empty').removeClass('hidden');
+                $('#page').hide();
+                mescroll.destroy();
+                return;
+            }
+            num++;
+            mescroll.endSuccess(res.data.live_list.length,res.data.live_list.length==20);
+            $('#main').append(str);            
+        }).fail(function(res) {             
+            if(num == 0){                
+                Loading.hide();
+            }
+            Toast({
+                message: '网络出错了~'
+            });
+        });        
+    }
+</script>

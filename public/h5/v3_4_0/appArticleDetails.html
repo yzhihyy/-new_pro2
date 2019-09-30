@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta http-equiv="Expires" content="0">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Cache-control" content="no-cache">
+        <meta http-equiv="Cache" content="no-cache">
+        <script type="text/javascript" src="../js/ydui.flexible.js"></script>
+        <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/mescroll.css" />
+        <style type="text/css">
+            #article .view {
+                word-break: break-all;
+                word-wrap: break-word;
+                cursor: text;
+            }
+            #article p {
+                clear: both;
+            }
+            #article img {
+                *zoom: 1;
+                max-width: 100%;
+                *max-width: 96%;
+                height: auto !important;
+            }
+            #article iframe {
+                width: 301px !important;
+                border: 0;
+                background-color: none;
+            }
+            #article .video_iframe {
+                background-color: #000000;
+                width: 100% !important;
+                *width: 96% !important;
+                position: static;
+            }
+            #article blockquote {
+                margin: 0;
+                padding-left: 10px;
+                border-left: 3px solid #DBDBDB;
+            }
+            #article .embed-responsive-item{
+                height:375px;
+                width:500px !important;
+            }  
+            #businessDetails{
+                background-color: white;
+                padding: 0 0.3rem 0.3rem;
+                border-bottom: 1px solid #eee;
+                box-sizing: border-box;
+            }
+            #businessDetails img{
+                width: 1.4rem;
+                height: 1.4rem;
+                border-radius: 0.08rem;
+                object-fit: cover;
+                background-color: #eee;
+            }
+            #businessDetails .businessInfo{
+                padding: 0.3rem 0;
+            }
+            #businessDetails .businessInfo .flex-1{
+                padding: 0 0.3rem;
+            }
+            #businessDetails .businessInfo .t-ellipsis{
+                font-size: 0.42rem;
+                line-height: 0.5rem;
+            }
+            #businessDetails .browse{
+                margin-top: 0.24rem;
+                height: 0.44rem;
+                line-height: 0.44rem;
+                padding: 0 0.22rem;
+                border-radius: 0.22rem;
+                background-color: #ff7748;
+                color: white;
+                font-size: 0.26rem;
+                display: inline-block;
+            }
+            #businessDetails .placard{
+                font-size: 0.3rem;
+                color: #666;
+                line-height: 0.5rem;
+            }
+            #addressInfo{
+                background-color: white;
+                padding: 0.3rem;
+            }
+            #addressInfo .flex-1{
+                font-size: 0.3rem;
+                color: #333;
+                line-height: 0.38rem;
+                padding: 0 0.3rem;               
+            }
+            #voting{
+                height: 1rem;
+                background-color: white;
+                margin-top: 0.2rem;
+                padding: 0 0.2rem;
+            }
+            #voting img{
+                margin: 0 0.1rem;
+            }
+            #voting .votingTitle{
+                font-size: 0.32rem;
+            }
+            #voting .ranking{
+                font-size: 0.3rem;
+                color: #ff8e29;
+                text-align: right;
+            }
+            #details{
+                background-color: white;
+                margin-top: 0.2rem;
+                padding: 0.3rem;
+                overflow-x: hidden;
+                box-sizing: border-box;
+            }
+            #details .video{
+                position: relative;
+            }
+            #details .video img{
+                width: 100%;
+                height: 3.2rem;
+                object-fit: cover;
+            }
+            #details .video .play{
+                position: absolute;
+                width: 1.1rem;
+                height: 1.1rem;
+                left: calc(50% - 0.55rem);
+                top: calc(50% - 0.55rem);
+            }
+            #article img{
+                max-width: 100%;
+            }
+            #page #featured{
+                background-color: white;
+                margin-top: 0.2rem;
+            }
+            #page #featured .title{
+                color: #333;
+                font-size: 0.32rem;
+                line-height: 0.88rem;
+                padding: 0 0.3rem;
+            }
+            #message .comment{
+                padding: 0.2rem 0;
+            }
+            #message .comment .portrait{
+                width: 0.56rem;
+                height: 0.56rem;
+                border-radius: 50%;
+                margin-left: 0.3rem;
+                margin-right: 0.24rem;
+            }
+            #message .comment .name{
+                font-size: 0.26rem;
+                color: #333;
+                line-height: 0.36rem;
+            }
+            #message .comment .time{
+                font-size: 0.24rem;
+                line-height: 0.36rem;
+                color: #999;
+            }
+            #message .comment .content{
+                font-size: 0.28rem;
+                line-height: 0.36rem;
+                color: #333;
+                padding-top: 0.1rem;
+            }
+            #message .likeInfo{
+                width: 1.1rem;
+            }
+            #message .likeInfo>img{
+                display: block;
+                width: 0.34rem;
+                height: 0.3rem;
+                padding: 0.1rem;
+                margin: 0 auto;
+            }
+            #message .likeInfo>div{
+                font-size: 0.24rem;
+                line-height: 0.38rem;
+                color: #ccc;
+                text-align: center;
+            }
+            #message .noneMessage{
+                text-align: center;
+                line-height: 2rem;
+                color: #666;
+                font-size: 0.28rem;                
+            }   
+            .mescroll-upwarp{
+                padding: 0;
+            }            
+            
+        </style>
+    </head>
+    <body>
+        <!-- 页面内容 -->
+        <div id="page" class="mescroll">
+            <div id="main">
+                <div id="featured">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../js/base.js"></script>
+<script type="text/javascript" src="../js/mescroll.js"></script>
+<script type="text/javascript">
+    var theme_id = Utils.getQueryString('theme_id');
+    var article_id = Utils.getQueryString('article_id');
+    var longitude = Utils.getQueryString('longitude');
+    var latitude = Utils.getQueryString('latitude');
+    var token = Utils.getQueryString('token');
+    if(!longitude){
+        longitude = '';
+    }
+    if(!latitude){
+        latitude = '';
+    }
+    if(token === '(null)'){
+        token = '';
+    }
+    if(token){
+        token = token.replace('(null)','');
+    }
+    var page = 0;
+    var mescroll = null;
+    // 是否为空评论
+    var emptyComment = false;
+    // 是否首次上滑
+    var firstUp = false;
+    
+    getArticleDetail();
+    
+    function getArticleDetail(){
+        $.ajax({
+            url: "/user/v3_0_0/themeArticleDetail",
+            headers: {
+                platform: 3,
+                token: token
+            },
+            data: {
+                theme_id: theme_id,
+                article_id: article_id,
+                longitude: longitude,
+                latitude: latitude
+            },
+            method: 'get',
+        }).done(function(res) {
+            if(res.code != 1) {
+                Toast({message:res.msg});
+                return;
+            }
+            var str = '';
+            str += ' <div data-shop_id="'+ res.data.shop_id +'" id="businessDetails">';
+            str += '    <div class="flex-start businessInfo">';
+            str += '        <img src="'+ res.data.shop_thumb_image +'"/>';
+            str += '        <div class="flex-1">';
+            str += '            <div class="t-ellipsis">'+ res.data.shop_name +'</div>';
+            str += '            <div class="browse">'+ res.data.views +'人浏览</div>';
+            str += '        </div>';
+            str += '    </div>';
+            str += '    <div class="placard">'+ res.data.shop_category_name +' '+ res.data.shop_address_poi +'·'+ res.data.distance +' | '+ res.data.operation_time +'</div>'
+            if(res.data.announcement.length > 0){            
+                str += '<div class="placard">公告：'+ res.data.announcement +'</div>';
+            }
+            str += ' </div>';
+            
+            str += ' <div id="addressInfo" class="flex-between-center">';
+            str += '    <img style="width: 0.4rem;height: 0.4rem;" src="../images/icon_address_v2@2x.png"/>';
+            str += '    <div class="flex-1 word-break" data-latitude="'+ res.data.latitude +'" data-longitude="'+ res.data.longitude +'">'+ res.data.shop_address +'</div>';
+            str += '    <a href="tel:'+ res.data.shop_phone +'">';
+            str += '        <img style="width: 0.6rem;height: 0.6rem;padding-left: 0.3rem;border-left: 1px solid #eee;" src="../images/icon_phone_v2@2x.png"/>';   
+            str += '    </a>';
+            str += ' </div>';
+            
+            
+            if(res.data.theme_id > 0){           
+                str += ' <div data-theme_id="'+ res.data.theme_id +'" id="voting" class="flex-between-center">';
+                str += '    <div class="flex-start-center">';
+                str += '        <img style="width: 0.3rem;height: 0.36rem;" src="../images/icon_Voting@2x.png"/>';
+                str += '        <div class="votingTitle">主题活动</div>';
+                str += '    </div>';
+                str += '    <div class="flex-start-center flex-1">';
+                str += '        <div class="ranking flex-1 t-ellipsis">'+ res.data.theme_title +'</div>';
+                str += '        <img style="width: 0.16rem;height: 0.26rem;" src="../images/arrow_right_orange@2x.png"/>';
+                str += '    </div>';
+                str += ' </div>';
+            }
+            
+            
+            str += ' <div id="details">';
+            if(res.data.video_position == 1){
+                str += ' <div data-video_id="'+ res.data.video_id +'" class="video">';
+                str += '    <img src="'+ res.data.cover_url +'"/>';
+                str += '    <img class="play" src="../images/bofang@2x.png"/>';
+                str += ' </div>';
+            }
+            str += '<div id="article">'+ res.data.article_content +'</div>';
+            if(res.data.video_position == 2){
+                str += ' <div data-video_id="'+ res.data.video_id +'" class="video">';
+                str += '    <img src="'+ res.data.cover_url +'"/>';
+                str += '    <img class="play" src="../images/bofang@2x.png"/>';    
+                str += ' </div>';
+            }
+            str += ' </div>';                    
+            $('#main').prepend(str);
+//          if(res.data.theme_id > 0){
+                getCommentList();
+//          }
+        }).fail(function(res) {
+            Toast({message:'网络有点问题~'});
+        });        
+    }   
+    
+    function getCommentList(){
+        $.ajax({
+            url: "/user/v3_4_0/themeArticleCommentList",
+            headers: {
+                platform: 3,
+                token: token
+            },
+            data: {
+                article_id: article_id,
+                page: page,
+            },
+            method: 'get',
+        }).done(function(res) {
+            if(res.code != 1) {
+                Toast({message:res.msg});
+                return;
+            }             
+            var str = '';
+            if(page == 0){
+                mescroll = new MeScroll("page", {
+                    down: {
+                        use: false,
+                    },
+                    up: {
+                        callback: getCommentList , //上拉加载的回调
+                        isBounce: false, 
+                        htmlNodata: '<p class="upwarp-nodata">已加载全部数据</p>',
+                        auto:false,
+                        use:true,
+                    }
+                });                   
+                str += ' <div class="title">精选留言</div>';
+                str += '    <div id="message">';
+            }
+            for(var i = 0; i < res.data.comment_list.length; i++){
+                str += ' <div class="comment flex-start">';
+                str += '    <img class="portrait" src="'+ res.data.comment_list[i].avatar +'" />';
+                str += '    <div class="flex-1">';
+                str += '        <div class="name t-ellipsis">'+ res.data.comment_list[i].nickname +'</div>';
+                str += '        <div class="time">'+ res.data.comment_list[i].generate_time +'</div>';
+                str += '        <div class="content word-break">'+ res.data.comment_list[i].content +'</div>';
+                str += '    </div>';
+                str += '    <div class="likeInfo">';
+                if(res.data.comment_list[i].is_like == 1){
+                    str += '    <img data-comment_id="'+ res.data.comment_list[i].comment_id +'" class="like" src="../images/icon_like_red_m@2x.png" />';
+                }else{
+                    str += '    <img data-comment_id="'+ res.data.comment_list[i].comment_id +'" class="like" src="../images/icon_like_dis@2x.png" />';
+                }
+                str += '        <div>'+ res.data.comment_list[i].like_count +'</div>';
+                str += '    </div>';
+                str += ' </div>';
+            }
+            if(page == 0 && res.data.comment_list.length == 0){
+                str += ' <div class="noneMessage">暂无留言</div>';
+                emptyComment = true;
+            }
+            if(page == 0){
+                str += '    </div>';
+                str += ' </div>';
+                $('#featured').append(str);
+            }else{
+                $('#message').append(str);
+            }
+            if(page ==0 &&res.data.comment_list.length < 10){
+                mescroll.destroy();
+            }
+            if(res.data.comment_list.length >= 10){
+                mescroll.endSuccess();  
+            }
+            if(page != 0&&res.data.comment_list.length < 10){
+                mescroll.showNoMore();
+            }            
+            page++;            
+        }).fail(function(res) {
+            Toast({message:'网络有点问题~'});
+        });          
+    }
+    
+    function addComment(comment){
+        var commentInfo = JSON.parse(comment);
+        var str = '';
+        str += ' <div class="comment flex-start">';
+        str += '    <img class="portrait" src="'+ commentInfo.avatar +'" />';
+        str += '    <div class="flex-1">';
+        str += '        <div class="name t-ellipsis">'+ commentInfo.nickname +'</div>';
+        str += '        <div class="time">'+ commentInfo.generate_time +'</div>';
+        str += '        <div class="content word-break">'+ commentInfo.content +'</div>';
+        str += '    </div>';
+        str += '    <div class="likeInfo">';
+        if(commentInfo.is_like == 1){
+            str += '    <img data-comment_id="'+ commentInfo.comment_id +'" class="like" src="../images/icon_like_red_m@2x.png" />';
+        }else{
+            str += '    <img data-comment_id="'+ commentInfo.comment_id +'" class="like" src="../images/icon_like_dis@2x.png" />';
+        }        
+        str += '        <div>'+ commentInfo.like_count +'</div>';
+        str += '    </div>';
+        str += ' </div>';
+        if(emptyComment){
+            emptyComment = false;
+            $('#message').html(str);
+        }else{            
+            $('#message').prepend(str);
+        }
+        var offsetTop = $('#featured .title')[0].offsetTop;
+        var pageTop = $('#page').scrollTop();
+        if(pageTop > offsetTop){
+            $('#page').scrollTop(offsetTop);
+        }
+    }  
+
+    var startY = 0;
+    $('body').on('touchstart',function(e){
+        if(firstUp){
+            return;
+        }
+        startY = e.originalEvent.changedTouches[0].pageY;
+        
+    }).on('touchend',function(e){
+        if(firstUp){
+            return;
+        }
+        var endY = e.originalEvent.changedTouches[0].pageY;
+        if(startY > endY){
+            firstUp = true;
+//          noticeApp('firstUp',{firstUp:'1'});
+            rolleEnd();
+        }
+    })
+    var count = 0, timer = null; 
+    var oldTop = newTop = 0; //为了方便起见，使用jquery或者zepto框架
+    function rolleEnd(){
+        if(timer) clearTimeout(timer);
+        newTop = $('#main').offset().top;
+        if(newTop === oldTop) {
+            clearTimeout(timer);
+            //已停止，写入业务代码
+            noticeApp('firstUp',{firstUp:'1'});
+        } else{
+            oldTop = newTop;
+            timer = setTimeout(rolleEnd,50);
+        }        
+    }
+
+    // 点击点赞
+    $('#page').on('click','.like',function(){
+        // 点击预约
+        if(!token){
+            noticeApp('login',{type:'login'});
+            return;
+        }
+        var comment_id = $(this).data('comment_id');
+        var $this = $(this);
+         $.ajax({
+            url: "/user/v3_4_0/themeArticleCommentLike",
+            headers: {
+                platform: 3,
+                token: token
+            },
+            data: {
+                comment_id: comment_id,
+            },
+            method: 'post',
+            beforeSend: function() {               
+                Loading.show({type:8});         
+            }
+        }).done(function(res) {
+            Loading.hide();
+            if(res.code != 1) {
+                Toast({message:res.msg});
+                return;
+            }  
+            if(res.data.is_like == 1){
+                $this.prop('src','../images/icon_like_red_m@2x.png');
+            }else{
+                $this.prop('src','../images/icon_like_dis@2x.png');
+            }
+            $this.parent().find('div').text(res.data.like_count);
+        }).fail(function(res) {
+            Loading.hide();
+            Toast({message:'网络有点问题~'});
+        });  
+    })
+  
+    /**
+     * 通知app事件
+     * @param {Object} type
+     * login: 未登录是触发
+     * setImage: 点击放大图片
+     * @param {Object} param
+     */
+    function noticeApp(type,param) {
+        if(/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) { 
+            window.webkit.messageHandlers[type].postMessage(param);
+        }else if(/(Android)/i.test(navigator.userAgent)){
+            var androidParams = [];
+            for(var i in param){
+                androidParams.push(param[i]);
+            }
+            javascript: android[type](androidParams.join('|'));
+        }
+    }
+  
+    // 通知app页面跳转到视频详情页面
+    $('#page').on('click','#businessDetails',function(){
+        var shop_id = $(this).data('shop_id');
+        if(/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) { //判断iPhone|iPad|iPod|iOS
+            window.webkit.messageHandlers.goShop.postMessage({
+                'shop_id': shop_id,
+            });
+        } else if(/(Android)/i.test(navigator.userAgent)) { //判断Android
+            var androidParams = shop_id;
+            javascript: android.goShop(androidParams);
+        }        
+    }).on('click','.video',function(){
+        var video_id = $(this).data('video_id');
+        if(/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) { //判断iPhone|iPad|iPod|iOS
+            window.webkit.messageHandlers.setVideo.postMessage({
+                'video_id': video_id,
+            });
+        } else if(/(Android)/i.test(navigator.userAgent)) { //判断Android
+            var androidParams = video_id;
+            javascript: android.setVideo(androidParams);
+        }
+    }).on('click','#article img',function(){
+        var image_url = $(this).prop('src');
+        if(/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) { //判断iPhone|iPad|iPod|iOS
+            window.webkit.messageHandlers.setImage.postMessage({
+                'image_url': image_url,
+            });
+        } else if(/(Android)/i.test(navigator.userAgent)) { //判断Android
+            var androidParams = image_url ;
+            javascript: android.setImage(androidParams);
+        }         
+    }).on('click','#voting',function(){
+        var theme_id = $(this).data('theme_id');
+        if(/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) { //判断iPhone|iPad|iPod|iOS
+            window.webkit.messageHandlers.setThemeShopList.postMessage({
+                'theme_id': theme_id,
+            });
+        } else if(/(Android)/i.test(navigator.userAgent)) { //判断Android
+            var androidParams = theme_id ;
+            javascript: android.setThemeShopList(androidParams);
+        }           
+    }).on('click','#addressInfo .flex-1',function(){
+        var latitude = $(this).data('latitude');
+        var longitude = $(this).data('longitude');
+        if(/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) { //判断iPhone|iPad|iPod|iOS
+            window.webkit.messageHandlers.setNavigation.postMessage({
+                'latitude': latitude,
+                'longitude': longitude,
+            });
+        } else if(/(Android)/i.test(navigator.userAgent)) { //判断Android
+            var androidParams = latitude + '|' + longitude;
+            javascript: android.setNavigation(androidParams);
+        }          
+    })
+
+</script>

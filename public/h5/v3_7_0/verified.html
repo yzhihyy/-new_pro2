@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta http-equiv="Expires" content="0">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Cache-control" content="no-cache">
+        <meta http-equiv="Cache" content="no-cache">
+        <link rel="stylesheet" type="text/css" href="../css/base.css"/>
+        <script type="text/javascript" src="../js/ydui.flexible.js"></script>
+        <style type="text/css">
+            .hidden{
+                display: none;
+            }
+            #pageOne{
+                padding-top: 0.24rem;
+            }
+        	#pageOne #info{        
+        	    background-color: white;
+        	    padding: 0 0.3rem;
+        	}
+        	#info .form-input{
+        	    height: 1.1rem;
+        	    border-bottom: 1px solid #eaeaea;
+        	}
+        	#info .form-input>input{
+        	    flex: 1;
+        	    padding: 0 0.3rem;
+        	    height: 0.8rem;
+        	}
+        	#idCard{
+        	    margin-top: 0.24rem;
+        	    background-color: white;
+        	    padding-top: 0.2rem;
+        	}
+        	#idCard .title{
+        	    font-size: 0.32rem;
+        	    color: #333;
+        	    padding: 0 0.3rem;
+        	    line-height: 0.6rem;
+        	}
+        	#idCard .tip{
+        	    font-size: 0.26rem;
+        	    color: #999;
+        	    line-height: 0.36rem;
+        	    padding: 0 0.3rem;
+        	}
+        	#idCard .upload{
+        	    padding: 0.3rem 0.3rem 0.76rem;
+        	}
+        	#idCard .photo{
+        	    width: 3.3rem;
+        	    height: 2rem;
+        	    border: 1px dashed #ccc;
+        	    border-radius: 0.1rem;
+        	}
+        	#idCard .photo>img{
+        	    max-width: 100%;
+        	    max-height: 100%;
+        	    object-fit: cover;
+        	}
+        	#pageOne #submit,#pageFour>#certification{
+        	    background-image: linear-gradient(119deg, #FF4874 0%, #FF5B67 100%);
+                box-shadow: 0 0.04rem 0.24rem 0 rgba(238,13,67,0.30);
+                width: 4.4rem;
+                height: 0.88rem;
+                line-height: 0.88rem;
+                font-size: 0.32rem;
+                color: white;
+                text-align: center;
+                margin: 0.88rem auto 0;
+                border-radius: 0.44rem;
+        	}
+            #pageTwo,#pageFour{
+                width: 100%;
+                height: 100%;
+                background-color: white;
+                text-align: center;
+                padding-top: 2.6rem;
+                box-sizing: border-box;
+            }
+            #pageTwo>img,#pageFour>img{
+                width: 2.2rem;
+                height: 2.2rem;
+                display: block;
+                margin: 0 auto;
+            }
+            #pageTwo>.state,#pageFour>.state{
+                font-size: 0.4rem;
+                line-height: 0.6rem;
+                padding: 0.3rem 0 0.1rem;
+                color: #333;
+                font-weight: bold;
+            }
+            #pageTwo>.tip,#pageFour>.tip{
+                font-size: 0.32rem;
+                color: #999;
+                line-height: 0.44rem;
+                padding: 0 1.6rem;
+            }
+            
+            #pageThree{
+                padding-top: 0.3rem;
+                background-color: white;
+                width: 100%;
+                height: 100%;
+                box-sizing: border-box;
+            }
+            #pageThree .userInfo{
+                width: 6.9rem;
+                height: 2rem;
+                margin: 0 auto;
+                background-image: linear-gradient(90deg, #599bff 0%, #50adfe 100%);
+                box-shadow: 0 0 0.16rem 0 rgba(85,164,255,0.30);
+                border-radius: 0.2rem;
+            }
+            #pageThree .userInfo>img{
+                width: 1.2rem;
+                height: 1.2rem;
+                border-radius: 0.6rem;
+                border: 2px solid white;
+                box-sizing: border-box;
+                margin: 0 0.4rem;
+            }
+            .userInfo .part{
+                color: white;
+                line-height: 0.6rem;
+            }
+            .userInfo .part img{
+                width: 1rem;
+                height: 0.36rem;
+                margin-left: 0.14rem;
+            }
+            .userInfo .userName{
+                font-size: 0.36rem;
+                max-width: 3rem;
+            }
+            .userInfo .userIdcard{
+                font-size: 0.3rem;
+            }
+            #pageThree .list{
+                padding: 0.3rem 0.3rem 0;
+            }
+            #pageThree .list>.item{
+                height: 1.1rem;
+                line-height: 1.1rem;
+                border-bottom: 1px solid #eaeaea;
+            }
+            #pageThree .list .label{
+                font-size: 0.32rem;
+                color: #333;
+            }
+            #pageThree .list .text{
+                font-size: 0.32rem;
+                color: #999;
+            }                  
+        </style>
+	</head>
+	<body>
+	    <div id="pageOne" class="hidden">
+	        <div id="info">
+	            <div class="form-input flex-start-center">
+	                <span class="label">真实姓名</span>
+	                <input type="text" />
+	            </div>
+	            <div class="form-input flex-start-center">
+	                <span class="label">身份证号码</span>
+	                <input type="text" maxlength="18"  />
+	            </div>
+	        </div>
+	        <div id="idCard">
+	            <div class="title">身份证件照</div>
+	            <div class="tip word-break">要求：文字头像清晰，证件照四角齐全，格式支持JPG/PNG，大小不得超过3M</div>
+	            <div class="upload flex-between-center">
+	                <div data-type="identity_card_holder_half_img" class="photo flex-center-center">	                    
+	                    <img src="../images/Certification_bg_front@2x.png"/>
+	                </div>
+	                <div data-type="identity_card_back_face_img" class="photo flex-center-center">
+	                    <img src="../images/Certification_bg_reverse@2x.png"/>
+	                </div>
+	            </div>
+	        </div>
+	        <input id="upload-image" style="display: none;" type="file" accept="image/*" />
+	        <div id="submit">提交认证</div>
+	    </div>
+	    <div id="pageTwo" class="hidden">
+	        <img src="../images/xiangqin_icon_doing.png"/>
+	        <div class="state">审核中</div>
+	        <div class="tip">你的实名认证已提交，请耐心等待平台审核</div>
+	    </div>
+	    <div id="pageThree" class="hidden">
+	        <div class="userInfo flex-start-center">
+	            <img src=""/>
+	            <div class="flex-1 part">	                
+    	            <div class="flex-start-center">
+    	            	<div class="userName t-ellipsis"></div>
+    	            	<img src="../images/icon_yishiming@2x.png"/>
+    	            </div>
+    	            <div class="userIdcard"></div>
+	            </div>
+	        </div>
+	        <div class="list">
+	            <div class="item flex-between-center">
+	                <div class="label">姓名</div>
+	                <div class="text"></div>
+	            </div>
+	            <div class="item flex-between-center">
+	                <div class="label">证件类型</div>
+	                <div class="text">身份证</div>
+	            </div>
+	            <div class="item flex-between-center">
+	                <div class="label">证件号码</div>
+	                <div class="text"></div>
+	            </div>
+	        </div>
+	    </div>
+	    <div id="pageFour" class="hidden">
+	        <img src="../images/xiangqin_icon_fail.png"/>
+            <div class="state">申请失败</div>
+            <div class="tip">失败原因：</div>
+            <div id="certification">重新认证</div>
+	    </div>
+	</body>
+</html>
+<script type="text/javascript" src="../js/base.js"></script>
+<script type="text/javascript" src="../js/plugin/lrz/dist/lrz.bundle.js"></script>
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    var token = Utils.getQueryString('token');
+    var param = {
+        // 真实姓名
+        real_name: '',
+        // 身份证号码
+        id_number: '',
+        // 手持人像面半身照
+        identity_card_holder_half_img: '',
+        // 国徽面
+        identity_card_back_face_img: '',
+    }
+    var currentImage;
+    var currentDom;
+    function init(){
+        $.ajax({
+            url: "/user/v3_7_0/getIdentityCheckStatus",
+            headers: {
+                platform: 3,
+                token: token
+            },
+            method: 'GET',
+            beforeSend: function() {             
+                Loading.show({
+                    type: 8
+                });
+            }
+        }).done(function(res){            
+            Loading.hide();
+            if(res.code != 1) {
+                Toast({
+                    message: res.msg
+                });
+                return;
+            }
+            if(res.data.identity_check_info.check_status == 0){
+                // 未申请
+                $('#pageOne').removeClass('hidden');
+            }else if(res.data.identity_check_info.check_status == 1){
+                // 审核中
+                $('#pageTwo').removeClass('hidden');
+            }else if(res.data.identity_check_info.check_status == 2){
+                // 审核通过
+                $('#pageThree').removeClass('hidden');
+                $('#pageThree .userInfo>img').prop('src',res.data.identity_check_info.avatar);
+                $('#pageThree .userName').text(res.data.identity_check_info.real_name);
+                $('#pageThree .item .text').eq(0).text(res.data.identity_check_info.real_name);
+                $('#pageThree .userIdcard').text(res.data.identity_check_info.id_number);
+                $('#pageThree .item .text').eq(2).text(res.data.identity_check_info.id_number);
+            }else if(res.data.identity_check_info.check_status == 3){
+                // 拒绝
+                $('#pageFour').removeClass('hidden').find('.tip').text('失败原因：'+res.data.identity_check_info.check_result_reason);
+                param.real_name = res.data.identity_check_info.real_name;
+                param.id_number = res.data.identity_check_info.id_number;
+                param.identity_card_holder_half_img = res.data.identity_check_info.identity_card_holder_half_img;
+                param.identity_card_back_face_img = res.data.identity_check_info.identity_card_back_face_img;
+                $('#info input').eq(0).val(param.real_name);
+                $('#info input').eq(1).val(param.id_number);
+                $('#idCard .photo img').eq(0).prop('src',param.identity_card_holder_half_img);
+                $('#idCard .photo img').eq(1).prop('src',param.identity_card_back_face_img);
+            }
+        }).fail(function(res) {             
+            Loading.hide();
+            Toast({
+                message: '网络出错了~'
+            });
+        });        
+    }
+	$(function(){
+	    init();
+	    $('#pageOne .photo').on('click',function(){
+	        currentImage = $(this).data('type');
+	        currentDom = $(this);
+	        $('#upload-image').trigger('click');
+	    })
+	    $('#certification').on('click',function(){
+	        $('#pageFour').addClass('hidden');
+	        $('#pageOne').removeClass('hidden');
+	    })
+	    $('#upload-image').on('change',function(){
+            var that = $(this);
+            lrz(this.files[0], {
+                fieldName: "image"
+            }).then(function(rst) {
+                that.val('');
+                $.ajax({
+                    url: "/user/v3_7_0/uploadIdentityImg",
+                    headers: {
+                        platform: 3,
+                        token: token
+                    },
+                    processData: false, //  告诉jquery不要处理发送的数据
+                    contentType: false, // 告诉jquery不要设置content-Type请求头
+                    data: rst.formData,
+                    method: 'post',
+                    beforeSend: function() {
+                        Loading.show({
+                            type: 8
+                        });
+                    }
+                }).done(function(res) {
+                    Loading.hide();
+                    if(res.code != 1) {
+                        Toast({
+                            message: res.msg
+                        })
+                        return;
+                    }
+                    param[currentImage] = res.data.image;
+                    currentDom.find('img').prop('src',param[currentImage]);
+                }).fail(function(res) {
+                    Loading.hide();
+                    Toast({
+                        message: "网络异常！"
+                    });
+                });
+            }).catch(function(err) {
+                that.val('');
+                // 处理失败会执行
+                Toast({
+                    message: "图片压缩失败！"
+                });
+            })
+	    })
+	    $('#submit').on('click',function(){
+	        param.real_name = $('#info input').eq(0).val();
+	        param.id_number = $('#info input').eq(1).val();
+	        if(param.real_name === ''){
+                Toast({
+                    message: "请填写真实姓名！"
+                });
+                return;	            
+	        }
+	        if(param.id_number == ''){
+                Toast({
+                    message: "请填写身份证号码！"
+                });
+                return;	            
+	        }
+	        if(!/^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/i.test(param.id_number)){
+                Toast({
+                    message: "请输入正确的身份证号码！"
+                });
+                return;           
+	        }
+	        if(param.identity_card_holder_half_img === ''){
+	            Toast({
+                    message: "请上传手持人像面半身照！"
+                });
+	            return;
+	        }
+	        if(param.identity_card_back_face_img === ''){
+	            Toast({
+                    message: "请上传国徽面！"
+                });
+	            return;
+	        }
+	        $.ajax({
+                url: "/user/v3_7_0/identityCheck",
+                headers: {
+                    platform: 3,
+                    token: token
+                },
+                data:param,
+                method: 'POST',
+                beforeSend: function() {             
+                    Loading.show({
+                        type: 8
+                    });
+                }
+            }).done(function(res){            
+                Loading.hide();
+                if(res.code != 1) {
+                    Toast({
+                        message: res.msg
+                    });
+                    return;
+                }
+                $('#pageOne').addClass('hidden');
+                $('#pageTwo').removeClass('hidden');
+            }).fail(function(res) {             
+                Loading.hide();
+                Toast({
+                    message: '网络出错了~'
+                });
+            }); 
+	    })
+	})
+</script>

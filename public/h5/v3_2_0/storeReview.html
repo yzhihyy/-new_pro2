@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>申请合作</title>
+        <link rel="stylesheet" type="text/css" href="../css/base.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <script src="../../static/js/ydui.flexible.js"></script>
+    </head>
+    <style>
+        #cooperation {
+            width: 100%;
+            height: 100%;
+            background-color: #0e67f1;
+        }
+        
+        .background {
+            width: 100%;
+        }
+        
+        .middle {
+            width: 94%;
+            height: 2.2rem;
+            background-color: white;
+            bottom: 4rem;
+            position: absolute;
+            left: 0.22rem;
+            border-radius: 0.1rem;
+            font-size: 0.32rem;
+        }
+        
+        .name {
+            margin-top: 0.3rem;
+            margin-left: 0.5rem;
+            font-weight: 600;
+            border-bottom: 1rem;
+            height: 0.8rem;
+        }
+        
+        .address {
+            margin-top: 0.4rem;
+            margin-left: 0.5rem;
+            font-weight: 600;
+        }
+        
+        #name-input {
+            margin-left: 0.41rem;
+            margin-top: -0.08rem;
+            font-size: 0.32rem;
+        }
+        
+        #address-input {
+            margin-left: 0.41rem;
+            margin-top: -0.08rem;
+            font-size: 0.32rem;
+        }
+        
+        .xian {
+            border-bottom: 1px solid #ededed;
+        }
+        
+        .tips {
+            font-size: 0.26rem;
+            color: #ffea3b;
+            margin-top: 0.6rem;
+            text-align: center;
+        }
+        
+        #apply img {
+            width: 5rem;
+            height: 1rem;
+            padding-left: 0.9rem;
+            margin-top: 1.1rem;
+        }
+        
+        #authentication {
+            width: 100%;
+            height: 100%;
+            background-color: white;
+        }
+        
+        .head img {
+            width: 2.2rem;
+            height: 2.2rem;
+            margin: 0 auto;
+            padding-top: 2rem;
+        }
+        
+        .fail {
+            text-align: center;
+            font-size: 0.4rem;
+            color: #fd3d4b;
+            margin-top: 0.55rem;
+            font-weight: 600;
+        }
+        
+        .part img {
+            width: 3rem;
+            height: 0.9rem;
+            margin-top: 1.38rem;
+        }
+        
+        .customerervice {
+            margin-right: 0.15rem;
+        }
+        
+        .again {
+            margin-left: 0.15rem;
+        }
+        
+        #certification {
+            width: 100%;
+            height: 100%;
+            background-color: white;
+        }
+        
+        .cation {
+            color: #3c86ff;
+        }
+        
+        .ringFang {
+            text-align: center;
+            color: #999999;
+            font-size: 0.28rem;
+            margin-top: 0.86rem;
+        }
+        
+        .contact {
+            width: 4rem;
+            height: 0.9rem;
+            margin: 0 auto;
+            margin-top: 1.18rem;
+        }
+    </style>
+
+    <body>
+        <div id="cooperation" style="display: none;">
+            <img class="background" src="../images/bg_cooperation@2x.png" />
+            <div class="middle">
+                <div class="name">
+                    姓名 <input id="name-input" placeholder="请输入你的姓名" />
+                </div>
+                <div class="xian"></div>
+                <div class="address">
+                    地址 <input id="address-input" placeholder="请输入你的联系地址" />
+                </div>
+                <div class="tips">
+                    为了能和你更好的合作请留下您的个人信息以便联系
+                </div>
+                <div id="apply">
+                    <img src="../images/btn_apply@2x.png" />
+                </div>
+            </div>
+        </div>
+
+        <div id="authentication" style="display: none;">
+            <div class="head">
+                <img src="../images/icon_certification_failure@3x.png" />
+                <div class="fail">认证失败</div>
+            </div>
+            <div class="flex-center-center">
+                <div class="part">
+                    <a class="tell" href="tel:0594-2283888">
+                        <img class="customerervice" src="../images/btn_service_red@2x.png" />
+                    </a>
+                </div>
+                <div class="part">
+                    <img class="again" src="../images/btn_certification_red@2x.png" />
+                </div>
+
+            </div>
+        </div>
+
+        <div id="certification" style="display: none;">
+            <div class="head">
+                <img src="../images/icon_certificationing@2x.png" />
+                <div class="fail cation">认证中</div>
+                <div class="ringFang">您的认证已经提交了，稍后会有我们的客服与<br/>您联系，您也可以点击下方联系客服直接与我<br/>们进行联系，谢谢您对我们的支持</div>
+            </div>
+            <div class="contactButton">
+                <a class="tell" href="tel:0594-2283888">
+                    <img class="contact" src="../images/btn_service@2x.png" />
+                </a>
+            </div>
+        </div>
+    </body>
+
+</html>
+<script src="../js/base.js"></script>
+<script src="../js/jquery-3.3.1.min.js"></script>
+
+<script>
+    // 缓存的token
+    var token = Utils.getQueryString('token');
+    $('#apply').on('click', function() {
+        var merchant_name = $('#name-input').val().trim();
+        var shop_address = $('#address-input').val().trim();
+        if(merchant_name === '') {
+            Toast({
+                message: '请填写姓名'
+            });
+            return;
+        }
+        if(shop_address === '') {
+            Toast({
+                message: '请填写店铺地址'
+            });
+            return;
+        }
+        $.ajax({
+            url: "/user/v3_0_0/applyCooperation",
+            headers: {
+                platform: 3,
+                token: token
+            },
+            data: {
+                merchant_name: merchant_name,
+                shop_address: shop_address
+            },
+            method: 'post',
+            beforeSend: function() {
+                Loading.show({
+                    type: 8
+                });
+            }
+        }).done(function(res) {
+            Loading.hide();
+            if(res.code != 1) {
+                Toast({
+                    message: res.msg
+                });
+                return;
+            }
+            $('#cooperation').hide();
+            $('#certification').show();
+        }).fail(function(res) {
+            Loading.hide();
+            Toast({
+                message: '网络有点问题~'
+            });
+        });
+
+    });
+
+    //	点击重新认证按钮跳回申请页面
+    $('.part .again').on('click', function() {
+        $('#cooperation').show();
+        $('#authentication').hide();
+    });
+
+    $.ajax({
+        url: "/user/v3_0_0/applyCooperation",
+        headers: {
+            platform: 3,
+            token: token
+        },
+        method: 'GET',
+        beforeSend: function() {
+            Loading.show({
+                type: 8
+            });
+        }
+    }).done(function(res) {
+        Loading.hide();
+        if(res.code != 1) {
+            Toast({
+                message: res.msg
+            });
+            return;
+        }
+        if(res.data.shop_id <= 0) {
+            $('#cooperation').show();
+            return;
+        }
+        if(res.data.online_status == 0) {
+            Toast({
+                message: "该店铺已下线"
+            });
+            window.location.href = "/h5/v3_2_0/shopOffline.html?shopState=1";
+            return;
+        }
+        if(res.data.online_status == 1) {
+            Toast({
+                message: "该店铺已上线"
+            });
+            return;
+        }
+        if(res.data.online_status == 2) {
+            $('#certification').show();
+            return;
+        }
+        if(res.data.online_status == 3) {
+            $('#name-input').val(res.data.merchant_name);
+            $('#address-input').val(res.data.shop_address);
+            $('#authentication').show();
+            return;
+        }
+
+    }).fail(function(res) {
+        Loading.hide();
+        Toast({
+            message: '网络有点问题~'
+        });
+    });
+</script>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>支付成功</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" type="text/css" href="css/base.css"/>
+		<style>
+			/*.mask {
+				max-width: 10rem;
+				margin: 0 auto;
+				left: 50%!important;
+				margin-left: -5rem;
+			}*/
+			[v-cloak] {
+				display: none;
+			}
+			body,html {
+				width: 100%;
+				height: 100%;
+				background: #fff;
+			}
+			#main {
+				margin: 0 auto;
+				background: #fff;
+			}
+			.head {
+				text-align: center;
+				margin-bottom: 0.5rem;
+			}
+			.head img {
+				display: inline-block;
+				margin: 1rem auto 0.2rem;
+			}
+			.infobox {
+				width: 6.1rem;
+				padding: 0.58rem 0.4rem;
+				margin: 0.1rem auto;
+				background: #fafafa;
+				border-radius: 0.1rem;
+				border: 0.02rem solid #ededed;
+				color: #333;
+				font-size: 0.28rem;
+			}
+			.infobox div + div {
+				margin-top: 0.5rem;
+			}
+			div.down {
+				display: block;
+				width: 6.1rem;
+				height: 0.9rem;
+				margin: 1rem auto;
+				text-align: center;
+				line-height: 0.9rem;
+				color: #fff;
+				background: #f4295b;
+			}
+			.f-c-red {
+				color: #f4295b!important;
+			}
+			.mask {
+				position: fixed;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				background: rgba(0,0,0,.5);
+			}
+			.mask .card {
+				width: 100%;
+				height: 100%;
+				background: url(images/free_card_bg@2x.png) no-repeat;
+				background-size: contain;
+				background-position: center;
+			}
+			.mask .card .title {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: -94%;
+				color: #967245;
+				text-align: center;
+			}
+			.mask .card .info {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -2.65rem;
+				width: 5.3rem;
+				height: 1.88rem;
+				background: url(images/bg_store_box.png);
+				background-size: cover;
+				color: #967245;
+			}
+			.mask .card .info img.storeimg {
+				width: 1.2rem;
+				height: 1.2rem;
+				margin: 0 0.1rem 0 0.28rem;
+				object-fit: cover;
+				background-color: #ccc;
+			}
+			.mask .card .info img.geticon {
+				width: 1rem;
+				height: 1rem;
+				margin-left: 0.1rem;
+				object-fit: cover;
+				background-color: #ccc;
+			}
+			.closebtn {
+				position: absolute;
+				top: 10%;
+				right: 0.74rem;
+				width: 0.44rem;
+				height: 0.44rem;
+				padding: 0.1rem;
+				background: url(images/shut_down@2x.png) no-repeat;
+				background-size: cover;
+			}
+			a.button {
+				position: absolute;
+				bottom: 17%;
+				left: 50%;
+				margin-left: -1.6rem;
+				display: block;
+				width: 3.2rem;
+				height: 0.8rem;
+				color: #fff;
+				border-radius: 5px;
+				text-align: center;
+				line-height: 0.8rem;
+				letter-spacing: 3px;
+				background: url(images/btn_details_bg@2x.png);
+				background-size: contain;
+			}
+			.f-s-14 {
+				font-size: 14px;
+			}
+			.f-s-12 {
+				font-size: 12px;
+			}
+			.f-s-11 {
+				font-size: 11px;
+			}
+			.infobg {
+				height: 100%;
+				margin-right: 0.25rem;
+				background: url(images/seal_effective@2x.png) no-repeat;
+				background-position: right center;
+				background-size: 20%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="main" v-cloak>
+			<div class="head">
+				<img src="images/icon_pay_succeed_small@2x.png"/>
+				<div class="title t-ellipsis">支付成功</div>
+			</div>
+			<div class="infobox">
+				<div class="flex-between">
+					<span>店铺名称</span>
+					<span class="storename">{{payData.shop_name}}</span>
+				</div>
+				<div class="flex-between">
+					<span>免单还需消费</span>
+					<span class="alsocount">{{payData.also_need_order_count}}次</span>
+				</div>
+
+				<div class="flex-between">
+					<span>预计免单金额</span>
+					<span class="f-c-red">￥{{payData.predict_free_money}}</span>
+				</div>
+			</div>
+			<div class="down" @click="downLoad">下载免单</div>
+			<div class="mask" v-if="popShow">
+				<div class="card">
+					<button class="closebtn" @click="colsePop"></button>
+					<div class="info ">
+						<div class="infobg flex-start align-center">
+							<p class="title">- 恭喜您获得 <em>￥{{payData.predict_free_money}}</em> -</p>
+							<img :src="payData.shop_thumb_image" alt="" class="storeimg">
+							<div class="">
+								<p class="f-s-14">{{payData.shop_name}}</p>
+								<p class="f-s-14">免单卡</p>
+								<p class="f-s-12">预计免单金额<em class="f-s-12">￥{{payData.predict_free_money}}</em></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<a v-bind:href="[baseUrl+'/h5/freeDetails.html?free_rule_id='+payData.free_rule_id]" class="button">查看详情</a>
+			</div>
+		</div>
+	</body>
+</html>
+<script type="text/javascript" src="js/init.js"></script>
+<script type="text/javascript" src="js/ydui.flexible.js"></script>
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../static/js/vue.js"></script>
+<script type="text/javascript">
+// 缓存的token
+var token = window.localStorage.getItem('token');
+var order_number = getQueryString('serial_number');
+var vum=new Vue({
+	el: "#main",
+	data: {
+		payData: {},
+		popShow: true,
+		baseUrl: baseUrl
+	},
+	methods: {
+		downLoad() {
+			window.location = "http://m.kemiandan.com/";
+		},
+		colsePop(){
+			var btn = document.querySelector(".closebtn");
+            if(btn.contains(event.target)){
+                this.popShow = false;
+            }
+		}
+	}
+})
+function upCallback(){
+	showLoading();
+	$.ajax({
+		url:baseUrl+"/v1_1_0/paymentCompleted",
+		headers:{
+			platform:3,
+			token:token
+		},
+		data:{
+			order_number:order_number
+		},
+		method:'post',
+	}).done(function(res){
+		vum.payData = res.data;
+		console.log(res)
+		hideLoading();
+	}).fail(function(res){
+		hideLoading();
+	});
+}	
+upCallback();
+</script>

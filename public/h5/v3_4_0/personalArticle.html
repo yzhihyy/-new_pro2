@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta http-equiv="Expires" content="0">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Cache-control" content="no-cache">
+        <meta http-equiv="Cache" content="no-cache">
+        <script type="text/javascript" src="../js/ydui.flexible.js"></script>
+        <link rel="stylesheet" type="text/css" href="../css/public.css?v"/>
+        <link rel="stylesheet" type="text/css" href="../css/mescroll.css" />
+        <style type="text/css">
+            .articleContent .view {
+                word-break: break-all;
+                word-wrap: break-word;
+                cursor: text;
+            }
+            .articleContent p {
+                clear: both;
+            }
+            .articleContent img {
+                *zoom: 1;
+                max-width: 100%;
+                *max-width: 96%;
+                height: auto !important;
+            }
+            .articleContent iframe {
+                width: 301px !important;
+                border: 0;
+                background-color: none;
+            }
+            .articleContent .video_iframe {
+                background-color: #000000;
+                width: 100% !important;
+                *width: 96% !important;
+                position: static;
+            }
+            .articleContent blockquote {
+                margin: 0;
+                padding-left: 10px;
+                border-left: 3px solid #DBDBDB;
+            }
+            .articleContent .embed-responsive-item{
+                height:375px;
+                width:500px !important;
+            }  
+           #voteModal {
+                position: fixed;
+                z-index: 10;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                background-color: rgba(0,0,0,0.5);
+                visibility: hidden;
+                opacity: 0;
+            }
+            #voteModal.in {
+                -webkit-animation: modal-show-animate .2s forwards;
+                animation: modal-show-animate .2s forwards
+            }
+            #voteModal.out {
+                -webkit-animation: modal-hide-animate .2s forwards;
+                animation: modal-hide-animate .2s forwards
+            }         
+            #voteModal .content.in {
+                -webkit-animation: mmodal-content-show-animate .2s forwards;
+                animation: modal-content-show-animate .2s forwards
+            }
+            #voteModal .content.out {
+                -webkit-animation: modal-content-hide-animate .2s forwards;
+                animation: modal-content-hide-animate .2s forwards
+            }
+            #voteModal .content{
+                width: 5.3rem;
+                height: 3.2rem;
+                background-color: #fff9ee;
+                border-radius: 0.08rem;
+                position: relative;
+                visibility: hidden;
+                opacity: 0;
+            }
+            #voteModal .content .colse{
+                width: 0.28rem;
+                height: 0.28rem;
+                position: absolute;
+                right: 0;
+                top: 0;
+                padding: 0.2rem;
+            }        
+            #voteModal .content .voteTip{
+                font-size: 0.32rem;
+                color: #333;
+                line-height: 0.48rem;
+                padding: 0.2rem 1rem;
+                text-align: center;
+                height: 1.1rem;
+                margin: 0.5rem auto 0;
+            }    
+            #voteModal .content .down{
+                width: 2.8rem;
+                height: 0.7rem;
+                border-radius: 0.35rem;
+                text-align: center;
+                line-height: 0.7rem;
+                background-color: #ffd182;
+                margin: 0 auto;
+                font-size: 0.3rem;
+                color: #ac4f11;
+                font-weight: bold;
+            }
+            
+            @-webkit-keyframes modal-show-animate {
+                0% {
+                    opacity: 0;
+                    visibility: hidden;
+                }
+                100% {
+                    opacity: 1;
+                    visibility: visible;
+                }
+            }
+            
+            @-webkit-keyframes modal-hide-animate {
+                0% {
+                    opacity: 1;
+                    visibility: visible;
+                }
+                100% {
+                    opacity: 0;
+                    visibility: hidden;
+                }
+            }
+            
+            @keyframes modal-show-animate {
+                0% {
+                    opacity: 0;
+                    visibility: hidden;
+                }
+                100% {
+                    opacity: 1;
+                    visibility: visible;
+                }
+            }
+            
+            @keyframes modal-hide-animate {
+                0% {
+                    opacity: 1;
+                    visibility: visible;
+                }
+                100% {
+                    opacity: 0;
+                    visibility: hidden;
+                }
+            }
+            
+            @-webkit-keyframes modal-content-show-animate {
+                0% {
+                    opacity: 0;
+                    visibility: hidden;
+                    -webkit-transform: scale(0.5);
+                    transform: scale(0.5);
+                }
+                100% {
+                    opacity: 1;
+                    visibility: visible;
+                    -webkit-transform: scale(1);
+                    transform: scale(1);
+                }
+            }
+            
+            @-webkit-keyframes modal-content-hide-animate {
+                0% {
+                    opacity: 1;
+                    visibility: visible;
+                    -webkit-transform: scale(1);
+                    transform: scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    visibility: hidden;
+                    -webkit-transform: scale(0.5);
+                    transform: scale(0.5);
+                }
+            }
+            
+            @keyframes modal-content-show-animate {
+                0% {
+                    opacity: 0;
+                    visibility: hidden;
+                    -webkit-transform: scale(0.5);
+                    transform: scale(0.5);
+                }
+                100% {
+                    opacity: 1;
+                    visibility: visible;
+                    -webkit-transform: scale(1);
+                    transform: scale(1);
+                }
+            }
+            
+            @keyframes modal-content-hide-animate {
+                0% {
+                    opacity: 1;
+                    visibility: visible;
+                    -webkit-transform: scale(1);
+                    transform: scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    visibility: hidden;
+                    -webkit-transform: scale(0.5);
+                    transform: scale(0.5);
+                }
+            }             
+            header{
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                z-index: 1;
+            }
+            header .content{
+                width: 100%;
+                max-width: 8rem;
+                margin: 0 auto;
+                padding: 0.3rem;
+                box-sizing: border-box;
+                font-size: 0.34rem;
+                line-height: 0.45rem;
+                color: #333;
+                font-weight: bold;
+                background-color: white;
+            }
+            #page{
+                box-sizing: border-box;
+                padding-bottom: 1.2rem;
+            }
+            #page .head{
+                background-color: white;
+                height: 0.6rem;
+                padding: 0 0.3rem;
+            }
+            #page .head>img{
+                width: 0.5rem;
+                height: 0.5rem;
+                border-radius: 50%;
+                margin-right: 0.2rem;
+            }
+            #page .head>.t-ellipsis{
+                font-size: 0.28rem;
+                color: #999;
+            }
+            #page .articleContent{
+                padding: 0.2rem 0.3rem;
+                background-color: white;
+                overflow-x: hidden;
+            }
+            #page .articleContent img{
+                max-width: 100%;
+            }
+            #page #featured{
+                background-color: white;
+                margin-top: 0.2rem;
+            }
+            #page #featured .title{
+                color: #333;
+                font-size: 0.32rem;
+                line-height: 0.88rem;
+                padding: 0 0.3rem;
+            }
+            #message .comment{
+                padding: 0.2rem 0;
+            }
+            #message .comment .portrait{
+                width: 0.56rem;
+                height: 0.56rem;
+                border-radius: 50%;
+                margin-left: 0.3rem;
+                margin-right: 0.24rem;
+            }
+            #message .comment .name{
+                font-size: 0.26rem;
+                color: #333;
+                line-height: 0.36rem;
+            }
+            #message .comment .time{
+                font-size: 0.24rem;
+                line-height: 0.36rem;
+                color: #999;
+            }
+            #message .comment .content{
+                font-size: 0.28rem;
+                line-height: 0.36rem;
+                color: #333;
+                padding-top: 0.1rem;
+            }
+            #message .likeInfo{
+                width: 1.1rem;
+            }
+            #message .likeInfo>img{
+                display: block;
+                width: 0.34rem;
+                height: 0.3rem;
+                padding: 0.1rem;
+                margin: 0 auto;
+            }
+            #message .likeInfo>div{
+                font-size: 0.24rem;
+                line-height: 0.38rem;
+                color: #ccc;
+                text-align: center;
+            }
+            #message .noneMessage{
+                text-align: center;
+                line-height: 2rem;
+                color: #666;
+                font-size: 0.28rem;                
+            }   
+            footer{
+                position: fixed;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+            }
+            footer .content{
+                max-height: 8rem;
+                width: 100%;
+                margin: 0 auto;
+                height: 1.2rem;
+                background-color: white;
+                border-top: 1px solid #eee;
+            }
+            footer .vote{
+                width: 4.4rem;
+                height: 0.8rem;
+                line-height: 0.8rem;
+                text-align: center;
+                background-color: #f4295b;
+                font-size: 0.32rem;
+                color: white;
+                margin: 0 0.1rem;
+                border-radius: 0.04rem;
+            }
+            footer .vote.disable{
+                background-color: #ccc;
+            }
+            footer .goComment{
+                width: 2.3rem;
+                height: 0.8rem;
+                line-height: 0.8rem;
+                text-align: center;
+                background-color: #0099ff;
+                font-size: 0.32rem;
+                color: white;
+                margin: 0 0.1rem;      
+                border-radius: 0.04rem;          
+            }
+            .mescroll-upwarp{
+                padding: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- 页面内容 -->
+        <div id="page" class="mescroll">
+            <div id="main">
+                <div id="featured">
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="content flex-center-center">
+            </div>
+        </footer>
+        
+        <!-- 投票成功弹窗 -->
+        <div id="voteModal" class="flex-center-center">
+            <div class="content">
+                <img class="colse" src="../images/guangbi@2x.png"/>
+                <div class="voteTip">你今日投票已达上限请明日再来</div>               
+                <div class="down">下载同城印象</div>
+            </div>
+        </div>
+    </body>
+</html>
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../js/base.js"></script>
+<script type="text/javascript" src="../js/mescroll.js"></script>
+<script type="text/javascript" src="../js/jweixin-1.4.0.js"></script>
+<script type="text/javascript">
+    var theme_id = Utils.getQueryString('theme_id');
+    var article_id = Utils.getQueryString('article_id');
+    var wx_code = Utils.getQueryString('code');   
+    var token = window.sessionStorage.getItem('token');
+
+    var page = 0;
+    var mescroll = null;
+
+    var shop_id = null;
+    // 是否已投票
+    var is_vote = 0;
+    
+
+    isLogin();
+    
+    // 判断是否有登陆
+    function isLogin() {        
+        if(Utils.isWeiXinClient()) {
+            if(!token) {
+                if(wx_code) {
+                    getWxAuth();
+                } else {
+                    var url = encodeURIComponent(baseUrl + '/h5/v3_4_0/personalArticle.html?theme_id=' + theme_id+'&article_id=' + article_id);
+                    window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf10829fcbc0073db&redirect_uri=' + url + '&response_type=code&scope=snsapi_userinfo&state=state_code#wechat_redirect';
+                }
+            } else {
+                getArticleDetail();
+            }
+        } else {          
+            getArticleDetail();
+        }
+    }  
+
+    // 获取微信unionid
+    function getWxAuth() {
+        $.ajax({
+            url: baseUrl + "/user/v2_0_0/getWxAuth",
+            headers: {
+                platform: 3,
+            },
+            data: {
+                wx_code: wx_code
+            },
+            method: 'get',
+        }).done(function(res) {
+            if(res.code == 1) {
+                token = res.data.token;
+                window.sessionStorage.setItem('token', res.data.token);
+                window.sessionStorage.setItem('openid', res.data.wechat_mp_openid);
+                window.sessionStorage.setItem('unionid', res.data.unionid);
+                getArticleDetail();
+            }
+        }).fail(function(res) {
+            Toast({message:'网络有点问题~'});
+        });
+    }   
+
+    
+    function getArticleDetail(){
+        var time = new Date().getTime();
+        $.ajax({
+            url: "/user/v3_0_0/themeArticleDetail",
+            headers: {
+                platform: 3,
+                token: token
+            },
+            data: {
+                theme_id: theme_id,
+                article_id: article_id,
+                time: time
+            },
+            method: 'get',
+        }).done(function(res) {
+            if(res.code != 1) {
+                Toast({message:res.msg});
+                return;
+            }
+            var str = '';
+            str += ' <header>';
+            str += '    <div class="content">'+ res.data.article_title +'</div>';
+            str += ' </header>';
+            str += ' <div class="head flex-start-center">';
+            str += '    <img src="'+ res.data.shop_thumb_image +'"/>';
+            str += '    <div class="flex-1 t-ellipsis">'+ res.data.shop_name +'</div>';
+            str += ' </div>';
+            str += ' <div class="articleContent">'+ res.data.article_content +'</div>';       
+            $('#main').prepend(str).parent().css('padding-top',$('header').height()+'px');
+            shop_id = res.data.shop_id;
+            var footer = '';
+            if(res.data.vote_status == 1){
+                if(res.data.is_vote == 1){
+                    is_vote = 1;
+                    footer += ' <div class="vote disable">已投票</div>';
+                    footer += ' <div class="goComment">评论</div>';
+                }else{
+                    footer += ' <div class="vote">投票</div>';
+                    footer += ' <div class="goComment">评论</div>';
+                }
+            }else{
+                footer += ' <div class="goComment" style="width:4.4rem">评论</div>';
+            }
+            $('footer .content').append(footer);
+            getCommentList();
+            if(Utils.isWeiXinClient()){
+                jssdkConfig({
+                    imgurl:res.data.shop_thumb_image,
+                    title:res.data.shop_name,
+                    desc:'',
+                    url:res.data.vote_share_url,
+                });
+            }
+        }).fail(function(res) {
+            Toast({message:'网络有点问题~'});
+        });        
+    }
+        
+    function getCommentList(){
+        $.ajax({
+            url: "/user/v3_4_0/themeArticleCommentList",
+            headers: {
+                platform: 3,
+                token: token
+            },
+            data: {
+                article_id: article_id,
+                page: page,
+            },
+            method: 'get',
+        }).done(function(res) {
+            if(res.code != 1) {
+                Toast({message:res.msg});
+                return;
+            }             
+            var str = '';
+            if(page == 0){
+                mescroll = new MeScroll("page", {
+                    down: {
+                        use: false,
+                    },
+                    up: {
+                        callback: getCommentList , //上拉加载的回调
+                        isBounce: false, 
+                        htmlNodata: '<p class="upwarp-nodata">已加载全部数据</p>',
+                        auto:false,
+                        use:true,
+                    }
+                });                   
+                str += ' <div class="title">精选留言</div>';
+                str += '    <div id="message">';
+            }
+            for(var i = 0; i < res.data.comment_list.length; i++){
+                str += ' <div class="comment flex-start">';
+                str += '    <img class="portrait" src="'+ res.data.comment_list[i].avatar +'" />';
+                str += '    <div class="flex-1">';
+                str += '        <div class="name t-ellipsis">'+ res.data.comment_list[i].nickname +'</div>';
+                str += '        <div class="time">'+ res.data.comment_list[i].generate_time +'</div>';
+                str += '        <div class="content word-break">'+ res.data.comment_list[i].content +'</div>';
+                str += '    </div>';
+                str += '    <div class="likeInfo">';
+                if(res.data.comment_list[i].is_like == 1){
+                    str += '    <img data-comment_id="'+ res.data.comment_list[i].comment_id +'" class="like" src="../images/icon_like_red_m@2x.png" />';
+                }else{
+                    str += '    <img data-comment_id="'+ res.data.comment_list[i].comment_id +'" class="like" src="../images/icon_like_dis@2x.png" />';
+                }
+                str += '        <div>'+ res.data.comment_list[i].like_count +'</div>';
+                str += '    </div>';
+                str += ' </div>';
+            }
+            if(page == 0 && res.data.comment_list.length == 0){
+                str += ' <div class="noneMessage">暂无留言</div>';
+            }
+            if(page == 0){
+                str += '    </div>';
+                str += ' </div>';
+                $('#featured').append(str);
+            }else{
+                $('#message').append(str);
+            }
+            if(page ==0 &&res.data.comment_list.length < 10){
+                mescroll.destroy();
+            }
+            if(res.data.comment_list.length >= 10){
+                mescroll.endSuccess();  
+            }
+            if(page != 0&&res.data.comment_list.length < 10){
+                mescroll.showNoMore();
+            }            
+            page++;            
+        }).fail(function(res) {
+            Toast({message:'网络有点问题~'});
+        });   
+    }
+
+    // 点击投票
+    $('footer').on('click','.vote',function(){
+        var token = window.sessionStorage.getItem('token');
+        if(!token){
+            window.location.href = encodeURI(baseUrl + '/h5/login.html?type=5&theme_id=' + theme_id + '&article_id=' + article_id);
+            return false;
+        }
+        if(is_vote == 1){
+            return;
+        }
+        var $this = $(this);
+        $.ajax({
+            url: "/user/v3_4_0/themeActivityVote",
+            headers: {
+                platform: 3,
+                token: token
+            },
+            data: {
+                theme_id: theme_id,
+                shop_id: shop_id,
+                article_id: article_id
+            },
+            method: 'post',
+            beforeSend: function() {
+                Loading.show({type:8});
+            }
+        }).done(function(res) {
+            Loading.hide();
+            if(res.code == 1) {
+                $('#voteModal').addClass('in').removeClass('out').find('.voteTip').text('投票成功');
+                $('#voteModal .content').addClass('in').removeClass('out');  
+                $this.parent().html('<div class="vote disable">已投票</div><div class="goComment">评论</div>');
+                return;
+            }
+            if(res.error_code == 1087){
+                $('#voteModal').addClass('in').removeClass('out').find('.voteTip').text('在一家店铺的投票次数达到上限');
+                $('#voteModal .content').addClass('in').removeClass('out');  
+                return;
+            }
+            if(res.error_code == 10101){
+                $('#voteModal').addClass('in').removeClass('out').find('.voteTip').text('您在本主题的投票已达上限');
+                $('#voteModal .content').addClass('in').removeClass('out');  
+                return;
+            }
+            if(res.error_code == 10102){
+                $('#voteModal').addClass('in').removeClass('out').find('.voteTip').text('你今日投票已达上限请明日再来');
+                $('#voteModal .content').addClass('in').removeClass('out');  
+                return;
+            }
+            Toast({message:res.msg});
+        }).fail(function(res) {
+            Loading.hide();
+            Toast({message:'网络有点问题~'});
+        });        
+        return false;         
+    }).on('click','.goComment',function(){
+        window.location.href = "http://m.kemiandan.com";
+    })
+    
+    // 点击点赞
+    $('#page').on('click','.like',function(){
+        return;
+        // 点击预约
+        var token = window.sessionStorage.getItem('token');
+        if(!token){
+            window.location.href = encodeURI(baseUrl + '/h5/login.html?type=5&theme_id=' + theme_id + '&article_id=' + article_id);
+            return;
+        }
+        var comment_id = $(this).data('comment_id');
+        var $this = $(this);
+         $.ajax({
+            url: "/user/v3_4_0/themeArticleCommentLike",
+            headers: {
+                platform: 3,
+                token: token
+            },
+            data: {
+                comment_id: comment_id,
+            },
+            method: 'post',
+            beforeSend: function() {               
+                Loading.show({type:8});         
+            }
+        }).done(function(res) {
+            Loading.hide();
+            if(res.code != 1) {
+                Toast({message:res.msg});
+                return;
+            }  
+            if(res.data.is_like == 1){
+                $this.prop('src','../images/icon_like_red_m@2x.png');
+            }else{
+                $this.prop('src','../images/icon_like_dis@2x.png');
+            }
+            $this.parent().find('div').text(res.data.like_count);
+        }).fail(function(res) {
+            Loading.hide();
+            Toast({message:'网络有点问题~'});
+        });  
+    })
+
+
+    // 隐藏投票提示弹框
+    function closeVoteModal(){
+        $('#voteModal').removeClass('in').addClass('out');
+        $('#voteModal .content').removeClass('in').addClass('out');        
+    }    
+    
+    // 禁止事件传播
+    $('#voteModal .content').on('click', function() {
+        return false;
+    })
+
+    // 隐藏投票提示弹窗
+    $('#voteModal,#voteModal .colse').on('click',function(){
+        closeVoteModal();
+    })
+
+    // 点击投票弹窗的分享给好友
+    $('#voteModal .down').on('click',function(){
+        closeVoteModal();
+        window.location.href = "http://m.kemiandan.com/";
+    })
+    
+    // 微信分享jssdk
+    function jssdkConfig(shareInfo){
+        $.ajax({
+            url: "/user/v3_3_0/wxJssdkShare",
+            headers: {
+                platform: 3,
+                token: token
+            },
+            data: {
+                url: window.location.href
+            },
+            method: 'get',
+        }).done(function(res) {
+            if(res.code != 1) {
+                return;
+            }
+            wx.config({
+                debug: res.data.debug, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: res.data.appId, // 必填，公众号的唯一标识
+                timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+                nonceStr: res.data.nonceStr, // 必填，生成签名的随机串
+                signature: res.data.signature,// 必填，签名
+                jsApiList: res.data.jsApiList // 必填，需要使用的JS接口列表
+            });
+            wx.ready(function(){
+                var imgurl = shareInfo.imgurl;
+                var title = shareInfo.title;
+                var desc = shareInfo.desc;
+                var url = shareInfo.url;
+                wx.onMenuShareTimeline({
+                    title: title, // 分享标题
+                    desc: desc, // 分享描述
+                    link: url, // 分享链接
+                    imgUrl: imgurl, // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+         
+                wx.onMenuShareAppMessage({
+                    title: title, // 分享标题
+                    desc: desc, // 分享描述
+                    link: url, // 分享链接
+                    imgUrl: imgurl, // 分享图标
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+         
+                wx.onMenuShareQQ({
+                    title: title, // 分享标题
+                    desc: desc, // 分享描述
+                    link: url, // 分享链接
+                    imgUrl: imgurl, // 分享图标
+                    success: function () {
+                       // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                       // 用户取消分享后执行的回调函数
+                    }
+                }); 
+
+                wx.onMenuShareWeibo({
+                    title: title, // 分享标题
+                    desc: desc, // 分享描述
+                    link: url, // 分享链接
+                    imgUrl: imgurl, // 分享图标
+                    success: function () {
+                       // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                       // 用户取消分享后执行的回调函数
+                    }
+                }); 
+
+                wx.onMenuShareQZone({
+                    title: title, // 分享标题
+                    desc: desc, // 分享描述
+                    link: url, // 分享链接
+                    imgUrl: imgurl, // 分享图标
+                    success: function () {
+                       // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                       // 用户取消分享后执行的回调函数
+                    }
+                }); 
+            });
+        });  
+    }    
+</script>

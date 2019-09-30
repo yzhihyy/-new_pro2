@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>订单列表</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" type="text/css" href="css/base.css?v"/>
+		<link rel="stylesheet" type="text/css" href="css/mescroll.css"/>
+		<style type="text/css">
+			.total{
+				padding-left: 0.3rem;
+				padding-top: 0.3rem;
+				background-color: white;
+			}
+			.left{
+				box-sizing: border-box;
+				padding-right: 0.3rem;
+				width: 100%;
+				height: 1.7rem;
+				border-bottom:1px solid #eeeeee;
+			}
+			.headportrait{
+				width: 1.4rem;
+				height: 1.4rem;
+			}
+			.middle{
+				margin-left: 0.2rem;
+			}
+			.name{
+				font-size: 0.32rem;
+				font-weight: 600;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				box-sizing: border-box;			
+			}
+			.frequency{
+				font-size: 0.26rem;
+				color: #ff8d28;
+				margin-top: 0.1rem;	
+			}
+			.time{
+				font-size: 0.24rem;
+				color: #999999;
+				margin-top: 0.2rem;
+			}
+			.date{
+				font-size: 0.24rem;
+				color: #999999;
+			}
+			.consumption{
+				font-size: 0.24rem;
+				color: #AAAAAA;
+			}
+			.money{
+				font-size: 0.32rem;
+				color: #f4295b;
+				font-weight: 600;
+			}			
+		</style>
+	</head>
+	<body>
+		<div id="drop-down" class="all mescroll">
+			<div id="package">
+							
+			</div>
+		</div>
+	</body>
+</html>
+<script type="text/javascript" src="js/ydui.flexible.js"></script>
+<script type="text/javascript" src="js/init.js"></script>
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="js/mescroll.js"></script>
+<script type="text/javascript">
+	// 获取店铺ID
+//	var shop_id = getQueryString('shop_id');
+	// 缓存的token
+	var token = window.localStorage.getItem('token');
+	// 分页
+	var page = 0;
+	
+	
+	isLogin();
+	// 判断是否有登陆
+	function isLogin(){
+		if(!token){
+			if(isWeiXinClient()){
+				window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf10829fcbc0073db&redirect_uri='+encodeURI(baseUrl+'/h5/login.html')+'&response_type=code&scope=snsapi_userinfo&state=state_code#wechat_redirect';
+			}else{
+				window.location.href = encodeURI(baseUrl+'/h5/login.html');
+			}
+			return;
+		}
+	}
+	
+	var	mescroll = new MeScroll("drop-down", {
+        down: {
+            use: false
+        },
+        up: {
+            callback: upCallback , //上拉加载的回调
+            isBounce: false, 
+            htmlNodata: '<p class="upwarp-nodata">已加载全部数据</p>',
+            auto:true,
+            use:true,
+        }
+    });
+    
+    function upCallback(){
+		$.ajax({
+			url:baseUrl+"/myOrderList",
+			headers:{
+				platform:3,
+				token:token
+			},
+			data:{
+				page:page,
+			},
+			method:'post',
+			beforeSend:function(){
+				if(page == 0){
+					showLoading();
+				}		
+			}
+		}).done(function(res){		
+			if(page == 0){
+				hideLoading();
+			}
+			if(res.code != 1){
+				openMark(res.msg);
+				return;
+			}
+			var str = '';
+			for(var i in res.data.order_list){
+				str += '<div class="total">';
+				str += '  <div class="left flex-start">';
+				str += '    <img class="headportrait" src="'+ res.data.order_list[i].shop_thumb_image +'" />';
+				str += '    <div class="middle flex-1">';
+				str += '      <div class="middle-to flex-between">';
+				str += '        <div class="name flex-1">'+ res.data.order_list[i].shop_name +'</div>';
+				str += '        <div class="consumption">消费<span class="money"> ￥'+ res.data.order_list[i].pay_money +'</span></div>';
+				str += '      </div>';
+				if(res.data.order_list[i].free_flag == 1){
+					str += '      <div class="frequency">本次免单  节省￥'+ res.data.order_list[i].free_money +'</div>';
+				}else{
+					str += '      <div class="frequency">再消费'+ res.data.order_list[i].also_need_order_count +'次你就可以免单了</div>';
+				}						
+				str += '      <div class="time">消费时间：<span class="date">'+ res.data.order_list[i].pay_time +'</span></div>';
+				str += '    </div>'
+				str += '  </div>';
+				str += '</div>';	
+			}
+			$('#package').append(str);
+			if(page ==0 &&res.data.order_list.length < 10){
+				$('#drop-down .mescroll-upwarp').hide();
+			}
+			if(res.data.order_list.length >= 10){
+				mescroll.endSuccess();	
+			}
+			if(page != 0&&res.data.order_list.length < 10){
+				mescroll.showNoMore();
+			}
+			page++;
+		}).fail(function(res){
+			if(page == 0){
+				hideLoading();
+			}
+		});    	
+    }
+</script>

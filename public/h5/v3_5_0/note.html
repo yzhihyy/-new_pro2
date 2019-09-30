@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title></title>
+		<script type="text/javascript" src="../js/ydui.flexible.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/swiper4.2.0.min.css"/>
+		<style type="text/css">
+		    body{
+		        background-color: white;
+		    }
+			#head{
+			    padding: 0.3rem;
+			}
+			#head img{
+			    width: 0.8rem;
+			    height: 0.8rem;
+			    border-radius: 50%;
+			    object-fit: cover;
+			    margin-right: 0.3rem;
+			}
+			#head .t-ellipsis{
+			    font-size: 0.34rem;
+			    color: #333;
+			    font-weight: bold;
+			}
+			#head .attention{
+			    font-size: 0.28rem;
+			    color: #ff2b5e;
+			    border-radius: 0.3rem;
+			    text-align: center;
+			    border: 1px solid #ff2b5e;
+			    width: 1.2rem;
+			    height: 0.6rem;
+			    line-height: 0.6rem;
+			}
+			#main{
+			    padding: 0 0.3rem 1rem;
+			}
+			#main .content{
+			    font-size: 0.28rem;
+			    color: #333;
+			    line-height: 0.36rem;
+			}
+			#main #more{
+			    font-size: 0.3rem;
+			    line-height: 0.36rem;
+			    font-weight: bold;
+			}
+			.swiper-container{
+			}
+			#main .swiper-container img{
+			    width: 100%;
+			    height: auto;
+			}
+			#address{
+			    padding: 0.24rem 0 0.16rem;
+			}
+			#address img{
+			    width: 0.24rem;
+			    height: 0.3rem;
+			    margin-right: 0.12rem;
+			}
+			#address .t-ellipsis{
+			    font-size: 0.26rem;
+			    color: #333;
+			    line-height: 0.3rem;
+			}
+
+			#store {
+				padding:.2rem;
+				background: #f6f6f6;
+				height: .56rem;
+				width: 3.6rem;
+				margin-bottom: .3rem;
+				border-radius: .1rem;
+			}
+			#store .store-name {
+				width: 2.85rem;
+				font-size: 0.24rem;
+			    color: #333;
+			}
+			#store .store-address {
+				width: 2.85rem;
+				font-size: 0.22rem;
+			    color: #666666;
+			}
+			#opera{
+			    padding-bottom: 0.3rem;
+			}
+			#opera .num{
+			    font-size: 0.26rem;
+			    color: #999;
+			    padding-right: 0.5rem;
+			    padding-left: 0.1rem;
+			}
+			#opera img{
+			    width: 0.5rem;
+			    height: 0.5rem;
+            }
+            #comment {
+                background: #F5F5F5;
+                border-radius: 0.12rem;
+                padding: 0.12rem 0.1rem;
+                position: relative;
+            }
+			#comment .avatar, #store .store-avatar{
+			    width: 0.56rem;
+			    height: 0.56rem;
+			    border-radius: 50%;
+			    object-fit: cover;
+			    margin-right: 0.24rem;
+            }
+            #comment .like {
+                position: absolute;
+                right: 0.1rem;
+                top:0.2rem;
+            }
+			#comment .name{
+			    font-size: 0.26rem;
+			    line-height: 0.4rem;
+                color: #333;
+                font-weight: bold;
+			}
+			#comment .time{
+			    font-size: 0.20rem;
+			    color: #999;
+			}
+			#comment .commentContent{
+			    font-size: 0.26rem;
+			    color: #333;
+			    line-height: 0.36rem;
+			    padding: 0.1rem 0.2rem 0 0;
+            }
+            .like .like-count {
+                margin:0 0.1rem;
+            }
+			#comment .like img{
+			    width: 0.4rem;
+			    height: 0.38rem;
+			}
+			#comment .like>div{
+			    font-size: 0.24rem;
+			    color: #ccc;
+			    text-align: center;
+			}
+            #foot{
+                position: fixed;
+                z-index: 10;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                box-sizing: border-box;         
+            }
+            #foot .content{
+                width: 100%;
+                max-width: 8rem;
+                margin: 0 auto;
+                height: 1rem;
+                box-sizing: border-box;
+                padding: 0 0.3rem;
+                background: #ff833f;
+            }
+            #foot .tip{
+                font-size: 0.28rem;
+                color: #fff;
+            }   
+            #foot .down{
+                width: 1.1rem;
+                height: 0.6rem;
+                background: #ffeadf;
+                border-radius: 30px;
+                color: #ff833f;
+                text-align: center;
+                font-size: 0.28rem;
+                line-height: 0.6rem;
+            }
+            .swiper-container-horizontal>.swiper-pagination-bullets{
+                padding: 0 10px;
+            }
+            .swiper-pagination{
+                text-align: left;
+            }
+            .swiper-pagination-bullet{
+                background: #F5F5F5;
+                opacity: 1;
+                width: 6px;
+                height: 6px;
+            }
+            .swiper-pagination-bullet-active{
+                background: #FC235E;
+                border-radius: 4px;
+                width: 8px;
+            }
+            .swiper-slide img {
+                border-radius: .12rem;
+            }
+            .mt10 {
+                margin-top: 10px;
+            }
+            .comment-count {
+                width: 5.15rem;
+                text-align: center;
+                font-size: 0.26rem;
+                color:#999;
+                margin-top:0.1rem;
+            }
+		</style>
+	</head>
+	<body>
+	   <div id="page"></div>
+	</body>
+</html>
+<script type="text/javascript" src="../js/base.js"></script>
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../js/jweixin-1.4.0.js"></script>
+<script type="text/javascript" src="../js/swiper4.2.0.js">
+</script>
+<script type="text/javascript">
+    var video_id = Utils.getQueryString('video_id');
+    var token = '';
+    var noteContent = '';
+    $.ajax({
+        url: "/user/v3_3_0/getVideoList",
+        headers: {
+            platform: 3,
+            token: token
+        },
+        data: {
+            video_id: video_id,
+            mode: 3
+        },
+        method: 'get',
+        beforeSend: function() {
+            Loading.show({type:8});
+        }
+    }).done(function(res) {
+        Loading.hide();
+        if(res.code != 1) {
+            Toast({message:res.msg});
+            return;
+        }
+        var str = '';
+        str += ' <div id="head" class="flex-between-center">';
+        str += '    <a href="http://m.kemiandan.com/"><img src="'+ res.data.avatar +'"/></a>';
+        str += '    <div class="t-ellipsis flex-1"><a href="http://m.kemiandan.com/">'+ res.data.nickname +'</a></div>';
+        str += '    <a href="http://m.kemiandan.com/"><div class="attention">关注</div></a>';
+        str += ' </div>';
+        
+        str += ' <div id="main">';   
+        if(res.data.album_list.length > 0){
+            str += ' <div class="swiper-container">';
+            str += '    <div class="swiper-wrapper">';
+            for(var i = 0;i < res.data.album_list.length;i++){
+                str += ' <div class="swiper-slide">';
+                str += '    <img src="'+ res.data.album_list[i] +'"/>';
+                str += ' </div>';
+            }
+            str += '    </div>';
+            str += ' <div class="swiper-pagination"></div>';
+            str += ' </div>';
+        }
+        if(res.data.video_title.length > 120){
+            noteContent = res.data.video_title;
+            str += '    <div class="content mt10">'+ res.data.video_title.substr(0,119) +'...<span id="more">展开</span></div>';
+        }else{
+            str += '    <div class="content mt10">'+ res.data.video_title +'</div>';
+        }
+        
+        // 地址信息
+        str += '    <div id="address" class="flex-start-center">';
+        if (res.data.location) {
+            str += '        <img src="../images/icon_location@2x.png"/>';
+            str += '        <div class="flex-1 t-ellipsis">'+ res.data.location +'</div>';   
+        }
+        str += '    </div>';
+
+        //  若有关联店铺则显示
+		if (res.data.related_shop_id != 0) {
+			str += '<a href="http://m.kemiandan.com/">'
+			str += ' <div id="store" class="flex">';
+			str += '  <img class="store-avatar" src=' + res.data.related_shop_thumb_image +'>';
+			str += '  <div>';
+			str += '    <div class="store-name t-ellipsis">'+ res.data.related_shop_name +'</div>';
+			str += '    <div class="store-address t-ellipsis">'+ res.data.related_shop_address +'</div>';
+			str += '  </div>';
+			str += '</div>';
+			str += '</a>'
+		}
+
+        // 转发信息
+        str += '    <div id="opera" class="flex-start-center">';
+        str += '        <a href="http://m.kemiandan.com/">';
+        str += '            <div class="flex-start-center">';
+        str += '                <img src="../images/icon_like_m@2x.png"/>';
+        str += '                <div class="num">'+ res.data.like_count +'</div>';
+        str += '            </div>';
+        str += '        </a>';
+        str += '        <a href="http://m.kemiandan.com/">';
+        str += '            <div class="flex-start-center">';
+        str += '                <img src="../images/icon_comment_m@2x.png"/>';
+        str += '                <div class="num">'+ res.data.comment_count +'</div>';
+        str += '            </div>';
+        str += '        </a>';
+//      str += '        <div class="flex-start-center">';
+//      str += '            <img src="../images/icon_share_m@2x.png"/>';
+//      str += '            <div class="num">'+ res.data.share_count +'</div>';
+//      str += '        </div>';
+        str += '    </div>';
+        
+        // 评论信息
+        if(res.data.comment_info.comment_id){
+            str += '<a href="http://m.kemiandan.com/">';
+            str += ' <div id="comment" class="flex">';
+            str += '    <img class="avatar" src="'+ res.data.comment_info.avatar +'"/>';
+            str += '        <div>';
+            str += '            <div class="t-ellipsis name">'+ res.data.comment_info.nickname +'</div>';
+            str += '            <div class="time">'+ res.data.comment_info.generate_time +'</div>';
+            str += '            <div class="commentContent">'+ res.data.comment_info.content +'</div>';
+            str += '            <div class="comment-count">' + '查看' + res.data.comment_count+ '条评论' +'</div>';
+            str += '            <div class="like flex align-center">';
+            str += '              <img class="like-img" src="../images/icon_like_m@2x.png"/>';
+            str += '              <div class="like-count">'+res.data.comment_info.like_count+'</div>';
+            str += '            </div>';
+            str += '        </div>';
+            str += ' </div>';
+            str += '</a>';
+        }
+        
+        str += ' </div>';
+        
+        
+        str += ' <div id="foot">';
+        str += '    <div class="content flex-between-center">';
+        str += '        <div class="tip">下载同城印象，更多好玩好看视频等着你</div>';
+        str += '        <a href="http://m.kemiandan.com/"><div class="down">下载</div></a>';
+        str += '    </div>';
+        str += ' </div>';
+        
+        $('#page').append(str);
+        var swiper = new Swiper('.swiper-container', {
+            autoHeight: true, //高度随内容变化
+            pagination: {
+                el: '.swiper-pagination',
+            },
+        });
+        if(Utils.isWeiXinClient()){
+            jssdkConfig({
+                imgurl:res.data.share_image,
+                title:res.data.video_title,
+                desc:res.data.video_title,
+                url:res.data.share_url,
+            });
+        }
+    }).fail(function(res) {
+        Loading.hide();
+        Toast({message:'网络有点问题~'});
+    });
+    // 点击关联店铺
+	$('#store').on('click',function(){
+        
+    })
+	
+    // 点击展开
+    $('#page').on('click','#more',function(){
+        $('#main .content').text(noteContent);
+    })
+    
+    // 微信分享jssdk
+    function jssdkConfig(shareInfo){
+        $.ajax({
+            url: "/user/v3_3_0/wxJssdkShare",
+            headers: {
+                platform: 3,
+                token: token
+            },
+            data: {
+                url: window.location.href
+            },
+            method: 'get',
+        }).done(function(res) {
+            if(res.code != 1) {
+                return;
+            }
+            wx.config({
+                debug: res.data.debug, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: res.data.appId, // 必填，公众号的唯一标识
+                timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+                nonceStr: res.data.nonceStr, // 必填，生成签名的随机串
+                signature: res.data.signature,// 必填，签名
+                jsApiList: res.data.jsApiList // 必填，需要使用的JS接口列表
+            });
+            wx.ready(function(){
+                var imgurl = shareInfo.imgurl;
+                var title = shareInfo.title;
+                var desc = shareInfo.desc;
+                var url = shareInfo.url;
+                wx.onMenuShareTimeline({
+                    title: title, // 分享标题
+                    desc: desc, // 分享描述
+                    link: url, // 分享链接
+                    imgUrl: imgurl, // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+         
+                wx.onMenuShareAppMessage({
+                    title: title, // 分享标题
+                    desc: desc, // 分享描述
+                    link: url, // 分享链接
+                    imgUrl: imgurl, // 分享图标
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+         
+                wx.onMenuShareQQ({
+                    title: title, // 分享标题
+                    desc: desc, // 分享描述
+                    link: url, // 分享链接
+                    imgUrl: imgurl, // 分享图标
+                    success: function () {
+                       // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                       // 用户取消分享后执行的回调函数
+                    }
+                }); 
+
+                wx.onMenuShareWeibo({
+                    title: title, // 分享标题
+                    desc: desc, // 分享描述
+                    link: url, // 分享链接
+                    imgUrl: imgurl, // 分享图标
+                    success: function () {
+                       // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                       // 用户取消分享后执行的回调函数
+                    }
+                }); 
+
+                wx.onMenuShareQZone({
+                    title: title, // 分享标题
+                    desc: desc, // 分享描述
+                    link: url, // 分享链接
+                    imgUrl: imgurl, // 分享图标
+                    success: function () {
+                       // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                       // 用户取消分享后执行的回调函数
+                    }
+                }); 
+            });
+        });  
+    }
+</script>

@@ -1,0 +1,115 @@
+{% extends 'layout.twig' %}
+
+{% block title %}关于我们{{ parent() }}{% endblock %}
+
+{% block piecemeal_css %}
+    <style type="text/css">
+        body {
+            margin: 0 auto;
+            max-width: 10rem;
+            width: 100%;
+            height: 100%;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            background-color: #f6f6f6;
+        }
+
+        .abroad {
+            display: flex;
+            justify-content: center;
+
+        }
+
+        .head {
+            text-align: center;
+        }
+
+        .head-img {
+            width: 1.27rem;
+            height: 1.27rem;
+            top: 1rem;
+            align-content: center;
+            margin: 1rem auto 0;
+
+        }
+
+        .title {
+            margin-top: 0.29rem;
+            font-size: 0.36rem;
+            color: #333333;
+            font-weight: 600;
+            align-content: center;
+        }
+
+        .edition {
+            color: #666666;
+            font-size: 0.3rem;
+            margin-top: 0.2rem;
+        }
+
+        .middle {
+            width: 100%;
+            height: 0.8rem;
+            background-color: white;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.3rem;
+        }
+
+        .agreement {
+            font-size: 0.24rem;
+            margin-top: 0.25rem;
+            color: #333333;
+            margin-left: 0.3rem;
+
+        }
+
+        .rightmark {
+            width: 0.43rem;
+            height: 0.43rem;
+            margin-top: 0.2rem;
+            margin-right: 0.1rem;
+        }
+
+        .bottom {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 0.9rem;
+        }
+
+        .versionnumber {
+            font-size: 0.24rem;
+            text-align: center;
+            color: #333333;
+        }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <div class="abroad">
+        <div class="head">
+            <img class="head-img" src="{{ asset('static/images/app_logo.png') }}"/>
+            <div class="title">同城短视频</div>
+            <div class="edition">V {{ version }}</div>
+        </div>
+    </div>
+    <a href="/userProtocol">
+        <div class="middle">
+            <div class="agreement">服务协议</div>
+            <div>
+                <img class="rightmark" src="{{ asset('static/images/icon_into@2x.png') }}"/>
+            </div>
+        </div>
+    </a>
+    <div class="bottom">
+        <div class="versionnumber">
+            Copyright © 2019 ALL Rights Reserved</br>福建省快快加油网络科技有限公司
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,1867 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>店铺审核</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta http-equiv="Expires" content="0">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Cache-control" content="no-cache">
+        <meta http-equiv="Cache" content="no-cache">
+        <link rel="stylesheet" type="text/css" href="./css/base.css?v" />
+        <style type="text/css">
+            .page-moveToLeft {
+                -webkit-animation: moveToLeft .4s ease both;
+                -moz-animation: moveToLeft .4s ease both;
+                animation: moveToLeft .4s ease both;
+            }
+            
+            @-webkit-keyframes moveToLeft {
+                to {
+                    -webkit-transform: translateX(-100%);
+                }
+            }
+            
+            @-moz-keyframes moveToLeft {
+                to {
+                    -moz-transform: translateX(-100%);
+                }
+            }
+            
+            @keyframes moveToLeft {
+                to {
+                    transform: translateX(-100%);
+                }
+            }
+            
+            .page-moveFromRight {
+                -webkit-animation: moveFromRight .4s ease both;
+                -moz-animation: moveFromRight .4s ease both;
+                animation: moveFromRight .4s ease both;
+            }
+            
+            @-webkit-keyframes moveFromRight {
+                from {
+                    -webkit-transform: translateX(100%);
+                }
+            }
+            
+            @-moz-keyframes moveFromRight {
+                from {
+                    -moz-transform: translateX(100%);
+                }
+            }
+            
+            @keyframes moveFromRight {
+                from {
+                    transform: translateX(100%);
+                }
+            }
+            
+            .page-moveToRight {
+                -webkit-animation: moveToRight .4s ease both;
+                -moz-animation: moveToRight .4s ease both;
+                animation: moveToRight .4s ease both;
+            }
+            
+            @-webkit-keyframes moveToRight {
+                to {
+                    -webkit-transform: translateX(100%);
+                }
+            }
+            
+            @-moz-keyframes moveToRight {
+                to {
+                    -moz-transform: translateX(100%);
+                }
+            }
+            
+            @keyframes moveToRight {
+                to {
+                    transform: translateX(100%);
+                }
+            }
+            
+            .page-moveFromLeft {
+                -webkit-animation: moveFromLeft .4s ease both;
+                -moz-animation: moveFromLeft .4s ease both;
+                animation: moveFromLeft .4s ease both;
+            }
+            
+            @-webkit-keyframes moveFromLeft {
+                from {
+                    -webkit-transform: translateX(-100%);
+                }
+            }
+            
+            @-moz-keyframes moveFromLeft {
+                from {
+                    -moz-transform: translateX(-100%);
+                }
+            }
+            
+            @keyframes moveFromLeft {
+                from {
+                    transform: translateX(-100%);
+                }
+            }
+            
+            .page {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: #F9F9F9;
+                display: none;
+                overflow: hidden;
+                -webkit-backface-visibility: hidden;
+                -moz-backface-visibility: hidden;
+                backface-visibility: hidden;
+                -webkit-transform: translate3d(0, 0, 0);
+                -moz-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
+                -webkit-transform-style: preserve-3d;
+                -moz-transform-style: preserve-3d;
+                transform-style: preserve-3d;
+            }
+            
+            .page-current {
+                display: block;
+                z-index: 1;
+            }
+            
+            .btn {
+                margin: 0 0.3rem;
+                border-radius: 0.04rem;
+                height: 0.9rem;
+                line-height: 0.9rem;
+                background-color: #f4295b;
+                font-size: 0.3rem;
+                color: white;
+                text-align: center;
+                opacity: 0.3;
+            }
+            
+            .btn.active {
+                opacity: 1;
+            }
+            
+            #page-one {}
+            
+            #page-two {}
+            
+            #page-three {}
+            
+            .page-head {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 0.88rem;
+            }
+            
+            .page-head .content {
+                background-color: white;
+                position: relative;
+                max-width: 8rem;
+                margin: 0 auto;
+                height: 0.88rem;
+            }
+            
+            .page-head .back {
+                position: absolute;
+                left: 0.2rem;
+                top: 0.22rem;
+                width: 0.44rem;
+                height: 0.44rem;
+            }
+            
+            .page-head .textTip {
+                position: absolute;
+                right: 0.3rem;
+                top: 0;
+                line-height: 0.88rem;
+                font-size: 0.32rem;
+                color: #3d99f7;
+            }
+            
+            .page-head .page-title {
+                font-size: 0.36rem;
+                line-height: 0.88rem;
+                text-align: center;
+            }
+            
+            .page .wrapper {
+                position: absolute;
+                left: 0;
+                top: 0.88rem;
+                width: 100%;
+                height: calc(100% - 0.88rem);
+                overflow-y: scroll;
+                overflow-x: hidden;
+            }
+            
+            .page .wrapper .part-title {
+                font-size: 0.28rem;
+                color: #999;
+                height: 0.9rem;
+                line-height: 0.9rem;
+                padding: 0 0.3rem;
+            }
+            
+            #page-one .info {
+                background-color: white;
+                padding-left: 0.3rem;
+                margin-bottom: 1rem;
+            }
+            
+            #page-one .part {
+                border-bottom: 1px solid #eee;
+                line-height: 0.5rem;
+                padding: 0.3rem 0;
+            }
+            
+            #page-one .part:last-child {
+                border-bottom: none;
+            }
+            
+            #page-one .part .label {
+                font-size: 0.3rem;
+                color: #999;
+                width: 1.8rem;
+            }
+            
+            #page-one .part input {
+                flex: 1;
+                height: 0.5rem;
+                font-size: 0.3rem;
+            }
+            
+            #page-one #choseMap {
+                padding-right: 0.3rem;
+            }
+            
+            #page-two,
+            #page-three,
+            #page-four,
+            #page-five {
+                background-color: white;
+            }
+            
+            #page-two .part-title {
+                background-color: #F9F9F9;
+                color: #333;
+                font-size: 0.32rem;
+            }
+            
+            #page-two .upload {
+                background-color: white;
+                border-bottom: 1px solid #eee;
+                padding: 0 0.3rem;
+            }
+            
+            #page-two .upload:last-child {
+                border-bottom: none;
+            }
+            
+            #page-two .upload .label {
+                font-size: 0.32rem;
+                color: #323232;
+                line-height: 1.1rem;
+            }
+            
+            #page-two .upload .label .require {
+                font-size: 0.34rem;
+                color: #fb3f59;
+                vertical-align: middle;
+                padding: 0 0.16rem;
+            }
+            
+            #page-two .upload .upload-bg {
+                min-height: 3.5rem;
+                background-color: #f6f6f6;
+                border-radius: 0.06rem;
+                border: 1px dashed #c9c9c9;
+                margin-bottom: 0.4rem;
+                position: relative;
+            }
+            
+            #page-two .upload .upload-image {
+                padding: 1rem;
+            }
+            
+            #page-two .upload .upload-image>img {
+                width: 0.5rem;
+                height: 0.5rem;
+                margin: 0.16rem;
+            }
+            
+            #page-two .upload .show-image .paperwork {
+                max-width: 4.7rem;
+                padding: 0.2rem;
+            }
+            
+            #page-two .upload .show-image .watermark {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                width: 2.3rem;
+                height: 1.67rem;
+                max-width: 80%;
+                max-height: 80%;
+                object-fit: cover;
+                transform: translateX(-50%) translateY(-50%);
+            }
+            
+            #page-two .upload .show-image>.delete-image {
+                width: 0.4rem;
+                height: 0.4rem;
+                position: absolute;
+                right: 0.1rem;
+                top: 0.1rem;
+                padding: 0.1rem;
+                z-index: 999;
+            }
+            
+            #page-two .upload .upload-image>span {
+                font-size: 0.32rem;
+            }
+            
+            #page-two .btn {
+                margin-top: 0.2rem;
+                margin-bottom: 1rem;
+            }
+            
+            #page-three .page-head .content,
+            #page-four .page-head .content,
+            #page-five .page-head .content {
+                border-bottom: 1px solid #eeeeee;
+            }
+            
+            .state-image {
+                width: 2.72rem;
+                height: 2.1rem;
+                margin: 1rem auto;
+            }
+            
+            .state-text {
+                text-align: center;
+                font-size: 0.4rem;
+                font-weight: bold;
+            }
+            
+            .state-text.c-5e82f6 {
+                color: #5e82f6;
+            }
+            
+            .state-text.c-4dbf5c {
+                color: #4dbf5c;
+            }
+            
+            .state-text.c-fd3d4b {
+                color: #fd3d4b;
+            }
+            
+            .state-detail {
+                text-align: center;
+                padding: 0 0.67rem;
+                font-size: 0.28rem;
+                line-height: 0.4rem;
+                color: #999;
+                margin-top: 0.5rem;
+                margin-bottom: 2.8rem;
+            }
+            
+            #page-five .state-detail {
+                margin-bottom: 1.6rem;
+            }
+            
+            #again-apply {
+                width: 4rem;
+                height: 0.9rem;
+                background-image: linear-gradient(-48deg, #fa614c 0%, #f93c6b 100%), linear-gradient(#f4295b, #f4295b);
+                background-blend-mode: normal, normal;
+                border-radius: 0.45rem;
+                margin: 0 auto 0.4rem;
+                text-align: center;
+                line-height: 0.9rem;
+                font-size: 0.32rem;
+                color: white;
+            }
+            
+            .back-app {
+                margin: 0 auto;
+                width: 4rem;
+                height: 0.9rem;
+                font-size: 0.32rem;
+                color: #f4295b;
+                line-height: 0.9rem;
+                text-align: center;
+                border-radius: 0.45rem;
+                border: 1px solid #f4295b;
+            }
+            
+            #page-map .search {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                z-index: 2;
+            }
+            
+            #page-map .search>.content {
+                position: relative;
+                max-width: 8rem;
+                margin: 0 auto;
+                height: 0.88rem;
+                padding: 0 0.2rem;
+                margin-top: 0.2rem;
+                box-sizing: border-box;
+            }
+            
+            #page-map .search .back {
+                width: 0.44rem;
+                height: 0.44rem;
+                background-color: white;
+                padding: 0.18rem;
+                margin-right: 0.2rem;
+            }
+            
+            #page-map .search .search-content {
+                height: 0.8rem;
+                background-color: white;
+                padding: 0 0.3rem;
+            }
+            
+            #page-map .search-content span {
+                font-size: 0.3rem;
+                color: #333;
+                max-width: 1rem;
+            }
+            
+            #page-map .search-content img {
+                width: 0.44rem;
+                height: 0.44rem;
+                margin-right: 0.2rem;
+            }
+            
+            #page-map .search-content>.go-search {
+                padding: 0 0.3rem;
+                border-left: 1px solid #d5d5d5;
+                font-size: 0.3rem;
+                color: #aaa;
+                font-size: 0.3rem;
+            }
+            
+            #page-map .wrapper {
+                top: 0;
+                height: 100%;
+            }
+            
+            #page-map #map {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+            }
+            
+            #page-map #addressInfo {
+                position: absolute;
+                left: 0.2rem;
+                right: 0.2rem;
+                bottom: 0.2rem;
+                z-index: 999;
+            }
+            
+            #page-map .determine {
+                background-color: #3d99f7;
+                line-height: 0.9rem;
+                height: 0.9rem;
+                text-align: center;
+                color: white;
+                font-size: 0.32rem;
+                border-radius: 0.04rem;
+                margin-top: 0.2rem;
+            }
+            
+            #addressInfo .tip {
+                height: 0.7rem;
+                line-height: 0.7rem;
+                background-color: #3d99f7;
+                border-radius: 0.35rem;
+                padding: 0 0.3rem;
+                color: white;
+                font-size: 0.28rem;
+            }
+            
+            #addressInfo #reLocation {
+                width: 0.86rem;
+                height: 0.86rem;
+            }
+            
+            #mapCenter {
+                position: absolute;
+                width: 0.5rem;
+                height: 0.86rem;
+                left: calc(50% - 0.12rem);
+                top: calc(50% - 1.2rem);
+            }
+            
+            #locationError {
+                width: 3.6rem;
+                height: 0.8rem;
+                line-height: 0.8rem;
+                text-align: center;
+                background-color: rgba(255, 87, 35, 0.8);
+                font-size: 0.32rem;
+                color: white;
+                border-radius: 0.4rem;
+                position: absolute;
+                top: 0.7rem;
+                left: calc(50% - 1.8rem);
+                display: none;
+            }
+            
+            #addressInfo .info {
+                box-shadow: 0 0.02rem 0.1rem 0 rgba(0, 0, 0, 0.2);
+                background-color: white;
+                padding: 0 0.3rem;
+                margin-top: 0.2rem;
+            }
+            
+            #blurryAddress {
+                height: 1.2rem;
+            }
+            
+            #blurryAddress>div:first-child {
+                font-size: 0.3rem;
+                color: black;
+                font-weight: bold;
+            }
+            
+            #blurryAddress>div:nth-child(2) {
+                color: #333;
+                font-size: 0.3rem;
+            }
+            
+            #addressInfo #detailsAddress {
+                border-top: 1px solid #eee;
+                height: 1.2rem;
+            }
+            
+            #addressInfo #detailsAddress>input {
+                flex: 1;
+                height: 1rem;
+                color: #333;
+                font-size: 0.3rem;
+            }
+            
+            #addressInfo #detailsAddress>img {
+                width: 0.44rem;
+                height: 0.44rem;
+            }
+            
+            #page-search .head {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                z-index: 2;
+            }
+            
+            #page-search .head>.content {
+                background-color: white;
+                position: relative;
+                max-width: 8rem;
+                margin: 0 auto;
+                height: 0.88rem;
+                box-sizing: border-box;
+                border-bottom: 1px solid #eee;
+                padding: 0 0.3rem 0 0.1rem;
+            }
+            
+            #page-search .content .back {
+                width: 0.44rem;
+                height: 0.44rem;
+            }
+            
+            #page-search .head .search-content {
+                height: 0.66rem;
+                background-color: #f6f6f6;
+                padding: 0 0.3rem;
+                margin: 0 0.2rem;
+            }
+            
+            #page-search .search-content span {
+                font-size: 0.3rem;
+                color: #333;
+                max-width: 1rem;
+            }
+            
+            #page-search .search-content img {
+                width: 0.44rem;
+                height: 0.44rem;
+                margin-right: 0.2rem;
+            }
+            
+            #page-search .search-content>input {
+                padding: 0 0.3rem;
+                border-left: 1px solid #d5d5d5;
+                background-color: transparent;
+                color: #aaa;
+                font-size: 0.3rem;
+            }
+            
+            #page-search .head .search-btn {
+                width: 0.9rem;
+                height: 0.66rem;
+                text-align: center;
+                line-height: 0.66rem;
+                color: white;
+                font-size: 0.3rem;
+                background-color: #4393ff;
+            }
+            
+            #page-search .wrapper {
+                background-color: white;
+            }
+            
+            #page-search #search-result {
+                padding-left: 0.3rem;
+            }
+            
+            #page-search #search-result .search-item {
+                border-bottom: 1px solid #eee;
+                padding: 0.26rem 0;
+            }
+            
+            #page-search .address {
+                font-size: 0.34rem;
+                color: #333;
+                line-height: 0.4rem;
+            }
+            
+            #page-search .address>.active {
+                color: #4393ff;
+                font-size: 0.34rem;
+            }
+            
+            #page-search .detail-address {
+                font-size: 0.28rem;
+                color: #aaa;
+                line-height: 0.4rem;
+            }
+            
+            #page-city .current-letter {
+                position: fixed;
+                left: 0;
+                top: 0.88rem;
+                width: 100%;
+                height: 0.6rem;
+                line-height: 0.6rem;
+                border-top: 1px solid #eee;
+                background-color: white;
+                font-size: 0.26rem;
+                color: #999;
+                padding-left: 0.3rem;
+            }
+            
+            #page-city .wrapper {
+                padding: 0 0.66rem 0 0.3rem;
+                background-color: white;
+                box-sizing: border-box;
+                top: 1.48rem;
+                height: calc(100% - 1.48rem);
+            }
+            
+            #page-city .city-list .city {
+                border-bottom: 1px solid #eee;
+                height: 0.88rem;
+                line-height: 0.88rem;
+            }
+            
+            #page-city .city>span {
+                font-size: 0.3rem;
+                color: #333;
+            }
+            
+            #page-city .city>img {
+                width: 0.44rem;
+                height: 0.44rem;
+                display: none;
+            }
+            
+            #page-city #letter-list {
+                position: fixed;
+                right: 0;
+                top: 2rem;
+            }
+            
+            #page-city #letter-list .letter {
+                font-size: 0.24rem;
+                line-height: 0.36rem;
+                color: #3183ff;
+                width: 0.5rem;
+                text-align: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="page-city" class="page">
+            <div class="page-head">
+                <div class="content">
+                    <img class="back" src="./images/icon_arrow_left.png" />
+                    <div class="page-title">选择城市</div>
+                </div>
+            </div>
+            <div class="wrapper">
+                <div class="current-letter">A</div>
+                <div class="city-list">
+                </div>
+                <div id="letter-list">
+                </div>
+            </div>
+        </div>
+
+        <div id="page-search" class="page">
+            <div class="head">
+                <div class="content flex-between-center">
+                    <img class="back" src="./images/icon_arrow_left.png" />
+                    <div class="search-content flex-1 flex-start-center">
+                        <div class="go-city-page flex-start-center">
+                            <span class="t-ellipsis">莆田</span>
+                            <img src="./images/icon_xiala@2x.png" />
+                        </div>
+                        <input class="flex-1" placeholder="请输入搜索地址" />
+                    </div>
+                    <div class="search-btn">搜索</div>
+                </div>
+            </div>
+            <div class="wrapper">
+                <div id="search-result">
+                </div>
+            </div>
+        </div>
+
+        <div id="noNet" class="page-head" style="display: none;">
+            <div class="content">
+                <img class="back return-app" src="./images/icon_arrow_left.png" />
+                <div class="page-title">申请商家</div>
+                <a class="textTip" href="tel:0594-2283888">联系客服</a>
+            </div>
+        </div>
+        <div id="page-one" class="page">
+            <div class="page-head">
+                <div class="content">
+                    <img class="back return-app" src="./images/icon_arrow_left.png" />
+                    <div class="page-title">申请商家</div>
+                    <a class="textTip" href="">联系客服</a>
+                </div>
+            </div>
+            <div class="wrapper">
+                <div class="part-title">填写资料</div>
+                <div class="info">
+                    <div class="part flex-start-center">
+                        <div class="label">店铺名称：</div>
+                        <input id="shop_name" type="text" maxlength="16" />
+                    </div>
+                    <div class="part flex-start-center">
+                        <div class="label">电话号码：</div>
+                        <input id="shop_phone" data-type="phone" maxlength="11" type="text" />
+                    </div>
+                    <div id="choseMap" class="part flex-start">
+                        <div class="label">店铺地址：</div>
+                        <div class="flex-1 word-break"></div>
+                    </div>
+                    <div class="part flex-start-center">
+                        <div class="label">商家姓名：</div>
+                        <input id="merchant_name" maxlength="4" type="text" />
+                    </div>
+                    <div class="part flex-start-center">
+                        <div class="label">身份证号码：</div>
+                        <input id="identity_card_number" type="text" maxlength="18" />
+                    </div>
+                    <div class="part flex-start-center">
+                        <div class="label">邀请人：</div>
+                        <input id="inviter" maxlength="4" type="text" />
+                    </div>
+                </div>
+                <div id="next-one" class="btn">下一步</div>
+            </div>
+        </div>
+        <div id="page-map" class="page">
+            <div class="search">
+                <div class="content flex-between-center">
+                    <img class="back" src="./images/icon_arrow_left.png" />
+                    <div class="search-content flex-1 flex-between-center">
+                        <div class="go-city flex-start-center">
+                            <span class="t-ellipsis">莆田</span>
+                            <img src="./images/icon_xiala@2x.png" />
+                        </div>
+                        <div class="flex-1 go-search">请输入搜索地址</div>
+                    </div>
+                </div>
+            </div>
+            <div class="wrapper">
+                <div id="map"></div>
+                <div id="locationError">获取定位信息失败</div>
+                <div id="addressInfo">
+                    <div class="flex-between-center">
+                        <div class="tip">请移动地图拾取店铺坐标</div>
+                        <img id="reLocation" src="./images/huidaoweizhi@2x.png" />
+                    </div>
+                    <div class="info">
+                        <div id="blurryAddress" class="flex-start-center">
+                            <div>店铺地址：</div>
+                            <div></div>
+                        </div>
+                        <div id="detailsAddress" class="flex-between-center">
+                            <input type="text" maxlength="20" />
+                            <img src="./images/shangcu@2x.png" />
+                        </div>
+                    </div>
+                    <div class="determine">确定</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-two" class="page">
+            <div class="page-head">
+                <div class="content">
+                    <img class="back" src="./images/icon_arrow_left.png" />
+                    <div class="page-title">申请商家</div>
+                </div>
+            </div>
+            <div class="wrapper">
+                <div class="part-title">上传资料</div>
+                <div>
+                    <div class="upload">
+                        <div class="label">经营者身份证人像面</div>
+                        <div class="upload-bg flex-center-center">
+                            <div data-type="identity_card_front_face" class="upload-image flex-start-center">
+                                <img src="./images/icon_upload@2x.png" /><span>上传身份证正面</span>
+                            </div>
+                            <div class="flex-start-center show-image hidden">
+                                <img data-type="identity_card_front_face" class="delete-image" src="./images/icon_delete_app@2x.png" />
+                                <div style="position: relative;">
+                                    <img class="paperwork" src="" />
+                                    <img class="watermark" src="./images/icon_watermark@2x.png" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="upload">
+                        <div class="label">经营者身份证国徽面</div>
+                        <div class="upload-bg flex-center-center">
+                            <div data-type="identity_card_back_face" class="upload-image flex-start-center">
+                                <img src="./images/icon_upload@2x.png" /><span>上传身份证反面</span>
+                            </div>
+                            <div class="flex-start-center show-image hidden">
+                                <img data-type="identity_card_back_face" class="delete-image" src="./images/icon_delete_app@2x.png" />
+                                <div style="position: relative;">
+                                    <img class="paperwork" src="" />
+                                    <img class="watermark" src="./images/icon_watermark@2x.png" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="upload">
+                        <div class="label">营业执照</div>
+                        <div class="upload-bg flex-center-center">
+                            <div data-type="business_license" class="upload-image flex-start-center">
+                                <img src="./images/icon_upload@2x.png" /><span>上传营业执照</span>
+                            </div>
+                            <div class="flex-start-center show-image hidden">
+                                <img data-type="business_license" class="delete-image" src="./images/icon_delete_app@2x.png" />
+                                <div style="position: relative;">
+                                    <img class="paperwork" src="" />
+                                    <img class="watermark" src="./images/icon_watermark@2x.png" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="upload">
+                        <div class="label">门头照</div>
+                        <div class="upload-bg flex-center-center">
+                            <div data-type="shop_logo" class="upload-image flex-start-center">
+                                <img src="./images/icon_upload@2x.png" /><span>上传门头照</span>
+                            </div>
+                            <div class="flex-start-center show-image hidden">
+                                <img data-type="shop_logo" class="delete-image" src="./images/icon_delete_app@2x.png" />
+                                <div style="position: relative;">
+                                    <img class="paperwork" src="" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input id="profile-image" style="display: none;" type="file" accept="image/*" />
+                <div id="submit" class="btn active">提交</div>
+            </div>
+        </div>
+        <div id="page-three" class="page">
+            <div class="page-head">
+                <div class="content">
+                    <img class="back return-app" src="./images/icon_arrow_left.png" />
+                    <div class="page-title">提交成功</div>
+                </div>
+            </div>
+            <div class="wrapper">
+                <div>
+                    <img class="state-image" src="./images/icon_success@2x.png" />
+                    <div class="state-text c-5e82f6">提交成功</div>
+                    <div class="state-detail">您的申请已提交成功，具体申请结果稍后我们工作人员会及时通知您，请您注意查收~</div>
+                    <div class="back-app return-user">返回至用户版</div>
+                </div>
+            </div>
+        </div>
+        <div id="page-four" class="page">
+            <div class="page-head">
+                <div class="content">
+                    <img class="back return-app" src="./images/icon_arrow_left.png" />
+                    <div class="page-title">申请中</div>
+                </div>
+            </div>
+            <div class="wrapper">
+                <div>
+                    <img class="state-image" src="./images/icon_review@2x.png" />
+                    <div class="state-text c-4dbf5c">审核中...</div>
+                    <div class="state-detail">您的申请正在审核中，请耐心等待，具体申请结果稍后我们工作人员会及时通知您，请您注意查收~</div>
+                    <div class="back-app return-user">返回至用户版</div>
+                </div>
+            </div>
+        </div>
+        <div id="page-five" class="page">
+            <div class="page-head">
+                <div class="content">
+                    <img class="back return-app" src="./images/icon_arrow_left.png" />
+                    <div class="page-title">申请驳回</div>
+                </div>
+            </div>
+            <div class="wrapper">
+                <div>
+                    <img class="state-image" src="./images/icon_turn_down@2x.png" />
+                    <div id="rejectText" class="state-text c-fd3d4b">您的申请已被驳回</div>
+                    <div class="state-detail"></div>
+                    <div id="again-apply">重新申请</div>
+                    <div class="back-app return-user">返回至用户版</div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>
+<script type="text/javascript" src="js/ydui.flexible.js"></script>
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/plugin/lrz/dist/lrz.bundle.js"></script>
+<script type="text/javascript" src="js/plugin/modernizr/modernizr.custom.js"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.11&key=f509d36133c99713db48c8881399b8eb&plugin=AMap.ToolBar,AMap.PlaceSearch"></script>
+<!-- UI组件库 1.0 -->
+<script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+<script type="text/javascript" src="js/cityData.js"></script>
+<script type="text/javascript">
+    // 页面的位置     1：信息填写    2：图片上传   3：提交，审核成功，审核失败，审核中    4：地图页面      5：搜索地址页面     6：城市列表页面
+    var pageIndex = 1;
+    // 是否从地址页面跳转到城市列表页面
+    var addressToCity = false;
+
+    //当前页面移动完毕
+    var endCurrPage = false;
+    //后续页面移动完毕
+    var endNextPage = false;
+    var animEndEventNames = {
+        'WebkitAnimation': 'webkitAnimationEnd',
+        'OAnimation': 'oAnimationEnd',
+        'msAnimation': 'MSAnimationEnd',
+        'animation': 'animationend'
+    };
+    // animation end event name
+    var animEndEventName = animEndEventNames[Modernizr.prefixed('animation')];
+    var token = Utils.getQueryString('token');
+    var requestParam = {
+        // 店铺名称  
+        shop_name: "",
+        // 电话号码 
+        shop_phone: "",
+        // 商家姓名 
+        merchant_name: "",
+        // 身份证号码 
+        identity_card_number: "",
+        // 邀请人 
+        inviter: "",
+        // 身份证正面
+        identity_card_front_face: "",
+        // 身份证反面
+        identity_card_back_face: "",
+        // 营业执照
+        business_license: "",
+        // 店铺周边
+        shop_address_poi: "",
+        // 店铺省份
+        shop_province: "",
+        // 店铺城市
+        shop_city: "",
+        // 店铺区域
+        shop_area: "",
+        // 店铺详细地址
+        shop_detail_address: "",
+        // 纬度
+        latitude: "",
+        // 经度
+        longitude: "",
+        // 店铺logo
+        shop_logo: "",
+    }
+    // 当前所选定的图片
+    var currentImage = '';
+    // 当前所选定图片的dom
+    var currentDom = null;
+    // 地图对象
+    var map = null;
+    var geolocation = null;
+    var placeSearch = null;
+    
+    // 定位信息
+    var addressInfo = {
+        // 纬度
+        latitude: '',
+        // 经度
+        longitude: '',
+        // 省
+        province: '',
+        // 市
+        city: '',
+        // 区
+        district: '',
+        // 周边
+        address_poi: '',
+
+    };
+    var getPosition = true;
+    var cityInfo = {
+        // 市
+        city: '',
+        // 当前城市的编号
+        adcode: ''
+    }
+
+    var shop_id = Utils.getQueryString('shop_id');
+    var branch = Utils.getQueryString('branch');
+    var request_url = '/merchant/v2_0_0/applyShop';
+    if(branch) {
+        request_url = '/merchant/v2_0_0/applyBranchShop';
+        $('#page-one .page-title').text('申请分店');
+        $('#page-two .page-title').text('申请分店');
+        $('.back-app').hide();
+    }
+
+    var letterPosition = [];
+
+    //View切换
+    function changeView(config) {
+        var outClass = '';
+        var inClass = '';
+        if(config.type === "next") {
+            outClass = 'page-moveToLeft';
+            inClass = 'page-moveFromRight';
+        }
+        if(config.type === "back") {
+            outClass = 'page-moveToRight';
+            inClass = 'page-moveFromLeft';
+        }
+
+        var $currPage = $(config.currPage);
+        var $nextPage = $(config.nextPage);
+
+        //清除原来添加的动画，层级等样式(正常动画结束时会自动清除，这样做防止用户在动画结束前就点击切换其他的)
+        $(".page").each(function() {
+            $(this).attr('class', $(this).data('originalClassList'));
+        });
+
+        $currPage.addClass("page-current");
+        $nextPage.addClass("page-current");
+        //如果就是当页则不切换
+        if($currPage.attr("id") == $nextPage.attr("id")) {
+            return;
+        }
+        //新页面入场
+        $currPage.addClass(outClass).on(animEndEventName, function() {
+            $currPage.off(animEndEventName);
+            endCurrPage = true;
+            if(endNextPage) {
+                onEndAnimation($currPage, $nextPage);
+            }
+        });
+
+        //旧页面出场
+        $nextPage.addClass(inClass).on(animEndEventName, function() {
+            $nextPage.off(animEndEventName);
+            endNextPage = true;
+            if(endCurrPage) {
+                onEndAnimation($currPage, $nextPage);
+            }
+        });
+    }
+
+    //所有动画都结束后
+    function onEndAnimation($outpage, $inpage) {
+        endCurrPage = false;
+        endNextPage = false;
+        $outpage.attr('class', $outpage.data('originalClassList'));
+        $inpage.attr('class', $inpage.data('originalClassList') + ' page-current');
+    }
+
+    // 通知app事件
+    function noticeApp(type) {
+        switch(type) {
+            // 关闭页面
+            case 1:
+                if(/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) { //判断iPhone|iPad|iPod|iOS
+                    window.webkit.messageHandlers.setCloseWeb.postMessage({
+                        'type': 'close'
+                    });
+                } else if(/(Android)/i.test(navigator.userAgent)) { //判断Android
+                    var androidParams = 'close';
+                    javascript: android.setCloseWeb(androidParams);
+                }
+                break;
+                // 跳转帮助页面
+            case 2:
+                if(/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) { //判断iPhone|iPad|iPod|iOS
+                    window.webkit.messageHandlers.setCloseWeb.postMessage({
+                        'type': 'goUser'
+                    });
+                } else if(/(Android)/i.test(navigator.userAgent)) { //判断Android
+                    var androidParams = 'goUser';
+                    javascript: android.setCloseWeb(androidParams);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    // 页面初始化
+    function init() {
+        //保存各个View的默认class
+        $(".page").each(function() {
+            var $page = $(this);
+            $page.data('originalClassList', $page.attr('class'));
+        });
+        var data = {};
+        if(shop_id) {
+            data.shop_id = shop_id;
+        }
+        $.ajax({
+            url: request_url,
+            headers: {
+                platform: 3,
+                token: token
+            },
+            data: data,
+            method: 'get',
+            beforeSend: function() {
+                Loading.show({
+                    type: 6
+                });
+            }
+        }).done(function(res) {
+            Loading.hide();
+            if(res.code != 1) {
+                Toast({
+                    message: res.msg
+                })
+                return;
+            }
+            var keyArray = ["shop_phone", "merchant_name", "identity_card_number", "inviter", "identity_card_front_face", "identity_card_back_face", "business_license", "shop_logo"];
+            for(var i in keyArray) {
+                requestParam[keyArray[i]] = res.data[keyArray[i]];
+            }
+            // 设置联系客服
+            $('#page-one .textTip').prop('href', 'tel:' + res.data.customer_service_phone);
+
+            if(res.data.shop_id <= 0) {
+                $("#page-one").addClass('page-current');
+                if(branch) {
+                    $('#shop_phone').val(requestParam.shop_phone);
+                    $('#merchant_name').val(requestParam.merchant_name);
+                    $('#identity_card_number').val(requestParam.identity_card_number);
+                    $('#inviter').val(requestParam.inviter);
+                    $('#page-two .upload-image').addClass('hidden');
+                    $('#page-two .show-image').removeClass('hidden');
+                    $('#page-two .paperwork').eq(0).prop('src', requestParam.identity_card_front_face);
+                    $('#page-two .paperwork').eq(1).prop('src', requestParam.identity_card_back_face);
+                    $('#page-two .paperwork').eq(2).prop('src', requestParam.business_license);
+                    $('#page-two .paperwork').eq(3).prop('src', requestParam.shop_logo);
+                    $('#page-two .btn').addClass('active');
+                }
+                return;
+            }
+            requestParam.shop_name = res.data.shop_name;
+            requestParam.shop_address_poi = res.data.shop_address_poi;
+            requestParam.shop_detail_address = res.data.shop_detail_address;
+            requestParam.shop_province = res.data.shop_province;
+            requestParam.shop_city = res.data.shop_city;
+            requestParam.shop_area = res.data.shop_area;
+            requestParam.latitude = res.data.latitude;
+            requestParam.longitude = res.data.longitude;
+
+            // 已下线
+            if(res.data.online_status === 0) {
+                Toast({
+                    message: '该店铺已下线'
+                })
+                return;
+            }
+            // 已上线
+            if(res.data.online_status === 1) {
+                Toast({
+                    message: '该店铺已上线'
+                })
+                return;
+            }
+            // 申请中
+            if(res.data.online_status === 2) {
+                pageIndex = 3;
+                $("#page-four").addClass('page-current');
+                return;
+            }
+            // 驳回
+            if(res.data.online_status === 3) {
+                pageIndex = 3;
+                if(branch) {
+                    $('#rejectText').text('您的分店申请已被驳回');
+                }
+                $("#page-five").addClass('page-current').find('.state-detail').text('驳回理由：' + res.data.remark);
+                return;
+            }
+        }).fail(function(res) {
+            Loading.hide();
+            $('#noNet').show();
+            // 处理失败会执行
+            Toast({
+                message: "网络出错了！"
+            });
+        });
+
+        androidBack();
+    }
+
+    // android 物理返回键处理
+    function androidBack() {
+        if(window.history && window.history.pushState) {
+            $(window).on('popstate', function() {
+                window.history.pushState('forward', null, '#');
+                window.history.forward(1);
+                switch(pageIndex) {
+                    case 1:
+                        noticeApp(1);
+                        break;
+                    case 2:
+                        pageIndex = 1;
+                        changeView({
+                            currPage: "#page-two",
+                            nextPage: "#page-one",
+                            type: "back"
+                        });
+                        break;
+                    case 3:
+                        noticeApp(1);
+                        break;
+                    case 4:
+                        pageIndex = 1;
+                        changeView({
+                            currPage: "#page-map",
+                            nextPage: "#page-one",
+                            type: "back"
+                        });
+                        break;
+                    case 5:
+                        pageIndex = 4;
+                        changeView({
+                            currPage: "#page-search",
+                            nextPage: "#page-map",
+                            type: "back"
+                        });
+                        break;
+                    case 6:
+                        if(addressToCity) {
+                            pageIndex = 4;
+                            changeView({
+                                currPage: "#page-city",
+                                nextPage: "#page-map",
+                                type: "back"
+                            });
+                        } else {
+                            pageIndex = 5;
+                            changeView({
+                                currPage: "#page-city",
+                                nextPage: "#page-search",
+                                type: "back"
+                            });
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            });
+        }
+        window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+        window.history.forward(1);
+    }
+
+    // 加载地图
+    function loadMap() {
+        AMapUI.loadUI(['misc/PositionPicker'], function(PositionPicker) {
+            map = new AMap.Map('map', {
+                resizeEnable: true,
+                zoom: 15,
+                center: [118.996966, 25.41861],
+            });
+            placeSearch = new AMap.PlaceSearch({
+                pageSize: 20,
+            });
+            AMap.plugin('AMap.Geolocation', function() {
+                geolocation = new AMap.Geolocation({
+                    // 是否使用高精度
+                    enableHighAccuracy: true,
+                    // 定位成功且显示精度范围时，是否把地图视野调整到正好显示精度范围
+                    zoomToAccuracy: true,
+                    // 是否显示定位按钮
+                    showButton: false,
+                    // 定位成功并且有精度信息时，是否用一个圆圈circle表示精度范围
+                    showCircle: false,
+                    // 是否使用安卓定位sdk用来进行定位
+                    useNative: true,
+                    // 自定义定位点样式，同Marker的Options
+                    markerOptions: {
+                        'offset': new AMap.Pixel(-20, -23),
+                        'content': '<img src="./images/dangqianweizhi@2x.png" style="width:0.6rem;height:0.6rem" />'
+                    }
+                })
+                map.addControl(geolocation);
+                Loading.show({
+                    type: 7
+                });
+                geolocation.getCurrentPosition(locationResult);
+            });
+            var positionPicker = new PositionPicker({
+                mode: 'dragMap', //设定为拖拽地图模式，可选'dragMap'、'dragMarker'，默认为'dragMap'
+                map: map, //依赖地图对象
+                iconStyle: { //自定义外观
+                    url: './images/xuanzeweizhi@2x.png',
+                    ancher: [17, 52],
+                    size: [25, 43]
+                }
+            });
+            positionPicker.on('success', function(positionResult) {
+               
+                addressInfo.province = positionResult.regeocode.addressComponent.province;
+                addressInfo.city = positionResult.regeocode.addressComponent.city;
+                addressInfo.district = positionResult.regeocode.addressComponent.district;
+                // 城市列表显示的城市
+                cityInfo.city = positionResult.regeocode.addressComponent.city;
+                cityInfo.adcode = positionResult.regeocode.addressComponent.adcode.substring(0, 4);
+                $('#page-map .go-city span').text(cityInfo.city);
+                $('#blurryAddress div').eq(1).text(addressInfo.province + addressInfo.city + addressInfo.district);
+                var detailsAddress = '';
+                var address_poi = '';
+                if(positionResult.regeocode.pois[0]) {
+                    address_poi = positionResult.regeocode.pois[0].name;
+                    detailsAddress = positionResult.regeocode.pois[0].name + positionResult.regeocode.pois[0].address;
+                }
+                addressInfo.address_poi = address_poi;
+                if(!getPosition){
+                    getPosition = true;
+                    return;
+                }
+                addressInfo.longitude = positionResult.position.lng;
+                addressInfo.latitude = positionResult.position.lat;                             
+                $('#detailsAddress input').val(detailsAddress);
+            });
+            positionPicker.on('fail',function(positionResult){
+                getPosition = true;             
+            });
+            positionPicker.start();
+        })
+    }
+
+    function locationResult(status, result) {
+        Loading.hide();
+        if(status == 'complete') {
+
+        } else {
+            $('#locationError').show();
+            setTimeout(function() {
+                $('#locationError').hide();
+            }, 1500);
+        }
+    }
+
+    // 添加城市列表数据
+    function addCityData() {
+        if($('#page-city #letter-list .letter').length > 0) {
+            $('#page-city .city img').hide();
+            $('#page-city #city' + cityInfo.adcode + ' img').show();
+            return;
+        }
+        var letterStr = "";
+        var cityStr = "";
+        for(var i in cityData) {
+            letterStr += '<div data-letter="' + i + '" class="letter">' + i + '</div>';
+            cityStr += '<div id="letter' + i + '"></div>';
+            for(var j in cityData[i].list) {
+                var cityCode = cityData[i].list[j].code.substring(0, 4);
+                cityStr += '<div data-adcode="' + cityCode + '" id="city' + cityCode + '" class="city flex-between-center">';
+                cityStr += '<span>' + cityData[i].list[j].name + '</span>';
+                cityStr += '<img src="./images/icon_xuanzhong@2x.png"/>';
+                cityStr += '</div>'
+            }
+        }
+        $('#page-city #letter-list').append(letterStr);
+        $('#page-city .city-list').append(cityStr);
+        // 当前选中的城市
+        $('#page-city .city img').hide();
+        $('#page-city #city' + cityInfo.adcode + ' img').show();
+        // 获取每个字母距离顶部的高度
+        for(var i in cityData) {
+            letterPosition.push({
+                letter: i,
+                top: $('#letter' + i)[0].offsetTop
+            });
+        }
+        $('#page-city .wrapper').on('click', '.letter', function() {
+            var letter = $(this).data('letter');
+            Toast({
+                message: letter,
+            });
+            $('#page-city .wrapper')[0].scrollTop = $('#letter' + letter)[0].offsetTop;
+        }).on('scroll', function(e) {
+            var offsetTop = e.target.scrollTop;
+            for(var i = 0; i < letterPosition.length - 1; i++) {
+                if(offsetTop >= letterPosition[i].top && offsetTop < letterPosition[i + 1].top) {
+                    $('#page-city .current-letter').text(letterPosition[i].letter);
+                    break;
+                }
+            }
+            if(offsetTop >= letterPosition[letterPosition.length - 1].top) {
+                $('#page-city .current-letter').text(letterPosition[letterPosition.length - 1].letter);
+            }
+        }).on('click', '.city', function() {
+            cityInfo.city = $(this).text();
+            cityInfo.adcode = $(this).data('adcode');
+            $('#page-search .go-city-page span').text(cityInfo.city);
+            $('#page-map .go-city span').text(cityInfo.city);
+            if(addressToCity) {
+                pageIndex = 4;
+                changeView({
+                    currPage: "#page-city",
+                    nextPage: "#page-map",
+                    type: "back"
+                });
+            } else {
+                pageIndex = 5;
+                changeView({
+                    currPage: "#page-city",
+                    nextPage: "#page-search",
+                    type: "back"
+                });
+            }
+        })
+
+    }
+
+    $(function() {
+        init();
+        // 监听输入框的值变化
+        $('#shop_name,#shop_phone,#merchant_name,#identity_card_number').on('input', function() {
+            var active = true;
+            if($(this).data('type') == 'phone') {
+                this.value = this.value.replace(/[^0-9-]+/, '');
+            }
+            $('#shop_name,#shop_phone,#merchant_name,#identity_card_number').each(function(i, e) {
+                if($(this).val() === '') {
+                    active = false;
+                }
+            });
+            if(requestParam.shop_detail_address === '') {
+                active = false;
+            }
+            if(active) {
+                $('#next-one').addClass('active');
+            } else {
+                $('#next-one').removeClass('active');
+            }
+        });
+        // 点击跳转到地图页面
+        $('#choseMap').on('click', function() {
+            if(!map) {
+                loadMap();
+            }
+            pageIndex = 4;
+            changeView({
+                currPage: "#page-one",
+                nextPage: "#page-map",
+                type: "next"
+            });
+        });
+        // 地图返回资料填写
+        $('#page-map .back').on('click', function() {
+            pageIndex = 1;
+            changeView({
+                currPage: "#page-map",
+                nextPage: "#page-one",
+                type: "back"
+            });
+        })
+        // 地图页面点击确定
+        $('#page-map .determine').on('click', function() {
+            var shop_detail_address = $('#detailsAddress input').val();
+            if(shop_detail_address === '') {
+                Toast({
+                    message: '请填写详细的地址'
+                });
+                return;
+            }
+            requestParam.latitude = addressInfo.latitude;
+            requestParam.longitude = addressInfo.longitude;
+            requestParam.shop_province = addressInfo.province;
+            requestParam.shop_city = addressInfo.city;
+            requestParam.shop_area = addressInfo.district;
+            if(addressInfo.address_poi) {
+                requestParam.shop_address_poi = addressInfo.address_poi;
+            } else {
+                requestParam.shop_address_poi = shop_detail_address;
+            }
+            requestParam.shop_detail_address = shop_detail_address;
+            $('#choseMap div').eq(1).text(addressInfo.province + addressInfo.city + addressInfo.district + shop_detail_address);
+            pageIndex = 1;
+            changeView({
+                currPage: "#page-map",
+                nextPage: "#page-one",
+                type: "back"
+            });
+            // 判断第一页的下一步可以点击
+            var active = true;
+            $('#shop_name,#shop_phone,#merchant_name,#identity_card_number').each(function(i, e) {
+                if($(this).val() === '') {
+                    active = false;
+                }
+            });
+            if(active) {
+                $('#next-one').addClass('active');
+            } else {
+                $('#next-one').removeClass('active');
+            }
+        })
+        // 清除地图输入的详细地址
+        $('#detailsAddress img').on('click', function() {
+            $('#detailsAddress input').val('');
+        })
+        // 点击重新定位
+        $('#reLocation').on('click', function() {
+            Loading.show({
+                type: 7
+            });
+            positioning = true;
+            geolocation.getCurrentPosition(locationResult);
+        });
+
+        // 跳转到搜索页面
+        $('#page-map .go-search').on('click', function() {
+            $('#page-search .go-city-page span').text(cityInfo.city);
+            addressToCity = false;
+            pageIndex = 5;
+            changeView({
+                currPage: "#page-map",
+                nextPage: "#page-search",
+                type: "next"
+            });
+        });
+        // 跳转到城市列表页面
+        $('#page-map .go-city').on('click', function() {
+            addressToCity = true;
+            pageIndex = 6;
+            changeView({
+                currPage: "#page-map",
+                nextPage: "#page-city",
+                type: "next"
+            });
+            addCityData();
+        });
+
+        // 搜索页面返回
+        $('#page-search .back').on('click', function() {
+            pageIndex = 4;
+            changeView({
+                currPage: "#page-search",
+                nextPage: "#page-map",
+                type: "back"
+            });
+        });
+        // 搜索页面点击搜索
+        $('#page-search .search-btn').on('click', function() {
+            var search = $('#page-search input').val().trim();
+            if(search === "") {
+                Toast({
+                    message: "请填写搜索内容！"
+                })
+                return;
+            }
+
+            placeSearch.setCity(cityInfo.city);
+            Loading.show({
+                type: 6
+            });
+            placeSearch.search(search, function(status, result) {
+                Loading.hide();
+                if(result.info == 'OK') {
+                    var str = '';
+                    for(var i = 0; i < result.poiList.pois.length; i++) {
+                        str += '<div data-address="'+ result.poiList.pois[i].name +'" data-lat="' + result.poiList.pois[i].location.lat + '" data-lng="' + result.poiList.pois[i].location.lng + '" class="search-item">';
+                        var before = "";
+                        var after = "";
+                        var index = result.poiList.pois[i].name.indexOf(search);
+                        before = result.poiList.pois[i].name.substring(0, index);
+                        after = result.poiList.pois[i].name.substring(index + search.length);
+                        str += '<div class="address t-ellipsis">' + before + '<span class="active">' + search + '</span>' + after + '</div>';
+                        str += '<div class="detail-address t-ellipsis">' + result.poiList.pois[i].address + '</div>';
+                        str += '</div>';
+                    }
+                    $('#page-search #search-result').html(str);
+                    $('#page-search .wrapper')[0].scrollTop = 0;
+                } else {
+                    Toast({
+                        message: result.info
+                    })
+                }
+            });
+        });
+        // 搜索页面的点击事件
+        $('#page-search #search-result').on('click', '.search-item', function() {
+            getPosition = false;
+            $('#detailsAddress input').val($(this).data('address'));
+            addressInfo.longitude = $(this).data('lng');
+            addressInfo.latitude = $(this).data('lat');
+            map.setCenter([$(this).data('lng'), $(this).data('lat')]);
+            pageIndex = 4;
+            changeView({
+                currPage: "#page-search",
+                nextPage: "#page-map",
+                type: "back"
+            });
+            $('#page-search .search-content input').val('');
+            $('#page-search #search-result').html('');
+        });
+
+        // 搜索页面跳城市列表页面
+        $('#page-search .go-city-page').on('click', function() {
+            pageIndex = 6;
+            changeView({
+                currPage: "#page-search",
+                nextPage: "#page-city",
+                type: "next"
+            });
+            addCityData();
+        });
+
+        // 城市列表返回
+        $('#page-city .back').on('click', function() {
+            if(addressToCity) {
+                pageIndex = 4;
+                changeView({
+                    currPage: "#page-city",
+                    nextPage: "#page-map",
+                    type: "back"
+                });
+            } else {
+                pageIndex = 5;
+                changeView({
+                    currPage: "#page-city",
+                    nextPage: "#page-search",
+                    type: "back"
+                });
+            }
+        })
+
+        // 点击跳转到图片上传
+        $('#next-one').on('click', function() {
+            requestParam.shop_name = $('#shop_name').val();
+            requestParam.shop_phone = $('#shop_phone').val();
+            requestParam.shop_address = $('#shop_address').val();
+            requestParam.merchant_name = $('#merchant_name').val();
+            requestParam.identity_card_number = $('#identity_card_number').val();
+            requestParam.inviter = $('#inviter').val();
+            if(requestParam.shop_name === '' || requestParam.shop_phone === '' || requestParam.shop_detail_address === '' || requestParam.merchant_name === '' || requestParam.identity_card_number === '') {
+                return;
+            }
+            if(!/^1[3-9][0-9]\d{8}$/.test(requestParam.shop_phone)) {
+                Toast({
+                    message: "请输入正确的手机号！"
+                });
+                return;
+            }
+            if(!/^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/i.test(requestParam.identity_card_number)) {
+                Toast({
+                    message: "请输入正确的身份证号码！"
+                });
+                return;
+            }
+            pageIndex = 2;
+            changeView({
+                currPage: "#page-one",
+                nextPage: "#page-two",
+                type: "next"
+            });
+        });
+        // 点击返回资料填写
+        $('#page-two .back').on('click', function() {
+            pageIndex = 1;
+            changeView({
+                currPage: "#page-two",
+                nextPage: "#page-one",
+                type: "back"
+            });
+        });
+        // 点击上传图片
+        $('.upload-image').on('click', function() {
+            currentImage = $(this).data('type');
+            currentDom = $(this).parent();
+            $('#profile-image').trigger('click');
+        });
+        // 图片上传
+        $('#profile-image').on('change', function() {
+            var that = $(this);
+            lrz(this.files[0], {
+                fieldName: "image"
+            }).then(function(rst) {
+                that.val('');
+                var uploadImgUrl = "/merchant/v2_0_0/uploadProfileImg";
+                if(currentImage == "shop_logo") {
+                    uploadImgUrl = "/merchant/v2_0_0/uploadLogo";
+                }
+                $.ajax({
+                    url: uploadImgUrl,
+                    headers: {
+                        platform: 3,
+                        token: token
+                    },
+                    processData: false, //  告诉jquery不要处理发送的数据
+                    contentType: false, // 告诉jquery不要设置content-Type请求头
+                    data: rst.formData,
+                    method: 'post',
+                    beforeSend: function() {
+                        Loading.show({
+                            type: 6
+                        });
+                    }
+                }).done(function(res) {
+                    Loading.hide();
+                    if(res.code != 1) {
+                        Toast({
+                            message: res.msg
+                        })
+                        return;
+                    }
+                    requestParam[currentImage] = res.data.image;
+                    currentDom.find('.upload-image').addClass('hidden');
+                    currentDom.find('.show-image').removeClass('hidden').find('.paperwork').prop('src', res.data.image);
+                }).fail(function(res) {
+                    Loading.hide();
+                    Toast({
+                        message: "网络异常！"
+                    });
+                });
+            }).catch(function(err) {
+                that.val('');
+                // 处理失败会执行
+                Toast({
+                    message: "图片压缩失败！"
+                });
+            })
+        })
+        // 图片删除
+        $(".delete-image").on('click', function() {
+            requestParam[$(this).data('type')] = '';
+            $(this).parent().addClass('hidden').prev().removeClass('hidden');
+        })
+        // 信息提交
+        $('#submit').on('click', function() {
+            if(shop_id) {
+                requestParam.shop_id = shop_id;
+            }
+            $.ajax({
+                url: request_url,
+                headers: {
+                    platform: 3,
+                    token: token
+                },
+                data: requestParam,
+                method: 'post',
+                beforeSend: function() {
+                    Loading.show({
+                        type: 6
+                    });
+                }
+            }).done(function(res) {
+                Loading.hide();
+                if(res.code != 1) {
+                    Toast({
+                        message: res.msg
+                    })
+                    return;
+                }
+                pageIndex = 3;
+                changeView({
+                    currPage: "#page-two",
+                    nextPage: "#page-three",
+                    type: "next"
+                });
+            }).fail(function(res) {
+                Loading.hide();
+                // 处理失败会执行
+                Toast({
+                    message: "网络出错了！"
+                });
+            });
+        })
+        // 点击重新申请
+        $('#again-apply').on('click', function() {
+            $('#shop_name').val(requestParam.shop_name);
+            $('#shop_phone').val(requestParam.shop_phone);
+            $('#choseMap div').eq(1).text(requestParam.shop_province + requestParam.shop_city + requestParam.shop_area + requestParam.shop_detail_address);
+            $('#merchant_name').val(requestParam.merchant_name);
+            $('#identity_card_number').val(requestParam.identity_card_number);
+            $('#inviter').val(requestParam.inviter);
+            if(requestParam.shop_detail_address !== '') {
+                $('#page-one .btn').addClass('active');
+            }
+            $('#page-two .upload-image').addClass('hidden');
+            $('#page-two .show-image').removeClass('hidden');
+            $('#page-two .paperwork').eq(0).prop('src', requestParam.identity_card_front_face);
+            $('#page-two .paperwork').eq(1).prop('src', requestParam.identity_card_back_face);
+            $('#page-two .paperwork').eq(2).prop('src', requestParam.business_license);
+            $('#page-two .paperwork').eq(3).prop('src', requestParam.shop_logo);
+            $('#page-two .btn').addClass('active');
+            pageIndex = 1;
+            changeView({
+                currPage: "#page-five",
+                nextPage: "#page-one",
+                type: "back"
+            });
+        })
+        // web页面返回app页面
+        $('.return-app').on('click', function() {
+            noticeApp(1);
+        })
+        // web页面返回我的页面
+        $('.return-user').on('click', function() {
+            noticeApp(2);
+        })
+    })
+</script>

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<link rel="stylesheet" type="text/css" href="../css/base.css?v"/>
+
+<title></title>
+
+<style>
+
+        html, body {
+
+            padding: 0;
+
+            margin: 0 auto;
+
+            height: 100%;
+
+            overflow: hidden;
+
+        }
+
+        video {
+
+            width: 100%;
+
+            height: 100%;
+
+            background: #fff;
+
+            /*object-fit: cover;*/
+
+            object-position: center center;
+
+            background: url(../images/shipin/shipin_bg.png);
+
+        }
+
+        video.android-full {
+
+            position: relative;
+
+            width: 100%;
+
+            height: 110%;
+
+            object-fit: cover;
+
+        }
+
+        video.android-full::-webkit-media-controls-enclosure {
+
+            -webkit-appearance: none;
+
+            position: absolute;
+
+            bottom: -10%;
+
+        }
+
+        .txt {
+
+            position: fixed;
+
+            bottom: 10%;
+
+            z-index: 1;
+
+            font-size: 14px;
+
+        }
+
+        .txt.android-full {
+
+            position: absolute;
+
+            bottom: 10%;
+
+        }
+
+
+
+        .txt {
+
+            position: absolute;
+
+            bottom: 70px;
+
+            left: 0;
+
+            right: 0;
+
+            height: 35px;
+
+            color: #fff;
+
+            padding: 10px;
+
+        }
+
+        button.iosplaybtn {
+
+            display: none;
+
+            position: absolute;
+
+            left: 50%;
+
+            top: 50%;
+
+            width: 60px;
+
+            height: 60px;
+
+            margin-top: -30px;
+
+            margin-left: -30px;
+
+            z-index:1;
+
+            background: url(../images/shipin/icon_play.png) no-repeat;
+
+            background-size: contain;
+
+            outline: none;
+
+            border: none;
+
+        }
+
+        .downloadbtn {
+
+            position: absolute;
+
+            left: 20%;
+
+            bottom: 20px;
+
+            width: 60%;
+
+            height: 40px;
+
+            background: #fe4455;
+
+            border-radius: 30px;
+
+            text-align: center;
+
+            line-height: 40px;
+
+            color: #fff;
+
+            text-decoration: none;
+
+        }
+
+        .group {
+
+            position: absolute;
+
+            right: 10px;
+
+            bottom: 20%;
+
+            width: 50px;
+
+        }
+
+        .group .author {
+
+            position: relative;
+
+            border: 1px solid #fff;
+
+            border-radius: 50%;
+
+            height: 48px;
+
+            margin-bottom: 35px;
+
+        }
+
+        .group .author img.author-head {
+
+            width: 100%;
+
+            height: 100%;
+
+            border-radius: 50%;
+
+        }
+
+        .group .author img.atten {
+
+            position: absolute;
+
+            bottom: -14px;
+
+            left: 50%;
+
+            margin-left: -14px;
+
+        }
+
+        .group a {
+
+            display: block;
+
+            margin-bottom: 20px;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            color: #fff;
+
+            text-align: center;
+
+        }
+
+        .group a span {
+
+            font-size: 14px;
+
+        }
+
+        .group a img {
+
+            display: block;
+
+            width: 30px;
+
+            margin: 0 auto;
+
+        }
+
+        #foot{
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            box-sizing: border-box;         
+        }
+        #foot .content{
+            width: 100%;
+            max-width: 10rem;
+            margin: 0 auto;
+            height: 1rem;
+            box-sizing: border-box;
+            padding: 0 0.3rem;
+            background: #ff833f;
+        }
+        #foot .tip{
+            font-size: 0.28rem;
+            color: #fff;
+        }   
+        #foot .tip em {
+            color: #ffeb63;
+        }
+        #foot .down{
+            width: 1.1rem;
+            height: 0.6rem;
+            background: #ffeadf;
+            border-radius: 30px;
+            color: #ff833f;
+            text-align: center;
+            font-size: 0.28rem;
+            line-height: 0.6rem;
+        }
+
+</style>
+
+</head>
+
+<body>
+
+    <p class='txt'>***</p>
+
+    <button class="iosplaybtn" onclick="playVid()" type="button"></button>
+
+    <!-- <a href="http://m.kemiandan.com/" class="downloadbtn">下载</a> -->
+    <div id="foot">
+        <div class="content flex-between-center">
+            <div class="tip">下载同城印象，更多好玩好看视频等着你</div>
+            <div class="down">下载</div>
+        </div>
+    </div>
+
+
+    <div class="group">
+
+        <a href="http://m.kemiandan.com/" class="author">
+
+        <img src="" alt="" class="author-head">
+
+        <img src="../images/shipin/icon_attention.png" alt="" class="atten">
+
+        </a>
+
+        <a href="http://m.kemiandan.com/">
+
+        <img src="../images/shipin/icon_like_l.png" alt="">
+
+        <span class="likenum">***</span>
+
+        </a>
+
+        <a href="http://m.kemiandan.com/">
+
+        <img src="../images/shipin/icon_comment_l.png" alt="">
+
+        <span class="commentnum">***</span>
+
+        </a>
+
+    </div>
+
+</body>
+
+<script type="text/javascript" src="../js/base.js"></script>
+
+<script type="text/javascript" src="../js/ydui.flexible.js"></script>
+
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+
+<script>
+
+        var video_id = Utils.getQueryString('video_id');
+
+
+
+        var u = navigator.userAgent, app = navigator.appVersion;
+
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
+
+        var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+        
+
+
+
+        function getVideoDetail() {
+
+            Loading.show({type:6});
+
+            var data = {
+
+                video_id:video_id
+
+            }
+
+            jQuery.ajax({
+
+                type: 'Get',
+
+                url: "/user/v3_0_0/getVideoDetail",
+
+                headers:{
+
+                    platform:3,
+
+                },
+
+                data:{
+
+                    video_id:video_id,
+
+                },
+
+                success: function (data) {
+
+                    Loading.hide();
+
+                    if(data.code == 0){
+
+                        window.location.href = encodeURI(baseUrl+'/h5/404.html');
+
+                        return;
+
+                    }
+
+                    if (data.code == 1) {
+
+
+
+                        $('.txt').html(data.data.video_info.title);
+
+                        $('.likenum').html(data.data.video_info.like_count)
+
+                        $('.commentnum').html(data.data.video_info.comment_count)
+
+                        if (!data.data.video_info.shop_thumb_image) {
+
+                            $('.author .author-head').attr('src',"../images/shipin/default_avatar.png")
+
+                        } else {
+
+                            $('.author .author-head').attr('src',data.data.video_info.shop_thumb_image)
+
+                        }
+
+                        $(document).attr('title',data.data.video_info.shop_name);
+
+
+
+                        if (isAndroid) {
+
+                            var video = '<video id="an-video" src="'+data.data.video_info.video_url+'" x5-video-player-type="h5" x5-video-player-fullscreen="true" playsinline webkit-playsinline controls poster="'+data.data.video_info.cover_url+'" style="height:110%"></video>'
+
+                            $('body .txt').before(video);
+
+                            androidFun();
+
+                        } else  {
+
+                            $('.iosplaybtn').show();                            
+
+                            var video = "<video id='ios-video' preload='auto' webkit-playsinline='true' playsinline='true' poster="+data.data.video_info.cover_url+"><source src="+data.data.video_info.video_url+" type='video/mp4'></video>"
+
+                            $('body .txt').before(video);
+
+                        }
+
+
+
+                    }
+
+                },
+
+                fail: function(data) {
+
+                    Loading.hide();
+
+                }
+
+            })
+
+        }
+
+        getVideoDetail();
+
+
+
+        function playVid(){ 
+
+            $('.iosplaybtn').hide();
+
+            var video = $('video')
+
+            var _video = $('video').get(0);                        
+
+            _video.play();
+
+            _video.addEventListener("ended",function(){
+
+               $('.iosplaybtn').show();    
+
+            },false)
+            
+            _video.addEventListener('pause',function(){
+
+                $('.iosplaybtn').show();  
+
+            },false)
+
+        }
+
+        function androidFun(){
+
+            var video = $('#an-video').get(0);
+
+            video.addEventListener('x5videoenterfullscreen', function() {
+
+                video.addClass('android-full');
+
+                $('.txt').addClass('android-full');
+
+            });
+
+            video.addEventListener('x5videoexitfullscreen', function() {
+
+                video.removeClass('android-full');
+
+                $('.txt').removeClass('android-full');
+
+            });
+
+        }
+
+        document.addEventListener('visibilitychange',function(){
+            // window.location.reload()
+            var video = $('video')
+            var _video = $('video').get(0);
+            if (document.hidden) {
+                _video.pause()
+            }
+        })
+
+        $('#foot .down').on('click',function(){
+            window.location = "http://m.kemiandan.com/";
+        })
+
+    </script>
+
+</html>

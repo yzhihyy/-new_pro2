@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>付款</title>
+        <meta http-equiv="Expires" content="0">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Cache-control" content="no-cache">
+        <meta http-equiv="Cache" content="no-cache">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" type="text/css" href="css/base.css?v2" />
+        <script type="text/javascript" src="js/ydui.flexible.js"></script>
+        <style type="text/css">
+            .p-30{
+                padding: 0.3rem;
+            }
+        	#main{
+        	    padding: 0.4rem 0.4rem 0.8rem;
+        	    background-color: white;
+        	    box-sizing: border-box;
+        	    display: none;
+        	}
+        	#main #shop-name{
+        	    font-size: 0.32rem;
+        	    color: #333;
+        	    text-align: center;
+        	    line-height: 0.5rem;
+        	    padding-bottom: 0.4rem;
+        	}
+        	#main #avatar{
+        	    width: 1.2rem;
+        	    height: 1.2rem;
+        	    margin: 0.2rem auto 0.3rem;
+        	    object-fit: cover;
+        	}
+        	#main .money-text{
+        	    font-size: 0.32rem;
+        	    line-height: 1rem;
+        	    color: #333;
+        	}
+        	#main .pay-money{
+        	    border-bottom: 1px solid #ddd;
+        	    height: 1rem;
+        	    line-height: 1rem;
+        	    overflow: hidden;
+        	}
+        	#main .pay-money span{
+        	    font-size: 0.6rem;
+        	    color: #333;
+        	}
+        	#main .pay-money input{
+        	    color: #333;
+        	    font-size: 0.6rem;
+        	    flex: 1;
+        	}
+        	#pay{
+        	    height: 0.9rem;
+        	    line-height: 0.9rem;
+        	    font-size: 0.3rem;
+        	    color: #f59eb3;
+        	    text-align: center;
+        	    border-radius: 0.04rem;
+        	    background-color: #f4295b;
+        	    margin-top: 0.8rem;
+        	}
+        	#pay.active{
+        	    color: white;
+        	}
+        	#foot{
+        	    position: fixed;
+        	    left: 0;
+        	    bottom: 0;
+        	    width: 100%;                	    
+        	}
+        	#foot .content{
+        	    margin: 0 auto;
+        	    max-width: 8rem;
+        	    width: 100%;
+        	    height: 1rem;
+        	    background-image: linear-gradient(
+                    #ff833f, 
+                    #ff833f), 
+                linear-gradient(
+                    #fa8c43, 
+                    #fa8c43);
+                background-blend-mode: normal, 
+                    normal;
+                padding: 0 0.3rem;     
+                box-sizing: border-box;
+                font-size: 0.3rem;
+                color: white;
+        	}
+        	#foot .tip{
+        	    font-size: 0.3rem;
+        	}
+        	#foot .down{
+        	    width: 1.1rem;
+        	    height: 0.56rem;
+        	    line-height: 0.56rem;
+        	    text-align: center;
+        	    border-radius: 0.28rem;
+        	    background-color: #ffeadf;
+        	    color: #fa8c43;
+        	    font-size: 0.3rem;
+        	}
+        </style>
+    </head>
+    <body>
+        <div class="p-30">            
+            <div id="main">
+                <img id="avatar" src=""/>
+                <div id="shop-name" class="t-ellipsis"></div>
+                <div class="money-text">消费金额</div>
+                <div class="pay-money flex-between-center">
+                    <span>￥</span>
+                    <input type="text"/>
+                </div>
+                <div id="pay">支付</div>
+            </div>
+        </div>
+        <div id="foot">
+            <div class="content flex-between-center">
+                <div class="flex-1 tip">下载同城印象，更多好玩好看视频等着你</div>
+                <a class="down" href="http://m.kemiandan.com/">下载</a>
+            </div>
+        </div>
+    </body>
+</html>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    var shop_id = Utils.getQueryString('shop_id');
+    var token = window.sessionStorage.getItem('token');
+    var openid = window.sessionStorage.getItem('openid');
+    var unionid = window.sessionStorage.getItem('unionid');
+    var wx_code = Utils.getQueryString('code');
+    var order_money = $('input').val();
+    
+    if(order_money > 0) {
+        $('#pay').addClass('active');
+    } else {
+        $('#pay').removeClass('active');
+    }
+    
+    // 金额输入监听
+    $('input').on('input', function() {
+        var order_money = $(this).val();
+        order_money = order_money.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
+        order_money = order_money.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的  
+        order_money = order_money.replace(".","$#$").replace(/\./g,"").replace("$#$","."); 
+        order_money = order_money.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');//只能输入两个小数  
+        if(order_money.indexOf(".")< 0 && order_money !=""){//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额 
+            order_money= Number(order_money) + ''; 
+        }
+        if(order_money.indexOf(".") <= 0 && order_money.length > 9) {
+            order_money = order_money.substr(0, 9);
+        }
+        if(order_money != $(this).val()){
+            $(this).val(order_money);
+        }
+        if(order_money > 0) {
+            $('#pay').addClass('active');
+        } else {
+            $('#pay').removeClass('active');
+        }
+    })
+    
+    // 判断是否有登陆
+    function isLogin() {        
+        if(Utils.isWeiXinClient()) {
+            if(!openid || !unionid || !token) {
+                if(wx_code) {
+                    getWxAuth();
+                } else {
+                    window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf10829fcbc0073db&redirect_uri=' + encodeURI(baseUrl + '/h5/pay.html?shop_id=' + shop_id) + '&response_type=code&scope=snsapi_userinfo&state=state_code#wechat_redirect';
+                }
+            } else {
+                getPreparePayment();
+            }
+        } else {          
+            if(!token) {
+                window.location.href = encodeURI(baseUrl + '/h5/login.html?type=1&shop_id=' + shop_id);
+                return;
+            } else {
+                getPreparePayment();
+            }
+        }
+    }
+
+    // 获取微信unionid
+    function getWxAuth() {
+        $.ajax({
+            url: baseUrl + "/user/v2_0_0/getWxAuth",
+            headers: {
+                platform: 3,
+            },
+            data: {
+                wx_code: wx_code
+            },
+            method: 'get',
+        }).done(function(res) {
+            if(res.code == 1) {
+                window.sessionStorage.setItem('token', res.data.token);
+                window.sessionStorage.setItem('openid', res.data.wechat_mp_openid);
+                window.sessionStorage.setItem('unionid', res.data.unionid);
+                if(res.data.has_bind_phone != 1) {
+                    window.location.href = encodeURI(baseUrl + '/h5/login.html?type=1&shop_id=' + shop_id);
+                } else {
+                    getPreparePayment();
+                }
+            }
+        }).fail(function(res) {
+            Toast({message:'网络有点问题~'});
+        });
+    }
+    
+    // 获取商家信息
+    function getPreparePayment() {
+        $.ajax({
+            url: "/user/v2_0_0/preparePayment",
+            headers: {
+                platform: 3,
+                token: window.sessionStorage.getItem('token')
+            },
+            data: {
+                shop_id: shop_id
+            },
+            method: 'get',
+            beforeSend: function() {
+                Loading.show({type:6});
+            }
+        }).done(function(res) {
+            Loading.hide();
+            if(res.code != 1) {
+                Toast({message:res.msg});
+                return;
+            }
+            $('#main #avatar').prop('src', res.data.shop_thumb_image);
+            $('#main #shop-name').text(res.data.shop_name);
+            $('#main').show();
+        }).fail(function(res) {
+            Loading.hide();
+            Toast({message:'网络有点问题~'});
+        });
+    }
+    
+    isLogin();
+    
+    // 点击付款
+    $('#pay').on('click',function(){        
+        var order_money = $('input').val();
+        if(order_money.trim()===''||order_money <= 0) {
+            return;
+        }        
+     
+        var data = {
+            shop_id: shop_id,
+            payment_money: order_money,
+            remark: '',
+            wechat_mp_openid: window.sessionStorage.getItem('openid')
+        }
+        if(Utils.isWeiXinClient()) {
+            data.payment_type = 2;
+        } else {
+            data.payment_type = 1;
+        }
+        
+        $.ajax({
+            url: "/user/v3_0_0/paying",
+            headers: {
+                platform: 3,
+                token: window.sessionStorage.getItem('token')
+            },
+            data: data,
+            method: 'post',
+            beforeSend: function() {
+                Loading.show({type:6});
+            }
+        }).done(function(res) {
+            Loading.hide();
+            if(res.code != 1) {
+                Toast({message:res.msg});
+                return;
+            }
+            if(Utils.isWeiXinClient()) {
+                WeixinJSBridge.invoke(
+                    'getBrandWCPayRequest', {
+                        appId: res.data.pay_info.appId,
+                        timeStamp: res.data.pay_info.timeStamp,
+                        nonceStr: res.data.pay_info.nonceStr,
+                        package: res.data.pay_info.package,
+                        signType: res.data.pay_info.signType,
+                        paySign: res.data.pay_info.paySign
+                    },
+                    function(result) {
+                        if(result.err_msg == "get_brand_wcpay_request:ok") {
+                            window.location.href = encodeURI(baseUrl + '/h5/paySuccess.html?serial_number=' + res.data.serial_number);
+                        }
+                    }
+                );
+            } else {
+                $('body').append(res.data.pay_info);
+            }
+        }).fail(function(res) {
+            Loading.hide();
+        });
+    })
+</script>

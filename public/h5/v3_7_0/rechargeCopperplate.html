@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta http-equiv="Expires" content="0">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Cache-control" content="no-cache">
+        <meta http-equiv="Cache" content="no-cache">
+        <link rel="stylesheet" type="text/css" href="../css/base.css" />
+        <script type="text/javascript" src="../js/ydui.flexible.js"></script>
+        <style type="text/css">
+            body {
+                background-color: white;
+            }
+            
+            #main {
+                padding-bottom: 2.2rem;
+                box-sizing: border-box;
+            }
+            
+            #main .mine {
+                width: 100%;
+                height: 2.3rem;
+                padding: 0.12rem;
+                box-sizing: border-box;
+                position: relative;
+            }
+            
+            #main .mine>img {
+                width: 100%;
+                height: 2rem;
+            }
+            
+            #main .mine .info {
+                position: absolute;
+                left: 0;
+                top: 0.4rem;
+                text-align: center;
+                width: 100%;
+            }
+            
+            #main .mine .info>.text {
+                font-size: 0.28rem;
+                line-height: 0.4rem;
+                color: white;
+            }
+            
+            #main .mine .info>.amount {
+                font-size: 0.8rem;
+                line-height: 1rem;
+                color: white;
+            }
+            
+            .quota>.tip {
+                font-size: 0.3rem;
+                color: #333;
+                line-height: 0.7rem;
+                padding-left: 0.3rem;
+            }
+            
+            .quota>.list {
+                padding: 0 0.1rem 0.4rem;
+            }
+            
+            .quota .item {
+                width: 2.12rem;
+                border: 1px solid #F5F5F5;
+                height: 1.4rem;
+                border-radius: 0.2rem;
+                text-align: center;
+                margin: 0.13rem;
+                position: relative;
+            }
+            
+            .quota .item.active {
+                background-image: linear-gradient(119deg, #FF4874 0%, #FF5B67 100%);
+            }
+            
+            .fs-44 {
+                font-size: 0.44rem;
+            }
+            
+            .item .amount {
+                font-size: 0.26rem;
+                color: #333;
+                line-height: 0.6rem;
+                padding-top: 0.2rem;
+            }
+            
+            .item.active .amount {
+                color: white;
+            }
+            
+            .item .price {
+                font-size: 0.3rem;
+                color: #999;
+                line-height: 0.4rem;
+            }
+            
+            .item.active .price {
+                color: white;
+            }
+            
+            .item .gift {
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 0.5rem;
+                height: 0.28rem;
+                background-image: url('../images/pay_icon_zeng_normal@2x.png');
+                background-size: 100% 100%;
+            }
+            
+            .item.active .gift {
+                background-image: url('../images/pay_icon_zeng_pressed@2x.png');
+            }
+            
+            .pay {
+                padding: 0 0.3rem;
+            }
+            
+            .pay .title {
+                font-size: 0.3rem;
+                color: #333;
+                font-weight: bold;
+            }
+            
+            .payType {
+                height: 1.1rem;
+                border-bottom: 1px solid #eaeaea;
+            }
+            
+            .payType>img {
+                width: 0.52rem;
+                height: 0.52rem;
+            }
+            
+            .payType>.flex-1 {
+                font-size: 0.3rem;
+                color: #333;
+                font-weight: bold;
+                padding: 0 0.1rem;
+            }
+            
+            .payType>.state {
+                width: 0.44rem;
+                height: 0.44rem;
+                background-image: url('../images/icon_unchecked@2x.png');
+                background-size: 100% 100%;
+            }
+            
+            .payType.active>.state {
+                background-image: url('../images/icon_checked@2x.png');
+            }
+            
+            #foot {
+                position: fixed;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                width: 100%;
+                max-width: 8rem;
+                margin: 0 auto;
+                background-color: white;
+            }
+            
+            #foot>.protocol {
+                font-size: 0.26rem;
+                color: #999;
+                text-align: center;
+                line-height: 0.8rem;
+            }
+            
+            #foot>.protocol>span {
+                color: #ff2b5e;
+                font-size: 0.26rem;
+            }
+            
+            #foot>#recharge {
+                width: 4.4rem;
+                height: 0.88rem;
+                border-radius: 0.44rem;
+                margin: 0 auto 0.5rem;
+                text-align: center;
+                line-height: 0.88rem;
+                font-size: 0.32rem;
+                color: white;
+                background-image: linear-gradient(119deg, #FF4874 0%, #FF5B67 100%);
+                box-shadow: 0 0.04rem 0.24rem 0 rgba(238, 13, 67, 0.30);
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="main">
+        </div>
+    </body>
+
+</html>
+<script type="text/javascript" src="../js/base.js"></script>
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    var token = Utils.getQueryString('token');
+    var version = Utils.getQueryString('version');
+    // 支付方式
+    var payType = 1;
+    // 是否为ios
+    var isIOS = Utils.isIOS();
+    // 铜板数据列表
+    var copper_list = [];
+    // 选中的铜板
+    var chose_copper = {};
+    // 判断是否为ios审核版本
+    var iosReview = false;
+    $(function() {
+        function init() {
+            $.ajax({
+                url: "/user/v3_7_0/preRecharge",
+                headers: {
+                    platform: 3,
+                    token: token,
+                    version: version,
+                },
+                method: 'get',
+                beforeSend: function() {
+                    Loading.show({
+                        type: 8
+                    });
+                }
+            }).done(function(res){
+                Loading.hide();
+                if(res.code != 1) {
+                    Toast({
+                        message: res.msg
+                    });
+                    return;
+                }
+                res.data.current_version_apple_review_status = 1;
+                iosReview = isIOS&&res.data.current_version_apple_review_status == 1;
+                var str = '';
+                str += ' <div class="mine">';
+                str += '    <img src="../images/Pay_top_bg@2x.png" />';
+                str += '    <div class="info">';
+                str += '        <div class="text">我的铜板(个)</div>';
+                str += '        <div class="amount">'+ res.data.copper_coin +'</div>';
+                str += '    </div>';
+                str += ' </div>';
+                str += ' <div class="quota">';
+                str += '    <div class="tip">请选择充值额度</div>';
+                str += '    <div class="list flex-start flex-wrap">';
+                
+                copper_list = res.data.copper_list;
+                for(var i = 0; i < res.data.copper_list.length; i++){
+                    if(i == 0){
+                        chose_copper = res.data.copper_list[i];
+                        str += '        <div data-index="'+ i +'" class="item active">';
+                    }else{
+                        str += '        <div data-index="'+ i +'" class="item">';
+                    }
+                    var copper_count = res.data.copper_list[i].copper_count;
+                    // 判断该版本是否为苹果审核版本，若为该版本则只显示苹果支付
+                    if(iosReview){
+                        copper_count = res.data.copper_list[i].apple_pay_copper_count;
+                    }
+                    str += '            <div class="amount t-ellipsis"><span class="fs-44">'+ copper_count +'</span>铜板</div>';
+                    str += '            <div class="price">¥'+ res.data.copper_list[i].price +'</div>';
+                    if(!iosReview && res.data.copper_list[i].gift_copper_count > 0){                        
+                        str += '            <div class="gift"></div>';
+                    }
+                    
+                    str += '        </div>';
+                }
+                               
+                str += '    </div>';
+                str += ' </div>';
+                str += ' <div class="pay">';
+                
+                if(!iosReview){                    
+                    str += '    <div class="title">请选择支付方式</div>';
+                    str += '    <div data-type="1" class="active payType flex-start-center">';
+                    str += '        <img src="../images/pay_icon_wechat@2x.png" />';
+                    str += '        <div class="flex-1">微信支付</div>';
+                    str += '        <div class="state"></div>';
+                    str += '    </div>';
+                    str += '    <div data-type="2" class="payType flex-start-center">';
+                    str += '        <img src="../images/pay_icon_zhifubao@2x.png" />';
+                    str += '        <div class="flex-1">支付宝支付</div>';
+                    str += '        <div class="state"></div>';
+                    str += '    </div>';
+                    if(isIOS&&res.data.apple_pay_enable_flag == 1){                    
+                        str += '        <div data-type="3" class="payType flex-start-center">';
+                        str += '            <img src="../images/icon_applepay@2x.png" />';
+                        str += '            <div class="flex-1">Apple Pay</div>';
+                        str += '            <div class="state"></div>';
+                        str += '        </div>';
+                    }
+                }else{
+//                  str += '        <div data-type="3" class="active payType flex-start-center">';
+//                  str += '            <img src="../images/icon_applepay@2x.png" />';
+//                  str += '            <div class="flex-1">Apple Pay</div>';
+//                  str += '            <div class="state"></div>';
+//                  str += '        </div>';
+                    payType = 3;
+                }
+                
+                
+                str += ' </div>';
+                str += ' <div id="foot">';
+//              str += '    <div class="protocol">支付即同意<span>同城印象充值协议</span></div>';
+                str += '    <div id="recharge">确认充值'+ chose_copper.price +'元</div>';
+                str += ' </div>';
+                
+                $('#main').append(str);
+            }).fail(function(res) {
+                Loading.hide();
+                Toast({
+                    message: '网络有点问题~'
+                });
+            });
+        }
+        init();
+        // 点击切换付款方式
+        $('#main').on('click','.pay .payType',function(){
+            var type = $(this).data('type');
+            if(payType != type){
+                if(type == 3 || payType == 3){
+                    var str = '';
+                    for(var i = 0; i < copper_list.length; i++){
+                        if(i == 0){
+                            chose_copper = copper_list[i];
+                            str += ' <div data-index="'+ i +'" class="item active">';
+                        }else{
+                            str += ' <div data-index="'+ i +'" class="item">';
+                        }
+                        var copper_count = copper_list[i].copper_count;
+                        if(type == 3){
+                            copper_count = copper_list[i].apple_pay_copper_count;
+                        }
+                        str += '    <div class="amount t-ellipsis"><span class="fs-44">'+ copper_count +'</span>铜板</div>';
+                        str += '    <div class="price">¥'+ copper_list[i].price +'</div>';
+                        if(type != 3 && copper_list[i].gift_copper_count > 0){                        
+                            str += '    <div class="gift"></div>';
+                        }
+                        str += ' </div>';
+                    }
+                    $('#main .quota .list').html(str);
+                    chose_copper = copper_list[0];
+                    $('#recharge').text('确认充值'+ chose_copper.price +'元');
+                }
+                payType = type;
+                $('#main .payType').removeClass('active');
+                $(this).addClass('active');
+            }
+        })
+        // 点击切换充值额度
+        $('#main').on('click','.quota .item',function(){
+            var index = $(this).data('index');
+            if(copper_list[index].copper_id != chose_copper.copper_id){
+                $('#main .quota .item').removeClass('active');
+                $(this).addClass('active');
+                chose_copper = copper_list[index];
+                $('#recharge').text('确认充值'+ chose_copper.price +'元');
+            }
+        })
+        // 点击充值
+        $('#main').on('click','#recharge',function(){
+            Utils.noticeApp('recharge',{
+                payType:payType,
+                copper_id:chose_copper.copper_id,
+                price:chose_copper.price,
+                apple_item_id:chose_copper.apple_item_id
+            })
+        })
+        // 点击跳转充值协议
+        $('#main').on('click','#foot span',function(){
+            Utils.noticeApp('openWebView',{
+                title:"用户协议",
+                url: baseUrl + "/h5/v3_7_0/rechargeProtocol.html"
+            });
+        })
+    })
+</script>

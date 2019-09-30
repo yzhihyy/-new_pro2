@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>同城印象</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="stylesheet" type="text/css" href="css/base.css?v"/>
+<style type="text/css">
+			body {
+				background: #fff;
+			}
+			.c-999{
+				color: #999;
+			}
+			.c-pink {
+				color: #f4295b!important;
+			}
+			#main {
+				padding-bottom:1rem;
+			}
+			.head {
+				padding: 0.3rem;
+				background: #Fff;
+				border-bottom: 1px solid #eee;
+			}
+			.head img {
+				width: 1.6rem;
+				height: 1.6rem;
+				margin-right: 0.28rem;
+				object-fit: cover;
+				background-color: #F5F5F5;
+			}
+			.head > div {
+				position: relative;
+			}
+			.head .p1 {
+				font-family: PingFang-SC-Medium;
+				font-size: 0.4rem;
+				color: #000000;
+			}
+			.head .p2 {
+				font-family: PingFang-SC-Medium;
+				font-size: 0.2rem;
+				margin: 0.1rem 0 0.2rem 0; 
+				color: #808080;
+			}
+			.head .p2 em {
+				color: #e6e6e6;
+				padding: 0 0.1rem;
+				font-size: 0.2rem;
+			}
+			.head .p3 {
+				font-family: PingFang-SC-Medium;
+				font-size: 0.2rem;
+				letter-spacing: 0px;
+				color: #999;
+			}
+			.head .p4 {
+				position: absolute;
+				right: 0;
+				top: 0;
+				color: #ff8d28;
+				font-size: 0.22rem;
+			}
+			.info {
+				padding: 15px;
+			}
+			.imgbox {
+				margin: 0.22rem 0 0.15rem 0;
+			}
+			.imgbox img {
+				display: block;
+				width: 100%;
+				height: auto;
+				background-color: #F5F5F5;
+			}
+			.imgbox img + img {
+				margin-top: 0.1rem;
+			}
+			.info .c-999 {
+				font-size: 0.28rem;
+			}
+			#foot{
+				position: fixed;
+				border-top: 1px solid #eee;
+				left: 0;
+				bottom: 0;
+				width: 100%;
+				box-sizing: border-box;			
+			}
+			#foot .content{
+				width: 100%;
+				max-width: 10rem;
+				margin: 0 auto;
+				height: 1rem;
+				box-sizing: border-box;
+				padding: 0 0.3rem;
+				background: #ff833f;
+			}
+			#foot .tip{
+				font-size: 0.28rem;
+				color: #fff;
+			}	
+			#foot .tip em {
+				color: #ffeb63;
+			}
+			#foot .down{
+				width: 1.1rem;
+				height: 0.6rem;
+				background: #ffeadf;
+				border-radius: 30px;
+				color: #ff833f;
+				text-align: center;
+				font-size: 0.28rem;
+				line-height: 0.6rem;
+			}
+</style>
+</head>
+<body>
+<div id="main">
+	<div id="content" style="display: none;">
+		<div class="head flex-start-center">
+			<img src="" alt="">
+			<div class="flex-1">
+				<p class="p1">
+					***
+				</p>
+				<p class="p2">
+					** <em>|</em> **
+				</p>
+				<p class="p3">
+					**人浏览
+				</p>
+			</div>
+		</div>
+		<div class="info">
+			<div class="c-333 activeContent">
+			</div>
+			<div class="imgbox">
+			</div>
+			<div class="c-999 generate_time">
+			</div>
+		</div>
+	</div>
+	<div id="foot" style="display: none;">
+		<div class="content flex-between-center">
+			<div class="tip">下载同城印象，更多好玩好看视频等着你</div>
+			<div class="down">下载</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="js/init.js"></script>
+<script type="text/javascript" src="js/ydui.flexible.js"></script>
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<!--<script type="text/javascript" src="../static/js/vue.js"></script>
+-->
+<script type="text/javascript">
+	var activity_id = getQueryString('activity_id');
+	var isApp=getQueryString('isApp');
+	var latitude = getQueryString('latitude');
+	if(!latitude){
+		latitude=119.00559;
+	}
+	var longitude = getQueryString('longitude');
+	if(!longitude){
+		longitude=25.44782;
+	}
+	function getActivityData() {
+		showLoading();
+		var data = {
+			activity_id:activity_id
+		}
+		jQuery.ajax({
+			type: 'Get',
+			url: "/v1_1_0/getShopActivityDetail",
+			headers:{
+				platform:3,
+			},
+			data:{
+				activity_id:activity_id,
+				longitude:longitude,
+				latitude:latitude,
+			},
+			success: function (data) {
+				hideLoading();
+				if(data.code != 1){
+					openMark(data.msg);
+					return;
+				}
+				$(document).attr('title',data.data.shop_name);
+				$('#content').show();
+				$('#content .head img').prop('src',data.data.shop_thumb_image);
+				$('#content .head .p1').text(data.data.shop_name);
+				if(isApp){
+					$('#content .head .p2').html(data.data.shop_category_name + '<em>|</em>' + data.data.shop_address_poi + ' · ' + data.data.show_distance);
+				}else{
+					$('#content .head .p2').html(data.data.shop_category_name + '<em>|</em>' + data.data.shop_address_poi);
+				}
+				$('#content .head .p3').text(data.data.pageviews+"人浏览");
+				$('#content .activeContent').text(data.data.content);
+				var imgStr = '';
+				for(var i = 0; i < data.data.activity_photo_album_list.length; i++){
+					imgStr += '<img src="'+ data.data.activity_photo_album_list[i] +'" alt="活动图片">';
+				}
+				$('#content .imgbox').append(imgStr);
+				$('#content .generate_time').text(data.data.generate_time);
+			},
+			fail: function(data) {
+				hideLoading();
+			}
+		})
+	}
+	getActivityData();
+	if(!isApp){
+		$('#foot').show();
+	}
+	$('#foot .down').on('click',function(){
+		window.location = "http://m.kemiandan.com/";
+	})
+</script>

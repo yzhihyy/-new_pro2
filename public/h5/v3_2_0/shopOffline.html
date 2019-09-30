@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>店铺下线</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" type="text/css" href="../css/base.css" />
+        <style type="text/css">
+            .main{
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #F6F6F6;
+                text-align: center;
+                padding-top: 2rem;
+                box-sizing: border-box;
+            }
+            .main img{
+                display: block;
+                width: 1.9rem;
+                height: 1.9rem;
+                margin: 0 auto;
+            }
+            .main .tell{
+                display: block;
+                margin: 0 auto;
+                width: 4rem;
+                height: 0.9rem;
+                background-image: linear-gradient(-48deg, 
+                    #fa614c 0%, 
+                    #f93c6b 100%), 
+                linear-gradient(
+                    #f4295b, 
+                    #f4295b);
+                background-blend-mode: normal, 
+                    normal;
+                border-radius: 0.45rem;   
+                text-align: center;
+                font-size: 0.32rem;
+                line-height: 0.9rem;     
+                color: white;       
+            }
+            .main .shopState{
+                font-size: 0.32rem;
+                color: #333;
+                line-height: 0.56rem;
+                margin: 0.3rem 0 0.1rem;
+            }
+            .main .shopTip{
+                font-size: 0.28rem;
+                color: #999;
+                margin-bottom: 0.6rem;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main">
+            <img src="../images/icon_no_subbranch@2x.png"/>
+            <div class="shopState">店铺已下线</div>
+            <div class="shopTip">若有疑问请咨询客服</div>
+            <a class="tell" href="tel:0594-2283888">咨询客服</a>
+        </div>
+    </body>
+</html>
+<script type="text/javascript" src="../js/ydui.flexible.js"></script>
+<script type="text/javascript" src="../js/base.js"></script>
+<script type="text/javascript">
+    var shopState = Utils.getQueryString('shopState');
+    // shopState = 1  店铺已下线 
+    // shopState = 2  该账号已被封号 
+    if(shopState == 1){
+        document.querySelector('.shopState').innerText = '店铺已下线';
+    }else if(shopState == 2){
+        document.querySelector('.shopState').innerText = '该账号已被封号';
+    }
+</script>

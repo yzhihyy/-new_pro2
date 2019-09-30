@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" type="text/css" href="../css/base.css?v"/>
+<title></title>
+
+<style>
+        html, body {
+            padding: 0;
+            margin: 0 auto;
+            height: 100%;
+            overflow: hidden;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            /*object-fit: cover;*/
+            object-position: center center;
+            background: url(../images/shipin/shipin_bg.png);
+        }
+        video.android-full {
+            position: relative;
+            width: 100%;
+            height: 110%;
+            object-fit: cover;
+        }
+        video.android-full::-webkit-media-controls-enclosure {
+            -webkit-appearance: none;
+            position: absolute;
+            bottom: -10%;
+		}
+		
+		.store {
+			position: absolute;
+			left: .3rem;
+			bottom: 2.16rem;
+			padding: 0.2rem;
+			background-color:rgba(0, 0, 0, 0.2);
+			height: 1rem;
+			width: 5rem;
+			border-radius: .1rem;
+			z-index: 999;
+		}
+		.store .store-avatar {
+			width: 1rem;
+			height: 1rem;
+			border-radius: 50%;
+			margin-right: .2rem;
+		}
+		.store .store-name {
+            margin-top: .1rem;
+			font-size: 0.30rem;
+			width: 3rem;
+			color: #fff;
+		}
+		.store .store-address {
+			font-size: 0.24rem;
+			width: 3.8rem;
+			margin-top: .1rem;
+			color: #ccc;
+		}
+		.close {
+			color: #ccc;
+			line-height: 20px;
+			text-align: center;
+			height: .2rem;
+			width: .2rem;
+			font-size: 0.26rem;
+			padding: 0.1rem;
+			top: -0.3rem;
+			right: -0.1rem;
+			position: absolute;
+		}
+		.close::before {
+			content: "\2716";
+		}
+
+        .txt.android-full {
+            position: absolute;
+            bottom: 10%;
+        }
+        .txt {
+            position: absolute;
+            bottom: 1.48rem;
+            left: .3rem;
+            right: 0;
+            font-size: 0.3rem;
+            color: #fff;
+        }
+        button.iosplaybtn {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 60px;
+            height: 60px;
+            margin-top: -30px;
+            margin-left: -30px;
+            z-index:1;
+            background: url(../images/shipin/icon_play.png) no-repeat;
+            background-size: contain;
+            outline: none;
+            border: none;
+        }
+        .downloadbtn {
+            position: absolute;
+            left: 20%;
+            bottom: 20px;
+            width: 60%;
+            height: 40px;
+            background: #fe4455;
+            border-radius: 30px;
+            text-align: center;
+            line-height: 40px;
+            color: #fff;
+            text-decoration: none;
+        }
+        .group {
+            position: absolute;
+            right: 10px;
+            bottom: 20%;
+            width: 50px;
+        }
+        .group .author {
+            position: relative;
+            border: 1px solid #fff;
+            border-radius: 50%;
+            height: 48px;
+            margin-bottom: 35px;
+        }
+        .group .author img.author-head {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+        .group .author img.atten {
+            position: absolute;
+            bottom: -14px;
+            left: 50%;
+            margin-left: -14px;
+        }
+        .group a {
+            display: block;
+            margin-bottom: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            text-align: center;
+        }
+        .group a span {
+            font-size: 14px;
+        }
+        .group a img {
+            display: block;
+            width: 30px;
+            margin: 0 auto;
+        }
+        #foot{
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            box-sizing: border-box;         
+        }
+        #foot .content{
+            width: 100%;
+            max-width: 10rem;
+            margin: 0 auto;
+            height: 1rem;
+            box-sizing: border-box;
+            padding: 0 0.3rem;
+            background: #ff833f;
+        }
+        #foot .tip{
+            font-size: 0.28rem;
+            color: #fff;
+        }   
+        #foot .tip em {
+            color: #ffeb63;
+        }
+        #foot .down{
+            width: 1.1rem;
+            height: 0.6rem;
+            background: #ffeadf;
+            border-radius: 30px;
+            color: #ff833f;
+            text-align: center;
+            font-size: 0.28rem;
+            line-height: 0.6rem;
+        }
+</style>
+</head>
+
+<body>
+	<a href="http://m.kemiandan.com/">
+	<div class="store flex" style="display:none">
+		<img class="store-avatar" src=""/>
+		<div style="position:relative">
+			<span class="close"></span>
+			<div class="store-name t-ellipsis"></div>
+			<div class="store-address t-ellipsis"></div>
+		</div>
+	</div>
+	</a>
+    <p class='txt'>***</p>
+    <button class="iosplaybtn" onclick="playVid()" type="button"></button>
+    <!-- <a href="http://m.kemiandan.com/" class="downloadbtn">下载</a> -->
+    <div id="foot">
+        <div class="content flex-between-center">
+            <div class="tip">下载同城印象，更多好玩好看视频等着你</div>
+            <div class="down">下载</div>
+        </div>
+    </div>
+    <div class="group">
+        <a href="http://m.kemiandan.com/" class="author">
+        <img src="" alt="" class="author-head">
+        <img src="../images/shipin/icon_attention.png" alt="" class="atten">
+        </a>
+        <a href="http://m.kemiandan.com/">
+        <img src="../images/shipin/icon_like_l.png" alt="">
+        <span class="likenum">***</span>
+        </a>
+        <a href="http://m.kemiandan.com/">
+        <img src="../images/shipin/icon_comment_l.png" alt="">
+        <span class="commentnum">***</span>
+        </a>
+    </div>
+</body>
+
+<script type="text/javascript" src="../js/base.js"></script>
+<script type="text/javascript" src="../js/ydui.flexible.js"></script>
+<script type="text/javascript" src="../js/jweixin-1.4.0.js"></script>
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+<script>
+        var video_id = Utils.getQueryString('video_id');
+        var u = navigator.userAgent, app = navigator.appVersion;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
+        var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+        function getVideoDetail() {
+            Loading.show({type:6});
+            var data = {
+                video_id:video_id
+            }
+            jQuery.ajax({
+                type: 'Get',
+                url: "/user/v3_0_0/getVideoDetail",
+                headers:{
+                    platform:3,
+                },
+                data:{
+                    video_id:video_id,
+                },
+
+                success: function (data) {
+                    Loading.hide();
+                    if(data.code == 0){
+                        window.location.href = encodeURI(baseUrl+'/h5/404.html');
+                        return;
+                    }
+                    if (data.code == 1) {
+						var info = data.data.video_info
+                        $('.txt').html(info.title);
+                        $('.likenum').html(info.like_count)
+                        $('.commentnum').html(info.comment_count)
+                        if (!info.shop_thumb_image) {
+                            $('.author .author-head').attr('src',"../images/shipin/default_avatar.png")
+                        } else {
+                            $('.author .author-head').attr('src',info.shop_thumb_image)
+                        }
+                        $(document).attr('title',info.shop_name);
+                        if (isAndroid) {
+                            var video = '<video id="an-video" src="'+info.video_url+'" x5-video-player-type="h5" x5-video-player-fullscreen="true" playsinline webkit-playsinline controls poster="'+info.cover_url+'" style="height:110%"></video>'
+                            $('body .txt').before(video);
+                            androidFun();
+                        } else  {
+                            $('.iosplaybtn').show();                            
+                            var video = "<video id='ios-video' preload='auto' webkit-playsinline='true' playsinline='true' poster="+info.cover_url+"><source src="+info.video_url+" type='video/mp4'></video>"
+                            $('body .txt').before(video);
+                        }
+                        // 若有关联店铺则显示
+						if (info.related_shop_id != 0) {
+							$('.store').show()
+							$('.store-name').html(info.related_shop_name);
+							$('.store-address').html(info.related_shop_address)
+							$('.store-avatar').attr('src', info.related_shop_thumb_image)
+						}
+						if(Utils.isWeiXinClient()){
+                            jssdkConfig({
+                                imgurl:data.data.video_info.cover_url,
+                                title:data.data.video_info.title,
+                                desc:data.data.video_info.title,
+                                url:data.data.video_info.share_url,
+                            });
+                        }
+                    }
+                },
+                fail: function(data) {
+                    Loading.hide();
+                }
+            })
+
+        }
+        getVideoDetail();
+
+        function playVid(){ 
+            $('.iosplaybtn').hide();
+            var video = $('video')
+            var _video = $('video').get(0);                        
+            _video.play();
+            _video.addEventListener("ended",function(){
+               $('.iosplaybtn').show();    
+            },false)
+            _video.addEventListener('pause',function(){
+                $('.iosplaybtn').show();  
+            },false)
+        }
+
+        function androidFun(){
+            var video = $('#an-video').get(0);
+            video.addEventListener('x5videoenterfullscreen', function() {
+                video.addClass('android-full');
+                $('.txt').addClass('android-full');
+            });
+            video.addEventListener('x5videoexitfullscreen', function() {
+                video.removeClass('android-full');
+                $('.txt').removeClass('android-full');
+            });
+        }
+
+        document.addEventListener('visibilitychange',function(){
+            // window.location.reload()
+            var video = $('video')
+            var _video = $('video').get(0);
+            if (document.hidden) {
+                _video.pause()
+            }
+        })
+		// 关闭关联店铺
+		$('.close').on('click',function(e){
+			$('.store').hide()
+			return false
+		})
+        $('#foot .down').on('click',function(){
+            window.location = "http://m.kemiandan.com/";
+        })
+        
+        // 微信分享jssdk
+        function jssdkConfig(shareInfo){
+            $.ajax({
+                url: "/user/v3_3_0/wxJssdkShare",
+                headers: {
+                    platform: 3,
+                    token: ''
+                },
+                data: {
+                    url: window.location.href
+                },
+                method: 'get',
+            }).done(function(res) {
+                if(res.code != 1) {
+                    return;
+                }
+                wx.config({
+                    debug: res.data.debug, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId: res.data.appId, // 必填，公众号的唯一标识
+                    timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+                    nonceStr: res.data.nonceStr, // 必填，生成签名的随机串
+                    signature: res.data.signature,// 必填，签名
+                    jsApiList: res.data.jsApiList // 必填，需要使用的JS接口列表
+                });
+                wx.ready(function(){
+                    var imgurl = shareInfo.imgurl;
+                    var title = shareInfo.title;
+                    var desc = shareInfo.desc;
+                    var url = shareInfo.url;
+                    wx.onMenuShareTimeline({
+                        title: title, // 分享标题
+                        desc: desc, // 分享描述
+                        link: url, // 分享链接
+                        imgUrl: imgurl, // 分享图标
+                        success: function () {
+                            // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function () {
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+             
+                    wx.onMenuShareAppMessage({
+                        title: title, // 分享标题
+                        desc: desc, // 分享描述
+                        link: url, // 分享链接
+                        imgUrl: imgurl, // 分享图标
+                        type: '', // 分享类型,music、video或link，不填默认为link
+                        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                        success: function () {
+                            // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function () {
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+             
+                    wx.onMenuShareQQ({
+                        title: title, // 分享标题
+                        desc: desc, // 分享描述
+                        link: url, // 分享链接
+                        imgUrl: imgurl, // 分享图标
+                        success: function () {
+                           // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function () {
+                           // 用户取消分享后执行的回调函数
+                        }
+                    }); 
+    
+                    wx.onMenuShareWeibo({
+                        title: title, // 分享标题
+                        desc: desc, // 分享描述
+                        link: url, // 分享链接
+                        imgUrl: imgurl, // 分享图标
+                        success: function () {
+                           // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function () {
+                           // 用户取消分享后执行的回调函数
+                        }
+                    }); 
+    
+                    wx.onMenuShareQZone({
+                        title: title, // 分享标题
+                        desc: desc, // 分享描述
+                        link: url, // 分享链接
+                        imgUrl: imgurl, // 分享图标
+                        success: function () {
+                           // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function () {
+                           // 用户取消分享后执行的回调函数
+                        }
+                    }); 
+                });
+            });  
+        }
+    </script>
+</html>

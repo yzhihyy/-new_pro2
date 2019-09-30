@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="renderer" content="webkit">
+		<title>申请相亲</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" type="text/css" href="../css/base.css?v"/>
+		<script type="text/javascript" src="../js/ydui.flexible.js"></script>
+		<style>
+			[v-cloak] {
+				display: none;
+			}
+			/* 第一次相亲页面 start*/
+			#main {
+				width: 100%;
+				height: 100%;
+			}
+			.myFirst {
+				height: 100%;
+			}
+			.bg {
+				width: 100%;
+				height: 93%;
+				object-fit: cover;
+			}
+			.apply-btn {
+				width: 100%;
+				height: 7%;
+				color:#fff;
+				background-image: linear-gradient(119deg, #FF4874 0%, #FF5B67 100%);
+				box-shadow: 0 .04rem 0.12rem 0 rgba(238,13,67,0.30);
+				font-size: .32rem;
+			}
+			/* 第一次相亲页面 end*/
+			.progress {
+				width: 100%;
+				box-sizing: border-box;
+				padding: 0.2rem .5rem 0.1rem;
+			}
+			.progress .item {
+				font-size: .26rem;
+			}
+			.red {
+				color:#F4295B;
+			}
+			.progress-icon {
+				margin: 0 auto;
+				width: 6.78rem;
+				height: .32rem;
+				margin-bottom: .4rem;
+			}
+			.panel {
+				background: #fff;
+				margin: 0 auto;
+				width: 6.9rem;
+				padding:0 0.3rem 0.3rem;
+				box-sizing: border-box;
+				margin-bottom: .3rem;
+				color: #333;
+				font-size: .32rem;
+			}
+			.panel .item {
+				height: 1.1rem;
+				border-bottom: 1px solid #ededed;
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+			}
+			.panel .item:first-child {
+				margin-top:0rem;
+			}
+			.item .code {
+				width: 4.85rem;
+			}
+			.panel input, .panel .location {
+				margin-left: 0.35rem;
+				width: 4.5rem;
+				/* color: #999; */
+			}
+			.code-blue {
+				width: 2.2rem;
+				padding: .1rem;
+				font-size: 0.28rem;
+				color: #529FFF;
+				text-align: right;
+			}
+			.code-gray {
+				width: 2.2rem;
+				font-size: 0.28rem;
+				color: #ccc;
+				text-align: right;
+			}
+			.btn {
+				text-align: center;
+				line-height: .88rem;
+				margin: 0 auto;
+				width: 4.4rem;
+				height: .88rem;
+				background-image: linear-gradient(119deg, #FF4874 0%, #FF5B67 100%);
+				box-shadow: 0 .04rem 0.12rem 0 rgba(238,13,67,0.30);
+				border-radius: .44rem;
+				color: #fff;
+				font-size: .32rem;
+			}
+			.upload img{
+				width: 1.6rem;
+				height: 1.6rem;
+				border-radius: .12rem;
+			}
+			.upload .title {
+				margin: .32rem 0 0.2rem;
+			}
+
+			/* 弹窗样式 start*/
+			@keyframes fadeUp{
+				0% {left: .2rem;height: 0rem;bottom: 0.5rem}
+				100% {left: .2rem;height: 3.56rem;bottom: 0.5rem}
+			}
+			@-webkit-keyframes fadeUp{
+				0% {left: .2rem;height: 0rem;bottom: 0.5rem}
+				100% {left: .2rem;height: 3.56rem;bottom: 0.5rem}
+			}
+			.shade {
+				position: fixed;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				background: rgba(0,0,0,0.40);
+			}
+			.pop-wrap {
+				position: fixed;
+				bottom: 0.5rem;
+				left: .2rem;
+				height: 3.52rem;
+				z-index: 99;
+				animation: fadeUp 0.2s linear;
+				-webkit-animation: fadeUp 0.2s linear
+			}
+			.pop-wrap .content {
+				width: 7.1rem;
+				height: 2.24rem;
+				background: #fff;
+				border-radius: .24rem;
+				margin-bottom: .16rem;
+			}
+			.content .item {
+				width: 100%;
+				height: 1.12rem;
+				line-height: 1.12rem;
+				text-align: center;
+				border-bottom: 1px solid #EAEAEA;
+			}
+			.content .item:last-child {
+				border: none;
+			}
+			.pop-wrap .cancel {
+				width: 7.1rem;
+				height: 1.12rem;
+				background: #fff;
+				border-radius: .24rem;
+				text-align: center;
+				line-height: 1.12rem;
+			}
+			/* 弹窗样式 end*/
+
+			/* 提交样式 start*/
+			.submit-wrap .submit-icon{
+				width: 2.2rem;
+				height: 2.2rem;
+				margin: 0 auto;
+				margin-top: 1.46rem;
+			}
+			.submit-wrap .title {
+				font-size: .4rem;
+				text-align: center;
+				color: #333333;
+				width: 2rem;
+				margin: 0 auto;
+				margin-top: 0.36rem;
+			}
+			.submit-wrap .info {
+				font-size: 0.32rem;
+				text-align: center;
+				color: #999999;
+				width: 3.6rem;
+				height: .88rem;
+				margin: 0 auto;
+				margin-top: 0.2rem;
+			}
+			.submit-wrap .btn {
+				margin-top: 1.28rem;
+			}
+			.bg-white {
+				width: 100%;
+				height: 100%;
+				background: white;
+			}
+			/* 提交样式 end*/
+			.tips {
+				margin: 0 auto;
+				width: 4.5rem;
+				text-align: center;
+				margin-bottom: .2rem;
+			}
+			.tips-gray {
+				color:#999;
+				font-size: .26rem
+			}
+			.tips-red {
+				color:#ff2b5e;
+				font-size: .26rem
+				
+			}
+			.padding-bottom {
+				padding-bottom: 0.5rem;
+			}
+			.has-gender, .no-gender {
+				margin-left: 0.35rem;
+				width: 4.5rem;
+			}
+			.no-gender {
+				color: #ccc;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="main" v-cloak>
+			<!--第一次申请 -->
+			<div v-if="showFirstMeeting" class="myFirst">
+				<img class="bg" src="../images/bg_woyaoxiangqin@2x.png">
+				<div class="apply-btn flex-center-center" @click="getApplyForm">
+					申请相亲
+				</div>
+			</div>
+			<div v-if="showApplyForm" :class="[progress[1].isDoing? 'bg-white':'', '']">
+				<div class="progress flex-between">
+					<div v-for="item in progress" :class="[item.isDoing? 'red':'', 'item']">{{item.name}}</div>
+				</div>
+				<div class="padding-bottom" v-if="!progress[1].isDoing">
+						<img class="progress-icon" src="../images/xiangqin_icon_step1@2x.png">
+						<div class="panel">
+							<div class="item flex-between">
+								<div>联系人</div><input v-model="form.contact" maxlength="5" placeholder="请输入联系姓名" />
+							</div>
+							<div class="item  flex-between">
+								<div>性别</div> 
+								<div v-if="form.gender"  @click="onChoose('gender')" class="has-gender">{{form.gender}}</div>
+								<div v-else  @click="onChoose('gender')" class="no-gender">点击选择性别</div>
+							</div>
+							<div class="item  flex-between">
+								<div>手机号</div> <input  v-model="form.phone" oninput="if(value.length>6)value=value.slice(0,11)" placeholder="请输入手机号码" />
+							</div>
+							<div class="item  flex-between">
+								<div>验证码</div>
+								<div class="flex code flex-between">
+									<input placeholder="请输入验证码" style="width: 2.4rem"  v-model="form.code"/>
+									<div :class="codeStatus.class" @click="onCode(codeStatus.text)">
+										<span style="font-size: 0.28rem" v-if="codeStatus.class=='code-gray'">{{leftTime}}s</span>
+										{{codeStatus.text}}
+									</div>
+								</div>
+							</div>
+							<div class="item  flex-between">
+								<div>位置</div> <div class="location">{{form.location}}</div>
+							</div>
+							<div class="upload">
+								<div class="title">上传视频</div>
+								<img :src="uploadImg" @click="onChoose('video')">
+							</div>
+						</div>
+						<div>
+							<div class="tips">
+								<span class="tips-gray">提交申请即同意</span><span class="tips-red" @click="goProtocol">同城相亲合作协议</span>
+							</div>
+							<div class="btn" @click="submit">
+								<div>提交申请</div>
+							</div>
+						</div>
+				</div>
+				<!-- 提交结果 -->
+				<div v-else class="submit-wrap">
+					<img class="progress-icon" src="../images/xiangqin_icon_step2@2x.png">
+					<img class="submit-icon" :src="submitResult.icon"/>
+					<div class="title">{{submitResult.title}}</div>
+					<div class="info">{{submitResult.info}}</div>
+					<div class="btn" @click="onResultBtn(submitResult.btn)">{{submitResult.btn}}</div>
+				</div>
+				<!-- 选择弹窗 -->
+				<div v-if="showPop">
+					<div class="shade"></div>
+					<div class="pop-wrap">
+						<div class="content">
+							<div v-for="item in popList" class="item" @click="onPop(item)">{{item}}</div>
+						</div>
+						<div class="cancel" @click="cancel">取消</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../js/base.js"></script>
+	<script type="text/javascript" src="../static/js/vue.js"></script>
+	<script type="text/javascript" src="../js/babel.min.js"></script>
+	<script>
+		var token = Utils.getQueryString('token');
+		var adcode = Utils.getQueryString('adcode');
+		var myLocation = Utils.getQueryString('location');
+		var longitude = Utils.getQueryString('longitude');
+		var latitude = Utils.getQueryString('latitude');
+
+		// 选择视频回调函数
+		function addVideo (video) {
+			var videoInfo = JSON.parse(video);
+			vum.form.video_id = videoInfo.video_id
+			vum.uploadImg = videoInfo.uploadImg
+		}
+		// 位置授权函数
+		function getLocation (location) {
+			var locationInfo = JSON.parse(location);
+			adcode = locationInfo.adcode
+			myLocation = locationInfo.location
+			longitude = locationInfo.longitude
+			latitude = locationInfo.latitude
+		}
+		var vum = new Vue({
+			el: "#main",
+			data: {
+				showPop: false,
+				showApplyForm: false,
+				showFirstMeeting: false,
+				uploadImg: '../images/xiangqin_icon_upload.png',
+				form: {
+					contact: '',
+					gender: '',
+					phone: '',
+					code: '',
+					adcode: adcode,
+					location: myLocation,
+					longitude: longitude,
+					latitude: latitude,
+					video_id: ''
+				},
+				applyInfo: {},
+				leftTime: 59,
+				intervalId: '',
+				popList: [],
+				codeStatusList: [{text: '获取验证码', class: 'code-blue'}, {text: '后重新获取', class: 'code-gray'}],
+				codeStatus: {text: '获取验证码', class: 'code-blue'},
+				progress:[{name: '1.填写信息', isDoing: true}, {name: '2.核实身份', isDoing: false}],
+				resultList: [
+				{
+					title: '申请已提交',
+					info: '会有客服人员联系你哦~请耐心等待！',
+					icon: '../images/xiangqin_icon_doing.png',
+					btn: '确定'
+				},
+				{
+					title: '申请通过',
+					info: '快去补充资料吧',
+					icon: '../images/xiangqin_icon_pass.png',
+					btn: '填写资料'
+				},
+				{
+					title: '申请失败',
+					info: '失败原因：无法联系到',
+					icon: '../images/xiangqin_icon_fail.png',
+					btn: '重新申请'
+				}],
+				submitResult: {}
+			},
+			created() {
+				this.getInitStatus()
+				if (!(adcode && myLocation && longitude && latitude)) {
+					// 没有位置参数中的任一个时，通知APP获取位置授权
+					console.log('no location');
+					Utils.noticeApp('getLocation',{
+						type:'get',
+					})
+				}
+			},
+			methods: {
+				getInitStatus() {
+					var that = this
+					// 获取申请相亲状态
+					$.ajax({
+						url: "/user/v3_7_0/getApplyBlindDateStatus",
+						headers: {
+							platform: 3,
+							token: token
+						},
+						method: 'get',
+						beforeSend: function() {
+							Loading.show({
+								type: 8
+							});
+						}
+					}).done(res => {
+						Loading.hide();
+						if(res.code != 1) {
+							Toast({
+								message: res.msg
+							});
+							return;
+						}
+						if (res.data.apply_status == 3) {
+							// 第一次申请
+							that.showApplyForm = false
+							that.showFirstMeeting = true
+						} else {
+							that.showApplyForm = true
+							that.showFirstMeeting = false
+							that.submitResult = that.resultList[res.data.apply_status]
+							that.progress[1].isDoing = true
+							// 若被拒绝，填充资料
+							if (res.data.apply_status == 2) {
+								that.applyInfo = res.data.apply_info
+								that.submitResult.info = res.data.check_result_reason
+							}
+						}
+					}).fail(function(res) {
+						Loading.hide();
+						Toast({
+							message: '网络有点问题~'
+						});
+					});
+				},
+				getApplyForm() {
+					this.showApplyForm = true
+					this.showFirstMeeting = false
+				},
+				onChoose(type) {
+					document.activeElement.blur()
+					this.showPop = true
+					if (type == 'gender') {
+						this.popList = ['男', '女']
+					} else {
+						this.popList = ['发布新视频', '从平台中选择']
+					}
+				},
+				cancel () {
+					this.showPop = false
+				},
+				onPop(value) {
+					switch(value) {
+						case '男': 
+							this.form.gender = '男'
+							break
+						case '女': 
+							this.form.gender = '女'
+							break
+						case '发布新视频': 
+							// 进入发布视频流程
+							Utils.noticeApp('chooseVideo',{
+								type:1,
+							})
+							break
+						case '从平台中选择': 
+							// 从平台中选择
+							Utils.noticeApp('chooseVideo',{
+								type:2,
+							})
+							break
+					}
+					this.showPop = false
+				},
+				submit () {
+					// 校验
+					if(!this.form.contact){
+						Toast({message:'请输入联系姓名'});
+						return
+					}
+					if(!this.form.gender){
+						Toast({message:'请选择性别'});
+						return
+					}
+					if(!this.form.phone){
+						Toast({message:'请输入手机号码'});
+						return
+					}
+					if(!this.form.code){
+						Toast({message:'验证码不能为空'});
+						return
+					}
+					if(!this.form.location){
+						Toast({message:'请点击获取位置'});
+						return
+					}
+					if(!this.form.video_id){
+						Toast({message:'请上传视频'});
+						return
+					}
+					if (this.form.gender == '男') {
+						this.form.gender = '1'
+					} else {
+						this.form.gender = '2'
+					}
+					$.ajax({
+						url: "/user/v3_7_0/applyBlindDate",
+						headers: {
+							platform: 3,
+							token: token
+						},
+						data: this.form,
+						method: 'post',
+						beforeSend: function() {
+							Loading.show({
+								type: 8
+							});
+						}
+					}).done(res => {
+						Loading.hide();
+						if(res.code != 1) {
+							Toast({
+								message: res.msg
+							});
+							return;
+						}
+						// 提交成功
+						this.submitResult = this.resultList[0]
+						this.progress[1].isDoing = true	
+					}).fail(function(res) {
+						Loading.hide();
+						Toast({
+							message: '网络有点问题~'
+						});
+					});
+				},
+				onResultBtn(value) {
+					switch(value) {
+						case '确定':
+							// 返回个人中心
+							Utils.noticeApp('goUserCenter',{
+								type: 'go',
+							});
+							break
+						case '填写资料':
+							// 进入到我的主页
+							Utils.noticeApp('goHomePage',{
+								type: 'go',
+							});
+							break
+						case '重新申请':
+							// 重新进入填写资料页面
+							this.showApplyForm = true
+							this.showFirstMeeting = false
+							this.progress[1].isDoing = false
+							this.form.contact = this.applyInfo.contact
+							this.form.phone = this.applyInfo.phone
+							this.form.video_id = this.applyInfo.video_id
+							this.form.gender = this.applyInfo.gender == 1 ? '男' : '女'
+							this.uploadImg = this.applyInfo.video_cover_url
+							break
+					}
+				},
+				async onCode(value) {
+					if (value.includes('后重新获取')) {
+						return
+					} else {
+						// 发送验证码
+						const result = await this.sendPhoneCode()
+						if (result != 'ok') return
+						this.intervalId = setInterval(() => {
+							this.leftTime --
+							if (this.leftTime == 0) {
+								this.codeStatus = this.codeStatusList[0]
+								this.leftTime = 59
+								this.form.code = ''
+								clearInterval(this.intervalId)
+								return
+							}
+						}, 1000)
+						this.codeStatus = this.codeStatusList[1]
+					}
+				},
+				sendPhoneCode() {
+					return new Promise (resolve => {
+						var phoneRegular = /^1[3456789]\d{9}$/i;
+						if(!(phoneRegular.test(this.form.phone))){
+							Toast({message:'请输入正确的电话号码'});
+							resolve()
+						} else {
+							$.ajax({
+								url:"/user/v2_0_0/getLoginCaptcha",
+								headers:{
+									platform:3
+								},
+								data:{
+									phone:this.form.phone,
+									code_content:"123",
+									code_token:"123"
+								},
+								method:'post',
+								beforeSend:function(){
+									Loading.show({type:6});
+								}
+							}).done(function(res){
+								Loading.hide();
+								if(res.code != 1){
+									Toast({message:res.msg});
+									resolve()
+									return;
+								} else {
+									resolve('ok')
+								}
+							}).fail(function(res){
+								Loading.hide();
+								resolve()
+							});
+						}
+					})
+				},
+				goProtocol () {
+					// 跳转到合作协议
+					Utils.noticeApp('openWebView',{
+						title:"相亲合作协议",
+						url: baseUrl + "/h5/v3_7_0/meetingProtocol.html"
+					});
+				}
+			}
+		})
+	</script>
+</html>

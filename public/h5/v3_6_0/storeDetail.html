@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="renderer" content="webkit">
+		<title>商家详情</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" type="text/css" href="../css/base.css?v"/>
+		<link rel="stylesheet" type="text/css" href="../js/plugin/mescroll-1.4.0/mescroll.min.css" />
+		<script type="text/javascript" src="../js/ydui.flexible.js"></script>
+		<style>
+			.fixer {
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				z-index: 1;
+				padding: 0.3rem;
+				padding-bottom: 20px;
+				border-bottom-color: #f2f2f2!important;
+			}
+			
+			[v-cloak] {
+				display: none;
+			}
+			
+			* {
+				font-size: 0.4rem;
+			}
+			
+			body {
+				background: #f6f6f6;
+			}
+			
+			.clear {}
+			
+			.left {
+				float: left;
+			}
+			
+			.right {
+				float: right;
+			}
+			
+			.c-orange {
+				color: #ff7748;
+			}
+			
+			.c-red {
+				color: #f4295b;
+			}
+			
+			.c-333 {
+				color: #333;
+			}
+			
+			.c-666 {
+				color: #666;
+			}
+			
+			.c-aaa {
+				color: #aaa;
+			}
+			
+			.fonts-03 {
+				font-size: 0.3rem;
+			}
+			
+			.mt-5 {
+				margin-top: 5px;
+			}
+			
+			.mt-10 {
+				margin-top: 10px;
+			}
+			
+			.block {
+				padding: 20px 15px;
+				background-color: #fff;
+				border-bottom: 10px solid #f6f6f6;
+			}
+			
+			.mescroll {
+				position: fixed;
+				z-index: 2;
+				top: 0;
+				bottom: 1rem;
+				left: 0;
+				right: 0;
+				max-width: 8rem;
+				margin: 0 auto;
+				height: auto;
+				/*如设置bottom:50px,则需height:auto才能生效*/
+			}
+			
+			.mescroll-upwarp {
+				padding: 0 0 15px;
+			}
+			
+			.swiperbox {
+				overflow: hidden;
+				width: 100%;
+				height: 200px;
+			}
+			
+			.swiper-container-head,
+			.swiper-wrapper {
+				width: 100%;
+				height: 100%;
+			}
+			
+			.swiperbox .swiper-container-head img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+			
+			.swiperbox .test {
+				position: fixed;
+				background: rgba(0, 0, 0, 1);
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				z-index: 1;
+			}
+			
+			.swiperbox .bigimg img {
+				width: 100%;
+				max-height: 100%;
+				object-fit: cover;
+			}
+			
+			.shop-head {
+				border-bottom: none;
+				padding-bottom: 10px;
+			}
+			
+			.shop-head .shop-name {
+				font-weight: bold;
+			}
+			
+			.shop-head em {
+				display: inline-block;
+				border-left: 1px solid #d8d8d8;
+				height: 10px;
+				margin: 0 5px;
+			}
+			
+			.view-number {
+				height: 20px;
+				padding: 4px 10px 1px;
+				background-color: #ff7748;
+				color: #fff;
+				font-size: 0.2rem;
+				border-radius: 20px;
+			}
+			
+			.announce {
+				background: #fff;
+				padding: 0 15px 15px;
+			}
+			
+			.block .flex-between+.flex-between {
+				padding-top: 20px;
+				margin-top: 20px;
+				border-top: 1px solid #eee;
+			}
+			
+			.addr {
+				border-top: 1px solid #eee;
+				padding: 20px 15px;
+				background: #fff;
+				border-bottom: 10px solid #eee;
+			}
+			
+			.addr span,
+			.time span,
+			.buyer span,
+			.announ span {
+				font-size: 0.3rem;
+			}
+			
+			.addr div img,
+			.time div img,
+			.buyer div img,
+			.announ div img {
+				width: 0.4rem;
+				height: 0.4rem;
+				margin-right: 0.1rem;
+			}
+			
+			.addr .tel {
+				width: 0.7rem;
+				height: 0.7rem;
+				padding: 0 0 0 0.25rem;
+				margin-left: 0.56rem;
+				border-left: 0.01rem solid #e6e6e6;
+			}
+			
+			.addr .tel img {
+				width: 0.6rem;
+				height: 0.6rem;
+				margin-top: 2px;
+			}
+			
+			.hot * {
+				font-size: 0.3rem;
+			}
+			
+			.hot>img {
+				display: inline-block;
+				width: 0.4rem;
+				margin-right: 0.1rem;
+			}
+			
+			.hot .i-question {
+				position: absolute;
+				right: 0.3rem;
+				width: 22px;
+				height: 22px;
+			}
+			
+			.hot .i-question img {
+				width: 100%;
+				height: 100%;
+			}
+			
+			.shop-tip .flex-1 img {
+				width: 1.5rem;
+			}
+			
+			.shop-tip .arrow-right {
+				height: 0.3rem;
+				margin-top: 2px;
+				margin-left: 10px;
+			}
+			
+			.contents-wrap {
+				background: #fff;
+			}
+			
+			.contents-wrap ul {
+				padding: 20px 15px;
+			}
+			
+			.contents-wrap ul li {
+				float: left;
+				margin-right: 10px;
+				color: #b3b3b3
+			}
+			
+			.contents-wrap ul li.active {
+				color: #000;
+			}
+			
+			.tabcon {
+				padding: 0 15px;
+			}
+			
+			.activity .title {
+				margin-bottom: 20px;
+				font-weight: bold;
+				background: #fff;
+				border-bottom: 1px solid #fff;
+			}
+			
+			.activity .recomend-block+.recomend-block {
+				margin-top: 20px;
+				padding-top: 20px;
+				border-top: 1px solid #eee;
+			}
+			
+			.activity .left {
+				width: 100px;
+				height: 75px;
+				margin-right: 0.44rem;
+			}
+			
+			.activity .left img {
+				width: 100%;
+				height: 100%;
+				background-color: #c9c9c9;
+				border-radius: 3px;
+				object-fit: cover;
+			}
+			
+			.activity .right div {
+				font-size: 0.28rem;
+				height: 0.8rem;
+			}
+			
+			#foot {
+				position: fixed;
+				border-top: 1px solid #eee;
+				left: 0;
+				bottom: 0;
+				width: 100%;
+				box-sizing: border-box;
+			}
+			
+			#foot .content {
+				width: 100%;
+				max-width: 10rem;
+				margin: 0 auto;
+				height: 1rem;
+				box-sizing: border-box;
+				padding: 0 0.3rem;
+				background: #ff833f;
+			}
+			
+			#foot .tip {
+				font-size: 0.28rem;
+				color: #fff;
+			}
+			
+			#foot .tip em {
+				color: #ffeb63;
+			}
+			
+			#foot .down {
+				width: 1.1rem;
+				height: 0.6rem;
+				background: #ffeadf;
+				border-radius: 30px;
+				color: #ff833f;
+				text-align: center;
+				font-size: 0.28rem;
+				line-height: 0.6rem;
+			}
+			
+			.fixtitle {
+				display: none;
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				z-index: 1;
+				padding: 0.3rem;
+				padding-bottom: 20px;
+				background: #fff;
+				border-bottom: 1px solid #f2f2f2;
+				border-bottom-color: #f2f2f2!important;
+			}
+			
+			.photo-item {
+				position: relative;
+				display: inline-block;
+				width: 32%;
+				height: 60px;
+				border-radius: 3px;
+				overflow: hidden;
+			}
+			
+			.photo-item+.photo-item {
+				margin-left: 2%;
+			}
+			
+			.photo-item img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+			
+			.photo-item a.more {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: rgba(0, 0, 0, .4);
+				color: #fff;
+				text-align: center;
+				line-height: 60px;
+				font-size: 20px;
+			}
+			/*common title*/
+			
+			.title {
+				margin-bottom: 15px;
+				background: #fff;
+			}
+			
+			.title span {
+				font-family: PingFang-SC-Bold;
+				font-weight: bold;
+				font-size: 0.3rem;
+			}
+			
+			.title a {
+				color: #808080;
+				font-size: 0.26rem;
+			}
+			
+			.title a img {
+				display: inline-block;
+				margin-left: 0.1rem;
+				width: 0.13rem;
+			}
+			/*推荐*/
+			
+			.recommend {
+				padding: .3rem;
+				border-bottom: 0.2rem solid #f5f5f5;
+			}
+			
+			.swiper-big-mask {
+				position: fixed;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				z-index: 2;
+				background: rgba(0, 0, 0, 1);
+			}
+			
+			.swiper-big.swiper-container {
+				width: 100%;
+				height: 85%;
+			}
+			
+			.swiper-big .swiper-slide {
+				text-align: center;
+				font-size: 18px;
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-pack: center;
+				-ms-flex-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+			}
+			
+			.swiper-big img {
+				max-width: 100%;
+				max-height: 100%;
+			}
+			
+			.swiper-big p {
+				position: absolute;
+				bottom: 33px;
+				left: 0;
+				right: 0;
+				padding: 0.2rem;
+				text-align: center;
+				/*background: rgba(0,0,0,.2);*/
+				color: #fff;
+			}
+			
+			.swiper-container {
+				margin: 0 auto;
+				position: relative;
+				overflow: hidden;
+				list-style: none;
+				padding: 0;
+				z-index: 1
+			}
+			
+			.swiper-slide {
+				-webkit-flex-shrink: 0;
+				-ms-flex-negative: 0;
+				flex-shrink: 0;
+				width: 100%;
+				height: 100%;
+				position: relative;
+				-webkit-transition-property: -webkit-transform;
+				transition-property: -webkit-transform;
+				-o-transition-property: transform;
+				transition-property: transform;
+				transition-property: transform, -webkit-transform
+			}
+			
+			.swiper-wrapper {
+				position: relative;
+				width: 100%;
+				height: 100%;
+				z-index: 1;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-transition-property: -webkit-transform;
+				transition-property: -webkit-transform;
+				-o-transition-property: transform;
+				transition-property: transform;
+				transition-property: transform, -webkit-transform;
+				-webkit-box-sizing: content-box;
+				box-sizing: content-box
+			}
+			
+			.swiper-pagination {
+				position: absolute;
+				text-align: center;
+				-webkit-transition: .3s opacity;
+				-o-transition: .3s opacity;
+				transition: .3s opacity;
+				-webkit-transform: translate3d(0, 0, 0);
+				transform: translate3d(0, 0, 0);
+				z-index: 10
+			}
+			
+			.swiper-pagination-fraction {
+				bottom: 1rem;
+				right: 0.5rem;
+				max-width: 30%;
+				padding: 0.07rem 0.2rem;
+				color: #fff;
+				border-radius: 1rem;
+				background: rgba(0, 0, 0, .5);
+				font-size: 0.26rem;
+			}
+			
+			.swiper-pagination-fraction span {
+				font-size: 0.26rem;
+			}
+			
+			ul.tabwrap {
+				background: #fff;
+			}
+			
+			ul.tabwrap li {
+				float: left;
+				margin-right: 10px;
+				list-style: none;
+				padding: 15px 15px 0;
+				color: #b3b3b3;
+			}
+			
+			ul li.active {
+				color: #000;
+			}
+			
+			.videowrap .cf {
+				position: relative;
+			}
+			
+			.videowrap .video-item {
+				position: relative;
+				float: left;
+				width: 100%;
+				margin-bottom:10px;
+				color: #fff;
+				background: #eee;
+				margin-right: 4px;
+			}
+			
+			.video-item .cover {
+				width: 100%;
+				height: 100%;
+				border-top-left-radius:0.12rem;
+				border-top-right-radius:0.12rem;
+				object-fit: cover;
+			}
+			.videowrap .waterfall-left {
+				width: 48.7%;
+				float: left;
+			}
+			.videowrap .waterfall-right {
+				width: 48.7%;
+				float: right;
+			}
+			.videowrap .store-avatar {
+				width: .4rem;
+				height: .4rem;
+				border-radius: .4rem;
+				margin-right: .12rem;
+			}
+			.videowrap .title {
+				font-size: .28rem;
+				font-weight: bold;
+			}
+			.videowrap .store-name {
+				font-size: 0.22rem;
+				color: #999999;
+				width: 1.64rem;
+			}
+			.videowrap .like-count {
+				font-size: 0.22rem;
+				color: #999999;
+			}
+			.videowrap .like-icon {
+				width: .176rem;
+				height: .134rem;
+				margin-right: .12rem;
+			}
+			.videowrap .footer {
+				padding:.16rem;
+				box-sizing: border-box;
+				background: #fff;
+			}
+
+			
+			.icon-2 .cover {
+				width: 0.3rem;
+				height: 0.36rem;
+				margin-top: 0.2rem, ;
+				padding: 0.3rem;
+			}
+			
+			.vote {
+				width: 100%;
+				background-color: white;
+				height: 1rem;
+				border-bottom: 10px solid #f6f6f6;
+			}
+			.vote .vote-icon {
+				width: 0.3rem;
+				height: 0.36rem;
+				margin-top: 0.2rem,;
+				padding: 0.3rem
+			}
+			
+			.icon-0 {
+				color: #000000;
+				font-size: 0.32rem;
+				font-weight: 600;
+				margin-top: 0.27rem;
+			}
+			
+			.icon-2 {
+				color: #ff8e29;
+				font-size: 0.3rem;
+				margin-right: 0.2rem
+			}
+			
+			.icon-3 img {
+				width: 0.16rem;
+				height: 0.26rem;
+				margin-top: 0.1rem;
+				margin-right: 0.2rem;
+			}
+			
+			.mastergraph {
+				margin: 0 auto;
+				width: 100%;
+				height: 3.3rem;
+				object-fit: cover;
+				border-top-left-radius:0.12rem;
+				border-top-right-radius:0.12rem;
+			}
+			.article {
+				position: relative;
+				margin-bottom: 0.3rem;
+			}
+			.article-foot {
+				position: absolute;
+				width: 100%;
+				top: 2.66rem;
+				color: #fff;
+			}
+			
+			.articleTitle {
+				font-size: 0.30rem;
+				margin-left: 0.28rem;
+				width: 50%;
+			}
+			
+			.time-i {
+				margin-right: 0.28rem;
+				font-size: 0.24rem;
+				width: 36%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="main" class="mescroll" v-cloak>
+			<div>
+				<div class="content " id="mescrollMain">
+					<div class="swiperbox">
+						<div class="swiper-container-head">
+							<div class="swiper-wrapper">
+								<img :src="shopData.shop_image" alt="">
+							</div>
+						</div>
+						<div class="bigimg flex-center-center">
+							<img :src="shopData.shop_image" alt="">
+						</div>
+					</div>
+					<div class="shop-head block flex-start">
+						<div class="flex-1">
+							<p class="shop-name">
+								{{shopData.shop_name}}
+							</p>
+							<p class="c-666 fonts-03 mt-5">
+								{{shopData.shop_category_name}} <em></em> {{shopData.shop_address_poi}} <em></em> {{shopData.operation_time}}
+							</p>
+						</div>
+						<span class="view-number">{{shopData.views}}人浏览</span>
+					</div>
+					<div class="announce" v-if="shopData.announcement">
+						<span class="c-666 fonts-03">公告：{{shopData.announcement}}</span>
+					</div>
+					<div class="addr flex-between-center">
+						<div class="flex-start-center">
+							<img src="../images/icon_address_v2@2x.png" alt="">
+							<span class="c-333">{{shopData.shop_address}}</span>
+						</div>
+						<a :href="'tel:'+shopData.shop_phone" class="tel">
+							<img src="../images/icon_phone_v2@2x.png" alt="">
+						</a>
+					</div>
+					<div class="photo block">
+						<p style="font-weight: bold;margin-bottom: 20px;">商家相册</p>
+						<div v-if="photoList.length != 0">
+							<div class="cf">
+								<div v-for="(item,index) in photoList" wx:key="" class="photo-item" @click="checkBigImg(index)">
+									<image alt="" :src="item.image"></image>
+								</div>
+							</div>
+						</div>
+						<div v-else>
+							暂无相册
+						</div>
+					</div>
+					<!--投票活动-->
+					<div class="vote" v-if="shopData.theme_id>0">
+						<div class="flex-between-center">
+							<div class="flex icon-2">
+								<img class="vote-icon" src="../images/icon_Voting@2x.png" />
+								<div class="icon-0">主题活动</div>
+							</div>
+							<div class="flex-1 icon-3">
+								<div class="t-ellipsis icon-2" style="text-align: right;">{{shopData.theme_title}}</div>
+							</div>
+						</div>
+					</div>
+
+					<ul class="tabwrap cf">
+						<li :class="{active:index == num}" v-for="(item,index) in tabs" :ref="item" @click="tab(index)">{{item}}</li>
+					</ul>
+					<!-- 相关作品 -->
+					<div class="videowrap block" v-if="num==0">
+						<div v-if="videoList.length != 0" class="cf">
+							<div v-for="(water, waterIdx) in waterfallList" :class="[waterIdx == 0 ? 'waterfall-left':'waterfall-right']" :ref=`element${waterIdx}`>
+								<div class="video-item" v-for="(item,index) in water">
+									<a :href="'/h5/v3_0_0/videoDetail.html?video_id='+item.video_id">
+										<img :src="item.cover_url" alt="" class="cover"  :style="{height:item.video_height/item.video_width * 168 + 'px'}">
+										<div class="footer">
+											<div class="title">{{item.title}}</div>
+											<div class="flex-between">
+												<div class="store flex align-center">
+													<img class="store-avatar" :src="item.shop_thumb_image">
+													<span class="store-name t-ellipsis">{{item.shop_name}}</span>
+												</div>
+												<div class="flex align-center">
+													<img class="like-icon" src="../images/icon_browse@2x.png"/ >
+													<span class="like-count">{{item.like_count}}</span>
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div v-else>
+							暂无作品
+						</div>
+					</div>
+					<!-- 精讲文章 -->
+					<div class="photo block" v-if="num==1">
+						<div v-if="articleList.length != 0">
+							<div class="cf">
+								<div v-for="item in articleList" wx:key="" class="article">
+									<a :href="'/h5/v3_2_0/themeDetails.html?theme_id=0&article_id='+item.theme_article_id">
+										<img class="mastergraph" :src='item.theme_article_cover' />
+										<div class="flex-between-center article-foot">
+											<div class="t-ellipsis articleTitle ">{{item.theme_article_title}}</div>
+											<div class="time-i">{{item.theme_article_generate_time}}</div>
+										</div>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div v-else>
+							暂无内容
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="swiper-big-mask flex-center-center" v-show="showBigImg" @click="closeBigImg">
+				<div class="swiper-container swiper-big swiper-container-horizontal" wx:key="">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide" v-for="(item,index) in photoList">
+							<img :src="item.image " :alt="item.name">
+						</div>
+					</div>
+					<div class="swiper-pagination swiper-pagination-fraction">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="foot">
+			<div class="content flex-between-center">
+				<div class="tip">下载同城印象，更多好玩好看视频等着你</div>
+				<div class="down">下载</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../js/base.js"></script>
+	<script type="text/javascript" src="../static/js/vue.js"></script>
+	<script type="text/javascript" src="../js/swiper4.2.0.js"></script>
+	<script type="text/javascript" src="../js/plugin/mescroll-1.4.0/mescroll.min.js"></script>
+	<script>
+		var token = window.localStorage.getItem('token');
+		var shop_id = Utils.getQueryString('shop_id');
+		var vum = new Vue({
+			el: "#main",
+			data: {
+				waterfallList: [[], []],
+				shopData: {},
+				videoList: {},
+				photoList: {},
+				articleList: {},
+				tabs: ['相关作品', '精讲文章'],
+				arr: [
+					'v3_0_0/getShopVideoList', 'v3_0_0/getShopArticleList'
+				],
+				num: 0,
+				page: 0,
+				showBigImg: false,
+				clickIndex: "", //点击大图的索引值
+				video: '',
+				isPlay: false,
+			},
+			mounted() {
+				// swiper 大图滚动
+				var that = this;
+				this.$nextTick(function() {
+					that.initSwiper();
+					that.initMescroll();
+				});
+			},
+			watch:{
+				videoList() {
+					var boxA, boxB
+					var that = this
+					if (that.videoList.length != 0) {
+						that.videoList.forEach(function (ele) {
+								setTimeout(function () {
+									boxA = window.getComputedStyle(that.$refs.element0[0]).height.split('px')[0]
+									boxB = window.getComputedStyle(that.$refs.element1[0]).height.split('px')[0]
+									if (parseInt(boxA) > parseInt(boxB)) {
+										that.waterfallList[1].push(ele)
+									} else {
+										that.waterfallList[0].push(ele)
+									}
+								}, 100)
+						});
+					}
+				}
+			},
+			methods: {
+				initSwiper() {
+					swiper = new Swiper('.swiper-container-head', {
+						pagination: {
+							el: '.swiper-pagination',
+						},
+					});
+					swiperBig = new Swiper('.swiper-big', {
+						slidesPerView: 1,
+						spaceBetween: 10,
+						observer: true, //swiper或子元素发生变化时，自动初始化swiper
+						observeParents: true, //swiper或父元素时，自动初始化swiper
+						pagination: {
+							el: '.swiper-pagination',
+							type: 'fraction',
+						},
+					});
+				},
+				initMescroll() {
+					if(this.mescroll) {
+						this.mescroll.destroy();
+					}
+					this.page = 0;
+					this.waterfallList = [[], []];
+					this.mescroll = new MeScroll("main", {
+						up: {
+							callback: this.fun
+						},
+						down: {
+							use: false
+						}
+					})
+				},
+				tab(index) {
+					if(this.num != index) {
+						this.num = index;
+						this.initMescroll();
+					}
+				},
+				fun() {
+					var arr = [];
+					var that = this;
+					jQuery.ajax({
+						type: 'GET',
+						url: "/user/" + this.arr[this.num],
+						headers: {
+							platform: 3,
+							token: token
+						},
+						data: {
+							shop_id: shop_id,
+							page: this.page
+						},
+						success: function(data) {
+							if(that.num == 0) {
+								if(that.page == 0) {
+									arr = data.data.shop_video_list;
+								} else {
+									arr = vum.videoList.concat(data.data.shop_video_list);
+								}
+								vum.videoList = arr;
+								if(data.data.shop_video_list.length < 20) {
+									if(that.page == 0) {
+										that.mescroll.hideUpScroll(true);
+									} else {
+										that.mescroll.showNoMore();
+									}
+								} else {
+									that.mescroll.endSuccess();
+								}
+							} else if(that.num == 1) {
+								if(that.page == 0) {
+									arr = data.data.theme_article_list
+								} else {
+									arr = vum.articleList.concat(data.data.theme_article_list);
+								}
+								vum.articleList = arr;
+								if(data.data.theme_article_list.length < 20) {
+									if(that.page == 0) {
+										that.mescroll.hideUpScroll(true);
+									} else {
+										that.mescroll.showNoMore();
+									}
+								} else {
+									that.mescroll.endSuccess();
+								}
+							}
+							that.page++;
+						},
+						fail: function(data) {
+							console.log('fail')
+						}
+					})
+				},
+				checkBigImg(index) {
+					this.clickIndex = index; //获取到点击的索引值
+					console.log(this.clickIndex);
+					if(this.clickIndex != 2) {
+						this.showBigImg = true;
+						swiperBig.slideTo(this.clickIndex, 1000, false)
+					}
+				},
+				closeBigImg() {
+					this.showBigImg = false
+				},
+			}
+		});
+		// jquery加载数据
+		function getShopData() {
+			Loading.show({
+				type: 6
+			});
+			jQuery.ajax({
+				type: 'Get',
+				url: "/user/v2_0_0/getShopDetail",
+				headers: {
+					platform: 3,
+					token: token
+				},
+				data: {
+					shop_id: shop_id,
+					longitude: 119.00559,
+					latitude: 25.44782,
+				},
+				success: function(data) {
+					vum.shopData = data.data;
+					Loading.hide();
+					$('.swiperbox .swiper-wrapper img').on('click', function() {
+						$('.bigimg').addClass('test')
+					})
+					$('.bigimg').on('click', function() {
+						$('.bigimg').removeClass('test')
+					})
+				}
+			})
+		}
+		getShopData();
+
+		function getShopPhoto() {
+			Loading.show({
+				type: 6
+			});
+			var that = this;
+			jQuery.ajax({
+				type: 'Get',
+				url: "/user/v3_0_0/getShopPhotoAlbumList",
+				headers: {
+					platform: 3,
+					token: token
+				},
+				data: {
+					shop_id: shop_id,
+				},
+				success: function(data) {
+					console.log(data)
+					var arr = data.data.shop_photo_album_list;
+					if(arr.length > 3) {
+						vum.photoList = arr.slice(0, 3);
+						var more = '<a class="more" href="/h5/photoList.html?shop_id=' + that.shop_id + '">+' + data.data.shop_photo_album_count + '</a>'
+						setTimeout(function() {
+							$('.photo .photo-item').last().append(more)
+						}, 100)
+					} else {
+						vum.photoList = arr;
+					}
+				}
+			})
+		}
+		getShopPhoto();
+		$('#foot .down').on('click', function() {
+			window.location = "http://m.kemiandan.com/";
+		})
+	// </script>
+
+</html>

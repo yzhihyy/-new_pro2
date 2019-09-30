@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta http-equiv="Expires" content="0">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Cache-control" content="no-cache">
+        <meta http-equiv="Cache" content="no-cache">
+        <script type="text/javascript" src="../js/ydui.flexible.js"></script>
+        <link rel="stylesheet" type="text/css" href="../css/public.css?v"/>
+        <link rel="stylesheet" type="text/css" href="../css/mescroll.css" />
+        <style type="text/css">
+            .articleContent .view {
+                word-break: break-all;
+                word-wrap: break-word;
+                cursor: text;
+            }
+            .articleContent p {
+                clear: both;
+            }
+            .articleContent img {
+                *zoom: 1;
+                max-width: 100%;
+                *max-width: 96%;
+                height: auto !important;
+            }
+            .articleContent iframe {
+                width: 301px !important;
+                border: 0;
+                background-color: none;
+            }
+            .articleContent .video_iframe {
+                background-color: #000000;
+                width: 100% !important;
+                *width: 96% !important;
+                position: static;
+            }
+            .articleContent blockquote {
+                margin: 0;
+                padding-left: 10px;
+                border-left: 3px solid #DBDBDB;
+            }
+            .articleContent .embed-responsive-item{
+                height:375px;
+                width:500px !important;
+            }  
+            header{
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                z-index: 1;
+            }
+            header .content{
+                width: 100%;
+                max-width: 8rem;
+                margin: 0 auto;
+                padding: 0.3rem;
+                box-sizing: border-box;
+                font-size: 0.34rem;
+                line-height: 0.45rem;
+                color: #333;
+                font-weight: bold;
+                background-color: white;
+            }
+            #page{
+                box-sizing: border-box;
+            }
+            #page .head{
+                background-color: white;
+                height: 0.6rem;
+                padding: 0 0.3rem;
+            }
+            #page .head>img{
+                width: 0.5rem;
+                height: 0.5rem;
+                border-radius: 50%;
+                margin-right: 0.2rem;
+            }
+            #page .head>.t-ellipsis{
+                font-size: 0.28rem;
+                color: #999;
+            }
+            #page .articleContent{
+                padding: 0.2rem 0.3rem;
+                background-color: white;
+                overflow-x: hidden;
+            }
+            #page .articleContent img{
+                max-width: 100%;
+            }
+            #page #featured{
+                background-color: white;
+                margin-top: 0.2rem;
+            }
+            #page #featured .title{
+                color: #333;
+                font-size: 0.32rem;
+                line-height: 0.88rem;
+                padding: 0 0.3rem;
+            }
+            #message .comment{
+                padding: 0.2rem 0;
+            }
+            #message .comment .portrait{
+                width: 0.56rem;
+                height: 0.56rem;
+                border-radius: 50%;
+                margin-left: 0.3rem;
+                margin-right: 0.24rem;
+            }
+            #message .comment .name{
+                font-size: 0.26rem;
+                color: #333;
+                line-height: 0.36rem;
+            }
+            #message .comment .time{
+                font-size: 0.24rem;
+                line-height: 0.36rem;
+                color: #999;
+            }
+            #message .comment .content{
+                font-size: 0.28rem;
+                line-height: 0.36rem;
+                color: #333;
+                padding-top: 0.1rem;
+            }
+            #message .likeInfo{
+                width: 1.1rem;
+            }
+            #message .likeInfo>img{
+                display: block;
+                width: 0.34rem;
+                height: 0.3rem;
+                padding: 0.1rem;
+                margin: 0 auto;
+            }
+            #message .likeInfo>div{
+                font-size: 0.24rem;
+                line-height: 0.38rem;
+                color: #ccc;
+                text-align: center;
+            }
+            #message .noneMessage{
+                text-align: center;
+                line-height: 2rem;
+                color: #666;
+                font-size: 0.28rem;                
+            }   
+            .mescroll-upwarp{
+                padding: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- 页面内容 -->
+        <div id="page" class="mescroll">
+            <div id="main">
+                <div id="featured">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../js/base.js"></script>
+<script type="text/javascript" src="../js/mescroll.js"></script>
+<script type="text/javascript">
+    var theme_id = Utils.getQueryString('theme_id');
+    var article_id = Utils.getQueryString('article_id');
+    var token = Utils.getQueryString('token');
+    if(token === '(null)'){
+        token = '';
+    }
+    if(token){
+        token = token.replace('(null)','');
+    }
+    var page = 0;
+    var mescroll = null;
+
+    var emptyComment = false;
+
+    getArticleDetail();
+    
+    
+    function getArticleDetail(){
+        $.ajax({
+            url: "/user/v3_0_0/themeArticleDetail",
+            headers: {
+                platform: 3,
+                token: ''
+            },
+            data: {
+                theme_id: theme_id,
+                article_id: article_id
+            },
+            method: 'get',
+        }).done(function(res) {
+            if(res.code != 1) {
+                Toast({message:res.msg});
+                return;
+            }
+            var str = '';
+            str += ' <header>';
+            str += '    <div class="content">'+ res.data.article_title +'</div>';
+            str += ' </header>';
+            str += ' <div class="head flex-start-center">';
+            str += '    <img data-shop_id="'+ res.data.shop_id +'" class="goshop" src="'+ res.data.shop_thumb_image +'"/>';
+            str += '    <div data-shop_id="'+ res.data.shop_id +'" class="flex-1 t-ellipsis goshop">'+ res.data.shop_name +'</div>';
+            str += ' </div>';
+            str += ' <div class="articleContent">'+ res.data.article_content +'</div>';       
+            $('#main').prepend(str).parent().css('padding-top',$('header').height()+'px');
+            getCommentList();
+        }).fail(function(res) {
+            Toast({message:'网络有点问题~'});
+        });        
+    }
+    
+    function addComment(comment){
+        var commentInfo = JSON.parse(comment);
+        var str = '';
+        str += ' <div class="comment flex-start">';
+        str += '    <img class="portrait" src="'+ commentInfo.avatar +'" />';
+        str += '    <div class="flex-1">';
+        str += '        <div class="name t-ellipsis">'+ commentInfo.nickname +'</div>';
+        str += '        <div class="time">'+ commentInfo.generate_time +'</div>';
+        str += '        <div class="content word-break">'+ commentInfo.content +'</div>';
+        str += '    </div>';
+        str += '    <div class="likeInfo">';
+        if(commentInfo.is_like == 1){
+            str += '    <img data-comment_id="'+ commentInfo.comment_id +'" class="like" src="../images/icon_like_red_m@2x.png" />';
+        }else{
+            str += '    <img data-comment_id="'+ commentInfo.comment_id +'" class="like" src="../images/icon_like_dis@2x.png" />';
+        }        
+        str += '        <div>'+ commentInfo.like_count +'</div>';
+        str += '    </div>';
+        str += ' </div>';
+        if(emptyComment){
+            emptyComment = false;
+            $('#message').html(str);
+        }else{            
+            $('#message').prepend(str);
+        }
+        var offsetTop = $('#featured .title')[0].offsetTop;
+        var pageTop = $('#page').scrollTop();
+        $('#page').scrollTop(offsetTop);
+    }
+
+    function getCommentList(){
+        $.ajax({
+            url: "/user/v3_4_0/themeArticleCommentList",
+            headers: {
+                platform: 3,
+                token: token
+            },
+            data: {
+                article_id: article_id,
+                page: page,
+            },
+            method: 'get',
+        }).done(function(res) {
+            if(res.code != 1) {
+                Toast({message:res.msg});
+                return;
+            }             
+            var str = '';
+            if(page == 0){
+                mescroll = new MeScroll("page", {
+                    down: {
+                        use: false,
+                    },
+                    up: {
+                        callback: getCommentList , //上拉加载的回调
+                        isBounce: false, 
+                        htmlNodata: '<p class="upwarp-nodata">已加载全部数据</p>',
+                        auto:false,
+                        use:true,
+                    }
+                });                   
+                str += ' <div class="title">精选留言</div>';
+                str += '    <div id="message">';
+            }
+            for(var i = 0; i < res.data.comment_list.length; i++){
+                str += ' <div class="comment flex-start">';
+                str += '    <img class="portrait" src="'+ res.data.comment_list[i].avatar +'" />';
+                str += '    <div class="flex-1">';
+                str += '        <div class="name t-ellipsis">'+ res.data.comment_list[i].nickname +'</div>';
+                str += '        <div class="time">'+ res.data.comment_list[i].generate_time +'</div>';
+                str += '        <div class="content word-break">'+ res.data.comment_list[i].content +'</div>';
+                str += '    </div>';
+                str += '    <div class="likeInfo">';
+                if(res.data.comment_list[i].is_like == 1){
+                    str += '    <img data-comment_id="'+ res.data.comment_list[i].comment_id +'" class="like" src="../images/icon_like_red_m@2x.png" />';
+                }else{
+                    str += '    <img data-comment_id="'+ res.data.comment_list[i].comment_id +'" class="like" src="../images/icon_like_dis@2x.png" />';
+                }
+                str += '        <div>'+ res.data.comment_list[i].like_count +'</div>';
+                str += '    </div>';
+                str += ' </div>';
+            }
+            if(page == 0 && res.data.comment_list.length == 0){
+                str += ' <div class="noneMessage">暂无留言</div>';
+                emptyComment = true;
+            }
+            if(page == 0){
+                str += '    </div>';
+                str += ' </div>';
+                $('#featured').append(str);
+            }else{
+                $('#message').append(str);
+            }
+            if(page ==0 &&res.data.comment_list.length < 10){
+                mescroll.destroy();
+            }
+            if(res.data.comment_list.length >= 10){
+                mescroll.endSuccess();  
+            }
+            if(page != 0&&res.data.comment_list.length < 10){
+                mescroll.showNoMore();
+            }            
+            page++;            
+        }).fail(function(res) {
+            Toast({message:'网络有点问题~'});
+        });   
+    }
+    
+    /**
+     * 通知app事件
+     * @param {Object} type
+     * login: 未登录是触发
+     * setImage: 点击放大图片
+     * @param {Object} param
+     */
+    function noticeApp(type,param) {
+        if(/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) { 
+            window.webkit.messageHandlers[type].postMessage(param);
+        }else if(/(Android)/i.test(navigator.userAgent)){
+            var androidParams = [];
+            for(var i in param){
+                androidParams.push(param[i]);
+            }
+            javascript: android[type](androidParams.join('|'));
+        }
+    }
+    
+    // 点击点赞
+    $('#page').on('click','.like',function(){
+        // 点击预约
+        if(!token){
+            noticeApp('login',{type:'login'});
+            return;
+        }
+        var comment_id = $(this).data('comment_id');
+        var $this = $(this);
+         $.ajax({
+            url: "/user/v3_4_0/themeArticleCommentLike",
+            headers: {
+                platform: 3,
+                token: token
+            },
+            data: {
+                comment_id: comment_id,
+            },
+            method: 'post',
+            beforeSend: function() {               
+                Loading.show({type:8});         
+            }
+        }).done(function(res) {
+            Loading.hide();
+            if(res.code != 1) {
+                Toast({message:res.msg});
+                return;
+            }  
+            if(res.data.is_like == 1){
+                $this.prop('src','../images/icon_like_red_m@2x.png');
+            }else{
+                $this.prop('src','../images/icon_like_dis@2x.png');
+            }
+            $this.parent().find('div').text(res.data.like_count);
+        }).fail(function(res) {
+            Loading.hide();
+            Toast({message:'网络有点问题~'});
+        });  
+    }).on('click','.goshop',function(){
+        var shop_id = $(this).data('shop_id');
+        noticeApp('goshop',{shop_id:shop_id});
+    })
+    
+    $('#page').on('click','.articleContent img',function(){
+        // 通知app图片全屏展示
+        var image_url = $(this).prop('src');
+        noticeApp('setImage',{'image_url': image_url});           
+    })
+
+</script>
